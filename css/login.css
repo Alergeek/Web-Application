@@ -1,0 +1,9 @@
+div.login{
+    background: #CCC;
+    border: solid 1px black;
+    padding: 3px;
+    width: 12em;
+}
+div.login_error{
+    color: red;
+}

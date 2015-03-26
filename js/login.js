@@ -25,7 +25,7 @@ $(document).ready(function(){
         //var pw_hash = shaObj.getHash("SHA-1", "HEX");
 
         $.ajax({
-            url: "api/session",
+            url: "api.php?funct=session",
             method: "POST",
             data: {
                 email: email,

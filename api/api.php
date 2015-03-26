@@ -97,11 +97,12 @@ class API {
     
     private static function session() {
         $user = "test@example.com";
-        $pw = 'password';
+        $pw = "password";
         switch (filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
             case 'PUT':
                 break;
             case 'POST':
+                echo self::$vars['email'] . ' und ' . self::$vars['password'];
                 if(self::$vars['email'] == $user && self::$vars['password'] == $pw) {
                     http_response_code(); //200
                 } else {
@@ -109,9 +110,10 @@ class API {
                 }
                 break;
             case 'GET':
+                http_response_code(404);
                 break;
             default :
-                http_response_code(400);
+                http_response_code(404);
                 break;
         }
     }

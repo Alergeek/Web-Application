@@ -85,9 +85,10 @@ class API {
      * Damit wird die API initialisiert. Muss gleich zu Beginn aufgerufen werden
      */
     public static function init() {
-        self::$vars = filter_input_array(INPUT_GET);
-        if(!method_exists('API', self::$vars['funct'])) {
-            header("HTTP/2.0 404 Not Found");
+        $input_filter = constant('INPUT_' . filter_input(INPUT_SERVER, 'REQUEST_METHOD'));
+        self::$vars = filter_input_array($input_filter);
+        if(!method_exists('API', filter_input(INPUT_GET, 'funct'))) {
+            http_response_code(404);
             die();
         } else{
             call_user_func(array('self', self::$vars['funct']));
@@ -95,6 +96,24 @@ class API {
     }
     
     private static function session() {
+        $user = "test@example.com";
+        $pw = 'password';
+        switch (filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
+            case 'PUT':
+                break;
+            case 'POST':
+                if(self::$vars['email'] == $user && self::$vars['password'] == $pw) {
+                    http_response_code(); //200
+                } else {
+                    http_response_code(400);
+                }
+                break;
+            case 'GET':
+                break;
+            default :
+                http_response_code(400);
+                break;
+        }
     }
 
     /**

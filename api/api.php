@@ -1,7 +1,7 @@
 <?php
 class API {
-    public static $s_Path = null;
-    public static $a_Declarations = array();
+//    public static $s_Path = null;
+//    public static $a_Declarations = array();
     public static $vars = array();
     
     /**
@@ -12,42 +12,42 @@ class API {
      *          function(array of Strings)
      *          Im Array werden Variablen aus dem Pfad zur Verfügung gestellt
      */
-    public static function component($s_Method, $s_Comp, $f_Func) {
-        // Methode checken
-        if ($_SERVER['REQUEST_METHOD'] != $s_Method OR $s_Comp === null) {
-            return false;
-        }
-        $s_RegPath = $s_Comp;
-        $a_Params = array();
-        // Nach Variablen im Pfad checken
-        if (preg_match('~\{([A-Za-z]*)\}~', $s_RegPath, $a_Vars)) {
-            foreach($a_Vars as $i_Key => $s_Var) {
-                $s_Var = substr($s_Var, 1, -1);
-                // Gefundene Variablen auf Deklarationen überprüfen
-                if (!array_key_exists($s_Var, self::$a_Declarations)) {
-                    throw new Exception("Undeclared Variable '" + $s_Var + "'.");
-                }
-                $s_RegPath = preg_replace('~\{'.$s_Var.'\}~',
-                                '('.self::$a_Declarations[$s_Var].')', $s_RegPath);
-                // Variable Position im Pfad zuordnen
-                $a_Params[$s_Var] = $i_Key;
-            }
-        }
-        // Checken ob Pfad mit Url matched
-        if (preg_match('~'.$s_RegPath.'~', self::$s_Path, $a_Matches)) {
-            // Bei Post mit den Variablen füllen 
-            if ($s_Method === 'POST') {
-                $a_Req = $_POST;
-            } else {
-                $a_Req = array();
-            }
-            foreach($a_Params as $s_Var => $i_Position) {
-                
-            }
-            $f_Func($a_Req);
-            die();
-        }
-    }
+//    public static function component($s_Method, $s_Comp, $f_Func) {
+//        // Methode checken
+//        if ($_SERVER['REQUEST_METHOD'] != $s_Method OR $s_Comp === null) {
+//            return false;
+//        }
+//        $s_RegPath = $s_Comp;
+//        $a_Params = array();
+//        // Nach Variablen im Pfad checken
+//        if (preg_match('~\{([A-Za-z]*)\}~', $s_RegPath, $a_Vars)) {
+//            foreach($a_Vars as $i_Key => $s_Var) {
+//                $s_Var = substr($s_Var, 1, -1);
+//                // Gefundene Variablen auf Deklarationen überprüfen
+//                if (!array_key_exists($s_Var, self::$a_Declarations)) {
+//                    throw new Exception("Undeclared Variable '" + $s_Var + "'.");
+//                }
+//                $s_RegPath = preg_replace('~\{'.$s_Var.'\}~',
+//                                '('.self::$a_Declarations[$s_Var].')', $s_RegPath);
+//                // Variable Position im Pfad zuordnen
+//                $a_Params[$s_Var] = $i_Key;
+//            }
+//        }
+//        // Checken ob Pfad mit Url matched
+//        if (preg_match('~'.$s_RegPath.'~', self::$s_Path, $a_Matches)) {
+//            // Bei Post mit den Variablen füllen 
+//            if ($s_Method === 'POST') {
+//                $a_Req = $_POST;
+//            } else {
+//                $a_Req = array();
+//            }
+//            foreach($a_Params as $s_Var => $i_Position) {
+//                
+//            }
+//            $f_Func($a_Req);
+//            die();
+//        }
+//    }
 
     /**
      * Definiere eine neuen POST Pfad
@@ -94,22 +94,21 @@ class API {
         }
     }
     
-    public static function login() {
-        echo "Huhu!";
+    private static function session() {
     }
 
     /**
      * Wird für die besondere Variable {AUTH} verwendet
      * Tritt die Variable auf, wird versucht den User anzumelden
      */
-    private static function auth($sess_id) {
-        SessionLogin::get_logged_user($sess_id);
-    }
+//    private static function auth($sess_id) {
+//        SessionLogin::get_logged_user($sess_id);
+//    }
 }
 
 API::init();
-API::define('ID', '\d+');
-API::get('blog/like/{ID}/', function($a_Data) {
-    $a_Data['ID'];
-});
-API::get('blog/article/{ID}/', function($a_Data) {});
+//API::define('ID', '\d+');
+//API::get('blog/like/{ID}/', function($a_Data) {
+//    $a_Data['ID'];
+//});
+//API::get('blog/article/{ID}/', function($a_Data) {});

@@ -85,13 +85,14 @@ class API {
      * Damit wird die API initialisiert. Muss gleich zu Beginn aufgerufen werden
      */
     public static function init() {
+        $route = filter_input(INPUT_GET, 'funct');
         $input_filter = constant('INPUT_' . filter_input(INPUT_SERVER, 'REQUEST_METHOD'));
         self::$vars = filter_input_array($input_filter);
-        if(!method_exists('API', filter_input(INPUT_GET, 'funct'))) {
+        if(!method_exists('API', $route)) {
             http_response_code(404);
-            die();
+            die('Route nicht gefunden');
         } else{
-            call_user_func(array('self', self::$vars['funct']));
+            call_user_func(array('self', $route));
         }
     }
     
@@ -104,13 +105,14 @@ class API {
             case 'POST':
                 echo self::$vars['email'] . ' und ' . self::$vars['password'];
                 if(self::$vars['email'] == $user && self::$vars['password'] == $pw) {
-                    http_response_code(); //200
+                    http_response_code(200); //200
                 } else {
                     http_response_code(400);
                 }
                 break;
             case 'GET':
                 http_response_code(404);
+                die('Cannot GET api/session/');
                 break;
             default :
                 http_response_code(404);

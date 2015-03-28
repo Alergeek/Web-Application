@@ -1,9 +1,12 @@
 <?php
+error_reporting(E_ERROR);
+include_once './config.inc';
+
 class API {
 //    public static $s_Path = null;
 //    public static $a_Declarations = array();
-    public static $vars = array();
-    
+    private static $vars = array();
+    private static $db;
     /**
      * Definieren eines neuen Komponenten
      * @param $s_Method Server Request Method
@@ -85,6 +88,15 @@ class API {
      * Damit wird die API initialisiert. Muss gleich zu Beginn aufgerufen werden
      */
     public static function init() {
+        static::$db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DATABASE);
+        if (mysqli_connect_errno()) {
+            printf(
+                "Can't connect to MySQL Server. Errorcode: %s\n",
+                mysqli_connect_error()
+            );
+            exit;
+        }
+        
         $route = filter_input(INPUT_GET, 'funct');
         $input_filter = constant('INPUT_' . filter_input(INPUT_SERVER, 'REQUEST_METHOD'));
         self::$vars = filter_input_array($input_filter);
@@ -96,23 +108,45 @@ class API {
         }
     }
     
+    public static function end() {
+        static::$db-close();
+    }
+    
     private static function session() {
-        $user = "test@example.com";
-        $pw = "password";
+        $user = self::$vars['email']; //marco.heumann@web.de
+        $pw = sha1(self::$vars['password']); //password
         switch (filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
             case 'PUT':
                 break;
             case 'POST':
-                echo self::$vars['email'] . ' und ' . self::$vars['password'];
-                if(self::$vars['email'] == $user && self::$vars['password'] == $pw) {
-                    http_response_code(200); //200
-                } else {
-                    http_response_code(400);
+                $stmt = static::$db->stmt_init();
+                if ($stmt->prepare("SELECT Password FROM user WHERE Username = ?")) {
+                    /* bind parameters for markers */
+                    $stmt->bind_param("s", $user);
+
+                    /* execute query */
+                    $stmt->execute();
+
+                    /* bind result variables */
+                    $stmt->bind_result($password);
+
+                    /* fetch value */
+                    $stmt->fetch();
+
+                    /* check for correct password */
+                    if($password === $pw) {
+                        http_response_code(200); //200
+                    } else {
+                        http_response_code(400);
+                    }
+
+                    /* close statement */
+                    $stmt->close();
                 }
+                
                 break;
             case 'GET':
                 http_response_code(404);
-                die('Cannot GET api/session/');
                 break;
             default :
                 http_response_code(404);
@@ -130,6 +164,7 @@ class API {
 }
 
 API::init();
+API::end();
 //API::define('ID', '\d+');
 //API::get('blog/like/{ID}/', function($a_Data) {
 //    $a_Data['ID'];

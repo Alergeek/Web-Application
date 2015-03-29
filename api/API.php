@@ -1,12 +1,13 @@
 <?php
 error_reporting(E_ERROR);
-include_once './config.inc';
+require_once './config.inc';
 
 class API {
 //    public static $s_Path = null;
 //    public static $a_Declarations = array();
-    private static $vars = array();
-    private static $db;
+    private $vars = array();
+    private $db;
+    private $responseCode = 404;
     /**
      * Definieren eines neuen Komponenten
      * @param $s_Method Server Request Method
@@ -59,9 +60,9 @@ class API {
      *          function(array of Strings)
      *          Im Array werden Variablen aus dem Pfad zur Verfügung gestellt
      */
-    public static function post($s_Comp, $f_Func) {
-        self::component('POST', $s_Comp, $f_Func);
-    }
+//    public static function post($s_Comp, $f_Func) {
+//        self::component('POST', $s_Comp, $f_Func);
+//    }
 
 
     /**
@@ -71,24 +72,24 @@ class API {
      *          function(array of Strings)
      *          Im Array werden Variablen aus dem Pfad zur Verfügung gestellt
      */
-    public static function get($s_Comp, $f_Func) {
-        self::component('GET', $s_Comp, $f_Func);
-    }
+//    public static function get($s_Comp, $f_Func) {
+//        self::component('GET', $s_Comp, $f_Func);
+//    }
 
     /**
      * Definiert eine neue Variable mit Hilfe eines regulären Ausdrucks
      * @param $s_Name Name der Variable bitte Großbuchstaben
      * @param $s_RegEx Regulärer Ausdruck, auf den die Variable matchen soll
      */
-    public static function define($s_Name, $s_RegEx) {
-        API::$a_Declarations[$s_Name] = $s_RegEx;
-    }
+//    public static function define($s_Name, $s_RegEx) {
+//        API::$a_Declarations[$s_Name] = $s_RegEx;
+//    }
     
     /**
      * Damit wird die API initialisiert. Muss gleich zu Beginn aufgerufen werden
      */
-    public static function init() {
-        static::$db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DATABASE);
+    public function __construct() {
+        $this->db = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DATABASE);
         if (mysqli_connect_errno()) {
             printf(
                 "Can't connect to MySQL Server. Errorcode: %s\n",
@@ -99,27 +100,34 @@ class API {
         
         $route = filter_input(INPUT_GET, 'funct');
         $input_filter = constant('INPUT_' . filter_input(INPUT_SERVER, 'REQUEST_METHOD'));
-        self::$vars = filter_input_array($input_filter);
+        $this->vars = filter_input_array($input_filter);
         if(!method_exists('API', $route)) {
-            http_response_code(404);
-            die('Route nicht gefunden');
+            $this->responseCode = 404;
         } else{
             call_user_func(array('self', $route));
         }
     }
     
-    public static function end() {
-        static::$db-close();
+    public function __destruct() {
+        $this->db->close();
     }
     
-    private static function session() {
-        $user = self::$vars['email']; //marco.heumann@web.de
-        $pw = sha1(self::$vars['password']); //password
+    public function getResponseCode() {
+        return $this->responseCode;
+    }
+    
+    private function compare($val1, $val2) {
+        return ($val1 == $val2)? true : false;
+    }
+
+    private function session() {
+        $user = $this->vars['email']; //marco.heumann@web.de
+        $pw = sha1($this->vars['password']); //password
         switch (filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
             case 'PUT':
                 break;
             case 'POST':
-                $stmt = static::$db->stmt_init();
+                $stmt = $this->db->stmt_init();
                 if ($stmt->prepare("SELECT Password FROM user WHERE Username = ?")) {
                     /* bind parameters for markers */
                     $stmt->bind_param("s", $user);
@@ -134,11 +142,7 @@ class API {
                     $stmt->fetch();
 
                     /* check for correct password */
-                    if($password === $pw) {
-                        http_response_code(200); //200
-                    } else {
-                        http_response_code(400);
-                    }
+                    $this->responseCode = $this->compare($pw, $password) ? 200 : 400;
 
                     /* close statement */
                     $stmt->close();
@@ -146,10 +150,10 @@ class API {
                 
                 break;
             case 'GET':
-                http_response_code(404);
+                $this->responseCode = 404;
                 break;
             default :
-                http_response_code(404);
+                $this->responseCode = 404;
                 break;
         }
     }
@@ -163,8 +167,8 @@ class API {
 //    }
 }
 
-API::init();
-API::end();
+$api = new API;
+http_response_code($api->getResponseCode());
 //API::define('ID', '\d+');
 //API::get('blog/like/{ID}/', function($a_Data) {
 //    $a_Data['ID'];

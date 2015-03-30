@@ -150,13 +150,4 @@ class API {
         }
     }
 }
-
-API::init();
-API::define('AUTH', '[0-9a-zA-Z]{20}');
-API::define('NUMBER', '\d+');
-API::define('ID', '\d+');
-API::put('blog/like/{ID}/', function($a_Data) {
-    echo $a_Data['id'].' '.$a_Data['auth'];
-});
-API::finalize();
 ?>

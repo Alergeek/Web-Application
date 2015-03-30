@@ -50,7 +50,7 @@ class Session {
                     WHERE email = ?';
             $stmt = DB::con()->prepare($sql);
             if (!$stmt) {
-                throw new Exception('Konnte Query nicht vorbereiten: '.DB::con->error());
+                throw new Exception('Konnte Query nicht vorbereiten: '.DB::con()->error());
             }
             $stmt->bind_param('s', $login);
             $stmt->bind_result();

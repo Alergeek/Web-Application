@@ -1,2 +1,2 @@
 RewriteEngine On
-RewriteRule ^api/(.+)$   				php/api/api.php?p=$1
+RewriteRule ^api/(.+)$   				api/route.php?p=$1

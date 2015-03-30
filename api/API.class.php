@@ -44,6 +44,7 @@ class API {
             } else {
                 $a_Req = array();
             }
+
             // Pfadvariablen sammeln und übergeben
             foreach($a_Params as $s_Var => $i_Position) {
                 $a_Req[strtolower($s_Var)] = $a_Matches[$i_Position + 1];

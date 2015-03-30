@@ -1,0 +1,78 @@
+.container{
+	font-family: Arial, sans-serif;
+	max-width:1000px;
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.user{
+	float:left;
+	width:100%;
+	background-color:#384;
+}
+
+.user .logout{
+	float:right;
+	margin-right:20px;
+}
+
+.title{
+	float:left;
+	text-align:center;
+	width:100%;
+    background-color: #bee;
+}
+
+.selection{
+	float:left;
+	width:100%;
+	text-align:center;
+	background-color: #abc;
+	padding: 5px 0px 5px 0px;
+}
+
+.content{
+	float:left;
+	width:100%;
+	text-align:center;
+	background-color: #fb1;
+	padding: 5px 0px 5px 0px;
+}
+
+.blacklist{
+	display:none;
+	text-align:center;
+	background-color: #f0a;
+}
+
+.blacklist .filter{
+	display:block;
+}
+
+.blacklist .search{
+	display:block;
+	float:left;
+}
+
+.blacklist .result{
+	float:left;
+	border: 1px solid #000;
+	border-radius:2px;
+}
+
+.profile{
+	display:initial;
+}
+
+.profile table{
+	text-align:left;
+	margin-left:auto;
+	margin-right:auto;
+	border-collapse:collapse;
+}
+
+.profile .device td{
+	background-color: #fff;
+	border: 1px solid #fff;
+}

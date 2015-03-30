@@ -7,12 +7,6 @@
 class User {
 
     /**
-     * 
-     */
-    public function __construct() {
-    }
-
-    /**
      * @var int
      */
     private $id;
@@ -48,8 +42,24 @@ class User {
      * @return \\User
      */
     public static function get_by_id($id) {
-        // TODO implement here
-        return null;
+        $sql = 'SELECT eMail, password
+                FROM user
+                WHERE id = ?';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('i', strtolower($id));
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->bind_result($email, $hash);
+        if (!$stmt->fetch()) {
+            throw new UserError('Konnte keinen User mit dieser Email finden.');
+        }
+        $stmt->close();
+        return new self($id, $email, $hash);
     }
 
     /**
@@ -57,8 +67,30 @@ class User {
      * @return \\User
      */
     public static function get_by_email($email) {
-        // TODO implement here
-        return null;
+        $sql = 'SELECT id, password
+                FROM user
+                WHERE eMail = ?';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('s', strtolower($email));
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->bind_result($id, $hash);
+        if (!$stmt->fetch()) {
+            throw new UserError('Konnte keinen User mit dieser Email finden.');
+        }
+        $stmt->close();
+        return new self($id, $email, $hash);
+    }
+
+    public function __construct($id, $email, $password) {
+        $this->id = $id;
+        $this->email = $email;
+        $this->password = $password;
     }
 
     /**
@@ -79,16 +111,15 @@ class User {
 
     /**
      * @param string $password 
-     * @return bool
+     * @return boolean
      */
     public function check_password($password) {
-        // TODO implement here
-        return null;
+        return sha1($password) === $this->password;
     }
 
     /**
      * @param string $email 
-     * @return bool
+     * @return boolean
      */
     public function set_email($email) {
         // TODO implement here

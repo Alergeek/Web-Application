@@ -5,7 +5,10 @@
  * 
  */
 class Session {
-
+    /**
+     * @var string
+     */
+    private static $wrong_login = 'Die Logindaten sind nicht korrekt.';
 
     /**
      * @var string
@@ -22,6 +25,11 @@ class Session {
      */
     private $admin;
 
+    /**
+     * @var Date
+     */
+    private $valid;
+
 
     /**
      * @return int
@@ -29,6 +37,14 @@ class Session {
     public static function generate_barcode() {
         // Start new Session
         return 0;
+    }
+
+    /**
+     * checks if a given string matches the pattern of an auth token
+     * @return boolean
+     */
+    public static function is_token($token) {
+        return preg_match('~^[0-9a-f]{20}$~', $token);
     }
 
     /**
@@ -44,24 +60,19 @@ class Session {
                 // Login via auth token
             }
         } else {
-            // Login via email and Password
-            $sql = 'SELECT id, password
-                    FROM users
-                    WHERE eMail = ?';
-            $stmt = DB::con()->prepare($sql);
-            if (!$stmt) {
-                throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error());
+            // Login via email and password
+            try {
+                $user = User::get_by_email($login);
+            } catch(UserError $u) {
+                // make error anonymous
+                throw new UserError(self::$wrong_login, 403);
             }
-            $stmt->bind_param('s', $login);
+            if (!$user->check_password($password)) {
+                throw new UserError(self::$wrong_login, 403);
+            }
+            $this->user = $user;
 
-            if (!$stmt->execute()) {
-                throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error());
-            }
-            $stmt->bind_result($id, $hash);
-            if (!$stmt->fetch() OR $password !== $hash) {
-                throw new UserError('Die Logindaten sind nicht korrekt', 403);
-            }
-            $stmt->close();
+            // TODO: insert into token table
         }
     }
 

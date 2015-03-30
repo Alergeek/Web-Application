@@ -1,37 +1,62 @@
-var User = (function() {
-	function User( email, id, blacklist, devices ) {
+// this goes out to all the IE users out there...
+if (!Promise) {
+	function Promise( defferfn ) {
+		this._thenfn = function() {};
+		this._catchfn = function() {};
+		defferfn( this._thenfn, this._catchfn );
+	}
 
+	Promise.prototype.then = function( thenfn ) {
+		this._thenfn = thenfn;
+		return this;
+	};
+
+	Promise.prototype.catch = function( catchfn ) {
+		this._catchfn = catchfn;
+		return this;
+	};
+};
+
+var User = (function() {
+
+	function User( email, id, blacklist, devices ) {
+		this.email = email;
+		this.id = id;
+		this.blacklist = blacklist;
+		this.devices = devices;
 	}
 
 	User.login = function( email, password ) {
-		$.ajax({
-            url: "api/session",
-            method: "POST",
-            data: {
-                email: email,
-                password: password
-            },
-            statusCode: {
-                400: function(){
-                    $('div.login_error').html("Login failed, please check credentials!");
-                }
-            }
-        }).done(function(result){
-            console.log(result);
-            window.location.replace("http://google.com");
-        });
+		return new Promise( function( resolve, reject ) {
+			$.ajax({
+	            url: "api/v1/session/",
+	            method: "POST",
+	            data: {
+	                email: email,
+	                password: password
+	            },
+	            statusCode: {
+	                403: function() {
+	                	reject({status: 403 });
+	                },
+	                200: function() {
+	                	resolve('geht');
+	                }
+	            }
+	        });
+	    });
 	};
 
 	User.create = function( email, password ) {
-		
+		throw "unimplemented method";
 	};
 
 	User.prototype.changeEmail = function( newEmail, password ) {
-		// body...
+		throw "unimplemented method";
 	};
 
 	User.prototype.changePassword = function( oldPassword, newPassword ) {
-		// body...
+		throw "unimplemented method";
 	};
 
 	return User;

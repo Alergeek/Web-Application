@@ -6,7 +6,20 @@ API::define('AUTH', '[0-9a-zA-Z]{20}');
 API::define('NUMBER', '\d+');
 API::define('ID', '\d+');
 API::post('session/', function($a_Data) {
-    echo $a_Data['test'];
+    if (!isset( $a_Data['email'],  $a_Data['password'])) {
+        return API::make_error(400, 'Missing POST parameters.');
+    }
+    $email = $a_Data['email'];
+    $password = $a_Data['password'];
+    // check for isertions...
+    // quick and dirty implementation
+    try {
+        $session = new Session($email, $password);
+    } catch(UserError $u) {
+        API::make_error($u->getCode(), $u->getMessage());
+    }
+
+    echo '{"authToken": "'.$session->get_token().'"}';
 });
 API::get('session/', function($a_Data) {
     // check whether input is token
@@ -23,18 +36,4 @@ API::get('session/', function($a_Data) {
     }
 });
 API::finalize();
-
-function startSession() {
-    $session = null;
-    if(!filter_input(INPUT_REQUEST, 'password')) {
-        $login = filter_input(INPUT_REQUEST, 'email');
-        $password = filter_input(INPUT_REQUEST, 'password');
-        
-        $session = new Session($login, $password);
-    } elseif (!filter_input(INPUT_REQUEST, 'authToken')) {
-        $authToken = filter_input(INPUT_REQUEST, 'authToken');
-        
-        $session = new Session($authToken);
-    }
-}
 ?>

@@ -12,6 +12,7 @@
 $(document).ready(function(){
 
     $('form.login').submit(function(e){
+        e.preventDefault();
 
         /**
          * \brief Login on Form submit.
@@ -21,27 +22,19 @@ $(document).ready(function(){
         var email = $('input[name="email"]').val();
         var password = $('input[name="password"]').val();
 
+        User.login( email, password ).then( function( result ) {
+            console.log(result);
+            window.location.replace("http://google.com");
+        }).catch( function( err ) {
+            if ( err.status >= 400 ) {
+                $('div.login_error').html("Login failed, please check credentials!");
+            }
+        });
+
         //var shaObj = new jsSHA(password, "TEXT");
         //var pw_hash = shaObj.getHash("SHA-1", "HEX");
 
-        $.ajax({
-            url: "api/session",
-            method: "POST",
-            data: {
-                email: email,
-                password: password
-            },
-            statusCode: {
-                400: function(){
-                    $('div.login_error').html("Login failed, please check credentials!");
-                }
-            }
-        }).done(function(result){
-            console.log(result);
-            window.location.replace("http://google.com");
-        });
 
-        e.preventDefault();
     });
 
 });

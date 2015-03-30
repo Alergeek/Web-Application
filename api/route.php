@@ -5,13 +5,23 @@ API::init();
 API::define('AUTH', '[0-9a-zA-Z]{20}');
 API::define('NUMBER', '\d+');
 API::define('ID', '\d+');
-API::put('blog/like/{ID}/', function($a_Data) {
-    echo $a_Data['id'].' '.$a_Data['auth'];
+API::post('session/', function($a_Data) {
+    echo $a_Data['test'];
 });
-API::post('session', function() {
-    startSession();
+API::get('session/', function($a_Data) {
+    // check whether input is token
+    $token = $a_Data['authToken'];
+    if (!Session::is_token($token)) {
+        echo '{"valid": false}';
+        return;
+    }
+    try {
+        new Session($token);
+        echo '{"valid": true}'; // Hier könnten wir noch mehr zurückgeben
+    } catch(UserError $u) {
+        echo '{"valid": false}';
+    }
 });
-//API::get('session', getToken($a_Data));
 API::finalize();
 
 function startSession() {
@@ -27,7 +37,4 @@ function startSession() {
         $session = new Session($authToken);
     }
 }
-
-function getToken($authToken) {    
-    $session = new Session($authToken);
-}
+?>

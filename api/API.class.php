@@ -40,7 +40,6 @@ class API {
             // Put und Delete Variablen
             } elseif ($s_Method === 'PUT' OR $s_Method === 'DELETE') {
                 parse_str(file_get_contents("php://input"), $a_Req);
-                var_dump($a_Req);
             } else {
                 $a_Req = array();
             }

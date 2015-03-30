@@ -27,33 +27,34 @@ class Session {
      * @return int
      */
     public static function generate_barcode() {
-        // TODO implement here
+        // Start new Session
         return 0;
     }
 
     /**
-     * revoke existing session via auth token
-     * @param string $token
-     */
-    public function __construct($token) {
-        // TODO implement here
-    }
-
-    /**
      * generate new session via  login credentials
-     * @param string $email 
+     * @param string $login ean, auth token or email in ombination with password
      * @param string $password
      */
-    public function __construct($email, $password) {
-        // TODO implement here
-    }
-
-    /**
-     * create new session via generated barcode
-     * @param int $barcode
-     */
-    public function __construct($barcode) {
-        // TODO implement here
+    public function __construct($login, $password = null) {
+        if (is_null($password)) {
+            if (is_numeric($login) AND strlen($login) == 13) {
+                // Login via barcode
+            } else {
+                // Login via auth token
+            }
+        } else {
+            // Login via email and Password
+            $sql = 'SELECT id, password
+                    FROM users
+                    WHERE email = ?';
+            $stmt = DB::con()->prepare($sql);
+            if (!$stmt) {
+                throw new Exception('Konnte Query nicht vorbereiten: '.DB::con->error());
+            }
+            $stmt->bind_param('s', $login);
+            $stmt->bind_result();
+        }
     }
 
     /**
@@ -87,5 +88,4 @@ class Session {
         // TODO implement here
         return null;
     }
-
 }

@@ -1,0 +1,23 @@
+$(document).ready(function(){
+	$(".button_blacklist").click(function(){
+		$(".blacklist").show();
+		$(".profile").hide();
+		$(".button_blacklist").attr("disabled","disabled");
+		$(".button_profile").attr("disabled",null);
+	});
+	$(".button_profile").click(function(){
+		$(".profile").show();
+		$(".blacklist").hide();
+		$(".button_profile").attr("disabled","disabled");
+		$(".button_blacklist").attr("disabled",null);
+	});
+	$(".button_filter").click(function(){
+		$(".div_filter").toggle();
+	});
+	$(".button_new_device").click(function(){
+		
+	});
+	$(".button_delete").click(function(){
+		$(this).parent().hide();
+	});
+});

@@ -4,11 +4,15 @@
 	<meta charset="UTF-8">
 	<title>Allergeeks</title>
 	<link rel="stylesheet" href="css/index.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/index.js"></script>
 </head>
 
 <body>
 <div class="container">
+
 	<div class="user">
+		<div class="email">timb13@web.de</div>
 		<button class="logout">logout</button>
 	</div>
 	<div class="title">
@@ -16,28 +20,40 @@
 		eat the right things
 	</div>
 	<div class="selection">
-		<button>Meine Blacklist</button>
-		<button>Mein Profil</button>
+		<button class="button_blacklist" disabled>Meine Blacklist</button>
+		<button class="button_profile">Mein Profil</button>
 	</div>
+	
 	<div class="content">
-
+	
+		<!--begin of blacklist-section-->
 		<div class="blacklist">
-			<form class="filter">
-				<input type="checkbox">Kategory1</input>
-				<input type="checkbox">Kategory2</input>
-			</form>
-			<br>
-			<form class="search">
-				<input type="checkbox">Filter anzeigen</input><br>
+			<div class="div_filter">
+				<form class="form_filter">
+				<ul class="list_filter">
+					<li><input type="checkbox">Kategory1</input></li>
+					<li><input type="checkbox">Kategory2</input></li>
+				</ul>
+				</form>
+			</div>
+			<div class="div_search">
+				<button class="button_filter">Filter</button>
 				<input type="text"></input>
-			</form>
+			</div>
 			<br>
-			<form class="result">
-				<input type="checkbox">N&uuml;ffe</input><br>
-				
-			</form>
+			<div class="div_result">
+				<form class="form_result">
+				<ul class="list_result">
+					<li><input type="checkbox">N&uuml;ffe</input></li>
+					<li><input type="checkbox">Hafeln&uuml;ffe</input></li>
+					<li><input type="checkbox">Waln&uuml;ffe</input></li>
+				</ul>
+				</form>
+			</div>
 		</div>
+		<!--end of blacklist-section-->
 
+		<!--begin of profile-section-->
 		<div class="profile">
 			<form>
 				<table>
@@ -52,22 +68,26 @@
 					<tr>
 						<td>Ger&auml;te:</td>
 						<td></td>
-						<td><button>Neues Ger&auml;t</button></td>
+						<td class="cell_new_device"><button class="button_new_device">Neues Ger&auml;t</button></td>
+					</tr>
 					<tr class="device">
 						<th></th>
 						<td>Vuzix 2</td>
-						<td><button>X</button></td>
+						<td class="button_delete"><button>X</button></td>
 					</tr>
 					<tr class="device">
 						<th></th>
 						<td>Vuzix 1</td>
-						<td><button>X</button></td>
+						<td class="button_delete"><button>X</button></td>
 					</tr>
 				</table>
 			</form>
 		</div>
+		<!--end of profile-section-->
 		
 	</div>
+	
+	
 </div>
 </body>
 </html> 

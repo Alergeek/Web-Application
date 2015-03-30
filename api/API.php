@@ -128,7 +128,7 @@ class API {
                 break;
             case 'POST':
                 $stmt = $this->db->stmt_init();
-                if ($stmt->prepare("SELECT Password FROM user WHERE Username = ?")) {
+                if ($stmt->prepare("SELECT Password FROM user WHERE eMail = ?")) {
                     /* bind parameters for markers */
                     $stmt->bind_param("s", $user);
 

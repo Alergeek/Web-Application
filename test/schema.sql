@@ -10,12 +10,10 @@ USE `allergeeks` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `allergeeks`.`user` (
   `ID` INT NOT NULL AUTO_INCREMENT,
-  `Username` VARCHAR(45) NOT NULL,
   `Name` VARCHAR(100) NOT NULL,
   `Password` VARCHAR(200) NOT NULL,
   `eMail` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Username_UNIQUE` (`Username` ASC))
+  PRIMARY KEY (`ID`))
 ENGINE = InnoDB;
 
 
@@ -149,7 +147,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `allergeeks`;
-INSERT INTO `allergeeks`.`user` (`ID`, `Username`, `Name`, `Password`, `eMail`) VALUES (0, 'marco.heumann@web.de', 'Marco', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'marco.heumann@web.de');
+INSERT INTO `allergeeks`.`user` (`ID`, `Name`, `Password`, `eMail`) VALUES (0, 'Marco', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', 'marco.heumann@web.de');
 
 COMMIT;
-

@@ -47,13 +47,21 @@ class Session {
             // Login via email and Password
             $sql = 'SELECT id, password
                     FROM users
-                    WHERE email = ?';
+                    WHERE eMail = ?';
             $stmt = DB::con()->prepare($sql);
             if (!$stmt) {
-                throw new Exception('Konnte Query nicht vorbereiten: '.DB::con->error());
+                throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error());
             }
             $stmt->bind_param('s', $login);
-            $stmt->bind_result();
+
+            if (!$stmt->execute()) {
+                throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error());
+            }
+            $stmt->bind_result($id, $hash);
+            if (!$stmt->fetch() OR $password !== $hash) {
+                throw new UserError('Die Logindaten sind nicht korrekt', 403);
+            }
+            $stmt->close();
         }
     }
 

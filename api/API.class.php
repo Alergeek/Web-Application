@@ -7,9 +7,9 @@ class API {
      * Definieren eines neuen Komponenten
      * @param $s_Method Server Request Method
      * @param $s_Comp der API Pfad des Componenten
-     * @param $f_Func die auszuführende Funktion
+     * @param $f_Func die auszufÃ¼hrende Funktion
      *          function(array of Strings)
-     *          Im Array werden Variablen aus dem Pfad zur Verfügung gestellt
+     *          Im Array werden Variablen aus dem Pfad zur VerfÃ¼gung gestellt
      */
     public static function component($s_Method, $s_Comp, $f_Func) {
         // Methode checken
@@ -22,7 +22,7 @@ class API {
         if (preg_match_all('~\{[A-Z]+\}~', $s_RegPath, $a_Vars)) {
             foreach($a_Vars[0] as $i_Key => $s_Var) {
                 $s_Var = substr($s_Var, 1, -1);
-                // Gefundene Variablen auf Deklarationen überprüfen
+                // Gefundene Variablen auf Deklarationen Ã¼berprÃ¼Ã¼fen
                 if (!array_key_exists($s_Var, self::$a_Declarations)) {
                     self::make_error(500, "Undeclared Variable '" + $s_Var + "'.");
                 }
@@ -34,13 +34,13 @@ class API {
         }
         // Checken ob Pfad mit Url matched
         if (preg_match('~^'.$s_RegPath.'$~', self::$s_Path, $a_Matches)) {
-            // Bei Post mit den Variablen füllen 
+            // Bei Post mit den Variablen fÃ¼llen 
             if ($s_Method === 'POST') {
                 $a_Req = $_POST;
             } else {
                 $a_Req = array();
             }
-            // Pfadvariablen sammeln und übergeben
+            // Pfadvariablen sammeln und ï¿½bergeben
             foreach($a_Params as $s_Var => $i_Position) {
                 $a_Req[strtolower($s_Var)] = $a_Matches[$i_Position + 1];
             }
@@ -62,9 +62,9 @@ class API {
     /**
      * Definiere eine neuen POST Pfad
      * @param $s_Comp der API Pfad des Componenten
-     * @param $f_Func die auszuführende Funktion
+     * @param $f_Func die auszufÃ¼hrende Funktion
      *          function(array of Strings)
-     *          Im Array werden Variablen aus dem Pfad zur Verfügung gestellt
+     *          Im Array werden Variablen aus dem Pfad zur VerfÃ¼gung gestellt
      */
     public static function post($s_Comp, $f_Func) {
         self::component('POST', $s_Comp, $f_Func);
@@ -74,18 +74,18 @@ class API {
     /**
      * Definiere eine neuen GET Pfad
      * @param $s_Comp der API Pfad des Componenten
-     * @param $f_Func die auszuführende Funktion
+     * @param $f_Func die auszufÃ¼hrende Funktion
      *          function(array of Strings)
-     *          Im Array werden Variablen aus dem Pfad zur Verfügung gestellt
+     *          Im Array werden Variablen aus dem Pfad zur VerfÃ¼gung gestellt
      */
     public static function get($s_Comp, $f_Func) {
         self::component('GET', $s_Comp, $f_Func);
     }
 
     /**
-     * Definiert eine neue Variable mit Hilfe eines regulären Ausdrucks
-     * @param $s_Name Name der Variable bitte Großbuchstaben
-     * @param $s_RegEx Regulärer Ausdruck, auf den die Variable matchen soll
+     * Definiert eine neue Variable mit Hilfe eines regulÃ¤ren Ausdrucks
+     * @param $s_Name Name der Variable bitte GroÃŸbuchstaben
+     * @param $s_RegEx RegulÃ¤rer Ausdruck, auf den die Variable matchen soll
      */
     public static function define($s_Name, $s_RegEx) {
         self::$a_Declarations[$s_Name] = $s_RegEx;
@@ -103,7 +103,7 @@ class API {
     }
 
     /**
-     * Wird für die besondere Variable {AUTH} verwendet
+     * Wird fÃ¼r die besondere Variable {AUTH} verwendet
      * Tritt die Variable auf, wird versucht den User anzumelden
      */
     private static function auth($s_SessId) {

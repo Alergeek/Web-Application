@@ -1,7 +1,7 @@
 <?php
 class API {
-    public static $s_Path = null;
-    public static $a_Declarations = array();
+    private static $s_Path = null;
+    private static $a_Declarations = array();
     
     /**
      * Definieren eines neuen Komponenten
@@ -57,6 +57,10 @@ class API {
         }
     }
 
+    /**
+     * @param $s_ResposeCode ein HTTP Response Code
+     * @param $s_Message die Nachricht, die dem Clienten zusätzlich übermittelt wird
+     */
     public static function make_error($s_ResponseCode, $s_Message) {
         http_response_code($s_ResponseCode);
         die($s_Message);

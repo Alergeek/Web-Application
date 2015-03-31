@@ -1,26 +1,42 @@
 .container{
 	font-family: Arial, sans-serif;
 	max-width:1000px;
+	min-width:400px;
 	width:100%;
 	margin-left:auto;
 	margin-right:auto;
 }
 
-.user{
+.header{
 	float:left;
 	width:100%;
-	background-color:#000;
+	background-color:#222;
 	padding:5px 0px 5px 0px;
 }
-
-.user .email{
+.header>.email{
 	float:left;
 	color:white;
-	margin-left:5px;
+	width:25%;
 }
-
-.user .logout{
-	float:right;
+.header>.selection{
+	float:left;
+	width:50%;
+	text-align:center;
+	margin-right:auto;
+	margin-left:auto;
+}
+.header>.selection>button{
+	width:25%;
+	min-width:67px;
+}
+.header>.logout{
+	float:left;
+	width:25%;
+	text-align:right;
+}
+.header>.logout>button{
+	width:50%;
+	min-width:67px;
 	margin-right:5px;
 }
 
@@ -28,82 +44,109 @@
 	float:left;
 	text-align:center;
 	width:100%;
-    background-color: #fff;
-}
-
-.selection{
-	float:left;
-	width:100%;
-	text-align:center;
-	background-color: #aaa;
-	padding: 5px 0px 5px 0px;
+	background-color: #ccc;
 }
 
 .content{
 	float:left;
 	width:100%;
-	background-color: #ddd;
+	background-color: #eee;
 	padding: 5px 0px 5px 0px;
 }
 
 .blacklist{
-	display:block;
-	padding-top:10px;
-}
-
-.blacklist .div_filter{
-	display:none;
+	width:95%;
 	margin-left:auto;
 	margin-right:auto;
-	width: 50%;
-	/*border:1px solid black;*/
+}
+.blacklist h3{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+.blacklist>.filter{
+	float:left;
+	width:25%;
+	min-width:170px;
+	height:100%;
+	border-right:1px solid #000;
+}
+.blacklist>.filter .list_filter{
 	background-color:#fff;
-}
-
-.blacklist .list_filter{
+	width:75%;
+	min-width:150px;
+	padding-left:5px;
 	list-style:none;
 }
 
-.blacklist .list_result{
+.blacklist>.search{
+	float:left;
+	width:70%;
+	display:inline;
+	margin-left:20px;
+}
+.blacklist>.search .list_result{
 	list-style:none;
 }
-
-.blacklist .div_search{
-	margin-left:auto;
-	margin-right:auto;
-	width:50%;
+.blacklist>.search>.div_input h3{
+	float:left;
+	width:20%;
+	display:inline;
 }
-
-.blacklist .div_result{
-	margin-left:auto;
-	margin-right:auto;
-	width:50%;
+.blacklist>.search>.div_input>input{
+	float:left;
+	width:79%;
+	margin-top:10px;
+	margin-bottom:10px;
+	display:inline;
+}
+.blacklist>.search>.div_result{
+	float:left;
+	width:100%;
 	background-color:#fff;
 	border-radius:2px;
 }
 
 .profile{
 	display:none;
-	padding-top:10px;
-	padding-bottom:10px;
-}
-
-.profile table{
+	width:95%;
 	margin-left:auto;
 	margin-right:auto;
-	width:50%;
-	border-collapse:collapse;
+}
+.profile h3{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+.profile>.profile_conf{
+	float:left;
+	width:25%;
+	min-width:190px;
+	border-right:1px solid #000;
+}
+.profile>.device_conf{
+	float:left;
+	width:70%;
+	display:inline;
+	margin-left:20px;
+}
+.profile>.device_conf>#button_new_device{
+	float:left;
+	margin-bottom:20px;
+}
+.profile>.device_conf>.table_devices{
+	float:left;
+	background-color:#fff;
+	width:100%;
 }
 
-.profile .device td{
-	background-color: #fff;
-	border: 1px solid #fff;
+.footer{
+	float:left;
+	width:100%;
+	background-color:#222;
+	margin-bottom:0px;
+	color:black;
+	padding: 5px 0px 5px 0px;
 }
-
-.profile .cell_new_device{
-	text-align:right;
-}
-
-.profile .button_delete{
-	text-align:right;
+.footer button{
+	float:right;
+	margin-right:5px;
 }

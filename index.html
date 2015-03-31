@@ -11,82 +11,95 @@
 <body>
 <div class="container">
 
-	<div class="user">
+	<div class="header">
 		<div class="email">timb13@web.de</div>
-		<button class="logout">logout</button>
+		<div class="selection">
+			<button id="button_blacklist" disabled>Blacklist</button>
+			<button id="button_profile">Profil</button>
+		</div>
+		<div class="logout">
+			<button>Logout</button>
+		</div>
 	</div>
+	
 	<div class="title">
-		<h1>Allergeeks</h1>
-		eat the right things
-	</div>
-	<div class="selection">
-		<button class="button_blacklist" disabled>Meine Blacklist</button>
-		<button class="button_profile">Mein Profil</button>
+		<h1>Edible</h1>
+		<p>eat the right things</p>
 	</div>
 	
 	<div class="content">
-	
 		<!--begin of blacklist-section-->
 		<div class="blacklist">
-			<div class="div_filter">
+			<div class="filter">
+				<h3>Filter:</h3>
 				<form class="form_filter">
-				<ul class="list_filter">
-					<li><input type="checkbox">Kategory1</input></li>
-					<li><input type="checkbox">Kategory2</input></li>
-				</ul>
-				</form>
+					<ul class="list_filter">
+						<li><input type="checkbox">Kategory 1</input></li>
+						<li><input type="checkbox">Kategory 2</input></li>
+					</ul>
+				</form>		
 			</div>
-			<div class="div_search">
-				<button class="button_filter">Filter</button>
-				<input type="text"></input>
-			</div>
-			<br>
-			<div class="div_result">
-				<form class="form_result">
-				<ul class="list_result">
-					<li><input type="checkbox">N&uuml;ffe</input></li>
-					<li><input type="checkbox">Hafeln&uuml;ffe</input></li>
-					<li><input type="checkbox">Waln&uuml;ffe</input></li>
-				</ul>
-				</form>
+			<div class="search">
+				<div class="div_input">
+					<h3>Suchen: </h3>
+					<input type="text"></input>
+				</div>
+				<div class="div_result">
+					<form class="form_result">
+						<ul class="list_result">
+							<li><input type="checkbox" checked>N&uuml;ffe</input></li>
+							<li><input type="checkbox" checked>Hafeln&uuml;ffe</input></li>
+							<li><input type="checkbox" checked>Waln&uuml;ffe</input></li>
+						</ul>
+					</form>
+				</div>
 			</div>
 		</div>
 		<!--end of blacklist-section-->
 
 		<!--begin of profile-section-->
 		<div class="profile">
-			<form>
-				<table>
-					<tr>
-						<td>Email: </td>
-						<td colspan="2"><input type="text"></input></td>
-					</tr>
-					<tr>
-						<td>Password: </td>
-						<td colspan="2"><input type="password"></input></td>
-					</tr>
-					<tr>
-						<td>Ger&auml;te:</td>
-						<td></td>
-						<td class="cell_new_device"><button class="button_new_device">Neues Ger&auml;t</button></td>
-					</tr>
+			<div class="profile_conf">
+				<h3>Profildaten: </h3>
+				<form>
+					<table>
+						<tr>
+							<td>Email: </td>
+						</tr>
+						<tr>
+							<td><input type="text" value="timb13@web.de"></input></td>
+						</tr>
+						<tr>
+							<td>Password: </td>
+						</tr>
+						<tr>
+							<td><input type="password" value="blabla"></input></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div class="device_conf">
+				<h3>Ger&auml;te: </h3>
+				<button id="button_new_device">Neues Ger&auml;t</button>
+				<table class="table_devices">
 					<tr class="device">
-						<th></th>
-						<td>Vuzix 2</td>
+						<th>Vuzix 1</th>
 						<td class="button_delete"><button>X</button></td>
 					</tr>
 					<tr class="device">
-						<th></th>
-						<td>Vuzix 1</td>
+						<th>Vuzix 2</th>
 						<td class="button_delete"><button>X</button></td>
 					</tr>
 				</table>
-			</form>
+			</div>
 		</div>
 		<!--end of profile-section-->
-		
 	</div>
 	
+	<div class="footer">
+		<button>Datenschutz</button>
+		<button>Impressum</button>
+	</div>
 	
 </div>
 </body>

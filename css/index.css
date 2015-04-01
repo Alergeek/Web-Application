@@ -11,10 +11,12 @@
 	float:left;
 	width:100%;
 	background-color:#222;
-	padding:5px 0px 5px 0px;
+	padding:5px 20px 5px 20px;
+	box-sizing:border-box;
 }
 .header>.email{
 	float:left;
+	font-size:0.8em;
 	color:white;
 	width:25%;
 }
@@ -37,7 +39,6 @@
 .header>.logout>button{
 	width:50%;
 	min-width:67px;
-	margin-right:5px;
 }
 
 .title{
@@ -50,8 +51,10 @@
 .content{
 	float:left;
 	width:100%;
+	min-height:300px;
 	background-color: #eee;
-	padding: 5px 0px 5px 0px;
+	box-sizing:border-box;
+	padding: 20px 20px 20px 20px;
 }
 
 .blacklist{
@@ -68,7 +71,7 @@
 	width:25%;
 	min-width:170px;
 	height:100%;
-	border-right:1px solid #000;
+	box-sizing:border-box;
 }
 .blacklist>.filter .list_filter{
 	background-color:#fff;
@@ -80,9 +83,11 @@
 
 .blacklist>.search{
 	float:left;
-	width:70%;
+	width:75%;
+	padding-left:20px;
+	box-sizing:border-box;
 	display:inline;
-	margin-left:20px;
+	border-left:1px solid #000;
 }
 .blacklist>.search .list_result{
 	list-style:none;
@@ -119,14 +124,14 @@
 .profile>.profile_conf{
 	float:left;
 	width:25%;
-	min-width:190px;
-	border-right:1px solid #000;
 }
 .profile>.device_conf{
 	float:left;
-	width:70%;
+	width:75%;
+	box-sizing:border-box;
+	padding-left:20px;
 	display:inline;
-	margin-left:20px;
+	border-left:1px solid #000;
 }
 .profile>.device_conf>#button_new_device{
 	float:left;
@@ -134,8 +139,12 @@
 }
 .profile>.device_conf>.table_devices{
 	float:left;
+	text-align:left;
 	background-color:#fff;
 	width:100%;
+}
+.profile>.device_conf>.table_devices>.button_delete{
+	text-align:right;
 }
 
 .footer{

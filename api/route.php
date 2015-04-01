@@ -2,8 +2,7 @@
 require_once './prepare.php';
 
 API::init();
-API::define('AUTH', '[0-9a-zA-Z]{20}');
-API::define('NUMBER', '\d+');
+API::define('AUTH', '[0-9a-f]{20}');
 API::define('ID', '\d+');
 API::post('session/', function($a_Data) {
     if (!isset( $a_Data['email'],  $a_Data['password'])) {
@@ -34,6 +33,14 @@ API::get('session/', function($a_Data) {
     } catch(UserError $u) {
         echo '{"valid": false}';
     }
+});
+API::put('session/', function($a_Data) {
+
+});
+API::delete('session/{AUTH}/', function($a_Data) {
+    $session = $a_Data['session'];
+
+    $session->destroy();
 });
 API::finalize();
 ?>

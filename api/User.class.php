@@ -69,7 +69,7 @@ class User {
     public static function get_by_email($email) {
         $sql = 'SELECT id, password
                 FROM user
-                WHERE eMail = ?';
+                WHERE email = ?';
         $stmt = DB::con()->prepare($sql);
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
@@ -122,8 +122,20 @@ class User {
      * @return boolean
      */
     public function set_email($email) {
-        // TODO implement here
-        return null;
+        $sql = 'UPDATE user 
+                SET email = ? 
+                WHERE id = ?';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('si', strtolower($email), $this->id);
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->close();
+        $this->email = $email;
+        return true;
     }
 
     /**
@@ -131,8 +143,20 @@ class User {
      * @return bool
      */
     public function set_password($password) {
-        // TODO implement here
-        return null;
+        $sql = 'UPDATE user
+                SET password = ? 
+                WHERE id = ?';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('si', sha1($password), $this->id);
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->close();
+        $this->password = $password;
+        return true;
     }
 
     /**

@@ -49,15 +49,21 @@ class API {
                 $a_Req[strtolower($s_Var)] = $a_Matches[$i_Position + 1];
             }
             // User anmelden
-            if (isset($s_Var['AUTH'])) {
+            if (isset($a_Params['AUTH'])) {
                 $a_Req['session'] = self::auth($a_Req['auth']);
             }
-            $f_Func($a_Req);
+            $a_Req['method'] = $_SERVER['REQUEST_METHOD'];
+            $a_Req['path'] = self::$s_Path;
+            try {
+                $f_Func($a_Req);
+            } catch(InternalError $e) {
+                self::make_error(500, 'Internal Server Error: '.$e->getMessage());
+            }
             die();
         }
     }
 
-    private static function make_error($s_ResponseCode, $s_Message) {
+    public static function make_error($s_ResponseCode, $s_Message) {
         http_response_code($s_ResponseCode);
         die($s_Message);
     }
@@ -145,7 +151,7 @@ class API {
         try {
             return new Session($s_SessId);
         } catch (Exception $e) {
-            self::make_error(403, 'Das übermittelte Token ist nicht gültig.');
+            self::make_error($e->getCode(), $e->getMessage());
         }
     }
 }

@@ -20,19 +20,11 @@ API::post('session/', function($a_Data) {
 
     echo '{"authToken": "'.$session->get_token().'"}';
 });
-API::get('session/', function($a_Data) {
+API::get('session/{AUTH}/', function($a_Data) {
     // check whether input is token
-    $token = $a_Data['authToken'];
-    if (!Session::is_token($token)) {
-        echo '{"valid": false}';
-        return;
-    }
-    try {
-        new Session($token);
-        echo '{"valid": true}'; // Hier könnten wir noch mehr zurückgeben
-    } catch(UserError $u) {
-        echo '{"valid": false}';
-    }
+    $session = $a_Data['session'];
+    $session->get_all_sessions();
+    var_dump($session->get_user());
 });
 API::put('session/', function($a_Data) {
 

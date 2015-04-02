@@ -97,16 +97,14 @@ class User {
      * @return int
      */
     public function get_id() {
-        // TODO implement here
-        return 0;
+        return $this->id;
     }
 
     /**
      * @return string
      */
     public function get_email() {
-        // TODO implement here
-        return "";
+        return $this->email;
     }
 
     /**

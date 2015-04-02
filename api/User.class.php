@@ -139,7 +139,32 @@ class User {
      * @return \\Ingredient
      */
     public function get_blacklist() {
-        // TODO implement here
+        $mysqli = DB::con();
+
+        $query = 'SELECT b.ingredient_id,i.name
+                  FROM blacklist b
+                  JOIN ingredient i
+                  ON b.ingredient_id=i.id
+                  WHERE b.user_id=?';
+
+        $stmt = $mysqli->prepare($query)
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('i', $this->id);
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        } 
+
+        $stmt->bind_result($res_ingredient_id,$res_name);
+        while ($stmt->fetch()) {
+            $result[] = new Ingredient($res_ingredient_id,$res_name);
+        }
+        $stmt->close();
+
+        return $result;
+
         return null;
     }
 

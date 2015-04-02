@@ -72,7 +72,13 @@ API::post('user/{AUTH}/', function($a_Data) {
     return;
 });
 API::put('user/', function($a_Data) {
-
+    //TODO: Validations need to be done
+    $email = $a_Data['email'];
+    $password = $a_Data['password'];
+    User::create($email, $password);
+    $session = new Session($email, $password);
+    
+    echo '{"authToken":"' . $session->get_token() . '"}';
 });
 API::finalize();
 ?>

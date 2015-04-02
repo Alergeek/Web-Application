@@ -8,14 +8,14 @@ class UserTest extends PHPUnit_Framework_TestCase {
     /**
      * @var User
      */
-    protected $object;
+    protected $test_user;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new User('');
+        $this->test_user = new User('1', 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8');
     }
 
     /**
@@ -39,57 +39,37 @@ class UserTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers User::get_by_id
-     * @todo   Implement testGet_by_id().
      */
     public function testGet_by_id() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals($this->test_user, User::get_by_id(1));
     }
 
     /**
      * @covers User::get_by_email
-     * @todo   Implement testGet_by_email().
      */
     public function testGet_by_email() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals($this->test_user, User::get_by_email('marco.heumann@web.de'));
     }
 
     /**
      * @covers User::get_id
-     * @todo   Implement testGet_id().
      */
     public function testGet_id() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals(1, $this->test_user->get_id());
     }
 
     /**
      * @covers User::get_email
-     * @todo   Implement testGet_email().
      */
     public function testGet_email() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals('marco.heumann@web.de', $this->test_user->get_email());
     }
 
     /**
      * @covers User::check_password
-     * @todo   Implement testCheck_password().
      */
     public function testCheck_password() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue($this->test_user->check_password('password'));
     }
 
     /**

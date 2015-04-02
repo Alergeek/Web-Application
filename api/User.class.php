@@ -33,8 +33,21 @@ class User {
      * @return \\User
      */
     public static function create($email, $password) {
-        // TODO implement here
-        return null;
+        $hash = sha1($password);
+        $sql = 'INSERT INTO user (email, password)
+                VALUE(?, ?)';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('ss', strtolower($email), $hash);
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $id = $stmt->insert_id;
+        $stmt->close();
+        return new self($id, $email, $hash);
     }
 
     /**
@@ -97,16 +110,14 @@ class User {
      * @return int
      */
     public function get_id() {
-        // TODO implement here
-        return 0;
+        return $this->id;
     }
 
     /**
      * @return string
      */
     public function get_email() {
-        // TODO implement here
-        return "";
+        return $this->email;
     }
 
     /**

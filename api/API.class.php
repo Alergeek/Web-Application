@@ -128,10 +128,10 @@ class API {
      */
     public static function init() {
         if(!isset($_GET['p'])) {
-            self::make_error(404);
-        } else {
-            self::$s_Path = $_GET['p'];
+            return self::make_error(404);
         }
+        self::$s_Path = $_GET['p'];
+        header('Content-Type: application/json; charset=utf-8');
     }
     
     /**

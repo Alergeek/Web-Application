@@ -56,15 +56,17 @@ class API {
             $a_Req['path'] = self::$s_Path;
             try {
                 $f_Func($a_Req);
-            } catch(InternalError $e) {
-                self::make_error(500, 'Internal Server Error: '.$e->getMessage());
+            } catch(Exception $e) {
+                self::make_error($e->getCode(), $e->getMessage());
             }
             die();
         }
     }
 
-    public static function make_error($s_ResponseCode, $s_Message) {
+    private static function make_error($s_ResponseCode, $s_Message) {
         http_response_code($s_ResponseCode);
+        $s_Message = '{"status": '.$s_ResponseCode.', '.
+                     ' "error": "'.$s_Message.'"}';
         die($s_Message);
     }
 
@@ -128,10 +130,10 @@ class API {
      */
     public static function init() {
         if(!isset($_GET['p'])) {
-            self::make_error(404);
-        } else {
-            self::$s_Path = $_GET['p'];
+            return self::make_error(404);
         }
+        self::$s_Path = $_GET['p'];
+        header('Content-Type: application/json; charset=utf-8');
     }
     
     /**
@@ -149,7 +151,7 @@ class API {
      */
     private static function auth($s_SessId) {
         try {
-            return new Session($s_SessId);
+            return Session::get_by_token($s_SessId);
         } catch (Exception $e) {
             self::make_error($e->getCode(), $e->getMessage());
         }

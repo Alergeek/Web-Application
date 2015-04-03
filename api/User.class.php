@@ -164,8 +164,6 @@ class User {
         $stmt->close();
 
         return $result;
-
-        return null;
     }
 
     /**
@@ -173,8 +171,24 @@ class User {
      * @return bool
      */
     public function add_to_blacklist($item_id) {
-        // TODO implement here
-        return null;
+        $mysqli = DB::con();
+
+        $query = 'INSERT INTO blacklist (user_id,ingredient_id) VALUES ( ?, ?)';
+
+        $stmt = $mysqli->prepare($query)
+
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('ii', $this->id, $item_id);
+        
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        } 
+
+        $stmt->close();
+
+        return $result;
     }
 
     /**
@@ -182,8 +196,24 @@ class User {
      * @return bool
      */
     public function rm_from_blacklist($item_id) {
-        // TODO implement here
-        return null;
+        $mysqli = DB::con();
+
+        $query = 'DELETE FROM blacklist WHERE user_id = ? AND ingredient_id = ?'
+
+        $stmt = $mysqli->prepare($query)
+
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('ii', $this->id, $item_id);
+        
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        } 
+
+        $stmt->close();
+
+        return $result;
     }
 
 }

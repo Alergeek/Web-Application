@@ -1,56 +1,120 @@
 <?php
-
-
 /**
- * 
+ * Class for session management
  */
 class Session {
-    /**
-     * @var string
-     */
-    private static $wrong_login = 'Die Logindaten sind nicht korrekt.';
+    const WRONG_LOGIN = 'Die Logindaten sind nicht korrekt.';
+    const WRONG_TOKEN = 'Das angegebene Token ist nicht gültig.';
+    const WRONG_CODE  = 'Der angegebene Barcode ist nicht gültig.';
+
+    const TK_ADMN_LGT = 86400; // 24 Stunden
+    const TK_WEAR_LGT = 31536000; // 1 Jahr
+
+    private $token; // string, authToken
+    private $user; // object of User
+    private $admin; // boolean
+    private $valid; // integer, timestamp
+    private $name; // string, user agent
 
     /**
-     * @var string
+     * restores session via auth token
+     * @param string $token authToken
+     * @return object Session
+     * @throws UserError on invalid token
+     * @throws InternalError on SQL and database errors
      */
-    private $token;
+    public static function get_by_token($token) {
+        if (!self::is_token($token)) {
+            throw new UserError(self::WRONG_TOKEN, 403);
+        }
+        $sql = 'SELECT
+                    user_id,
+                    name,
+                    valid,
+                    admin_right,
+                    password,
+                    email
+                FROM
+                    device
+                JOIN
+                    user
+                ON
+                    user_id = id
+                WHERE
+                    token = ? AND
+                    valid > NOW()';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('s', $token);
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->bind_result($user_id, $name, $valid, $admin, $password, $email);
+        if (!$stmt->fetch()) {
+            throw new UserError(self::WRONG_TOKEN, 403);
+        }
+        $stmt->close();
+        $user = new User($user_id, $email, $password);
+        if($admin) {
+            $admin = true;
+        } else {
+            $admin = false;
+        }
+        return new Session($token, $user, $admin, strtotime($valid), $name);
+    }
 
     /**
-     * @var \\User
+     * creates new session via barcode
+     * @param integer $code barcode previously created
+     * @return object Session
+     * @throws UserError on wrong barcode
      */
-    private $user;
-
-    /**
-     * @var bool
-     */
-    private $admin;
-
-    /**
-     * @var integer
-     */
-    private $valid;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @return int
-     */
-    public static function generate_barcode() {
-        $code = '';
-        for ($i = 0; $i < 13; $i++) {
-            $code .= rand(0, 9);
+    public static function get_by_barcode($code) {
+        if (!is_numeric($code)) {
+            throw new UserError(self::WRONG_CODE, 403);
         }
         session_id($code);
         session_start();
-        var_dump($_SESSION);
-        return $code;
+        if(!isset($_SESSION['userid'])) {
+            throw new UserError(self::WRONG_CODE, 403);
+        }
+        $name = 'Wearable Device Vuzix M100';
+        $user = User::get_by_id($_SESSION['userid']);
+        $token = self::make_token($name, false, $user, self::TK_WEAR_LGT);
+        return new Session($token, $user, false, time() + self::TK_WEAR_LGT, $name);
+    }
+
+    /**
+     * creates new session via login data
+     * @param string $email
+     * @param string $password
+     * @return object Session
+     * @throws UserError on wrong barcode
+     */
+    public static function get_by_login($email, $password) {
+        try {
+            $user = User::get_by_email($email);
+        } catch(UserError $u) {
+            // make error anonymous
+            throw new UserError(self::WRONG_LOGIN, 403);
+        }
+        if (!$user->check_password($password)) {
+            throw new UserError(self::WRONG_LOGIN, 403);
+        }
+
+        // TODO: Android login different length/name
+        $name = 'Browser: '.filter_input(INPUT_SERVER, 'HTTP_USER_AGENT');
+        $valid = time() + self::TK_ADMN_LGT;
+        $token = self::make_token($name, $admin, $user->get_id(), self::TK_ADMN_LGT );
+        return new Session($token, $user, true, $valid, $name);
     }
 
     /**
      * checks if a given string matches the pattern of an auth token
+     * @param string $token authToken
      * @return boolean
      */
     public static function is_token($token) {
@@ -58,74 +122,18 @@ class Session {
     }
 
     /**
-     * generate new session via  login credentials
-     * @param string $login ean, auth token or email in ombination with password
-     * @param string $password
+     * @param string $token authToken
+     * @param object $user user object of logged user
+     * @param boolean $admin session with admin rights?
+     * @param integer $valid timestamp till valid date
+     * @param string $name name of the session
      */
-    public function __construct($login, $password = null) {
-        if (is_null($password)) {
-            if (is_numeric($login) AND strlen($login) == 13) {
-                // Login via barcode
-            } elseif (self::is_token($login)) {
-                $sql = 'SELECT
-                            user_id,
-                            name,
-                            valid,
-                            admin_right,
-                            password,
-                            email
-                        FROM
-                            device
-                        JOIN
-                            user
-                        ON
-                            user_id = id
-                        WHERE
-                            token = ?';
-                $stmt = DB::con()->prepare($sql);
-                if (!$stmt) {
-                    throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
-                }
-                $stmt->bind_param('s', $login);
-
-                if (!$stmt->execute()) {
-                    throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
-                }
-                $stmt->bind_result($user_id, $this->name, $valid, $admin,
-                    $password, $email);
-                if (!$stmt->fetch()) {
-                    throw new UserError('Unauthorized: Das angegebene Token'.
-                                ' ist nicht gültig', 403);
-                }
-                $stmt->close();
-                $this->user = new User($user_id, $email, $password);
-                if($admin) {
-                    $this->admin = true;
-                } else {
-                    $this->admin = false;
-                }
-                $this->valid = time($valid);
-            }
-        } else {
-            // Login via email and password
-            try {
-                $user = User::get_by_email($login);
-            } catch(UserError $u) {
-                // make error anonymous
-                throw new UserError(self::$wrong_login, 403);
-            }
-            if (!$user->check_password($password)) {
-                throw new UserError(self::$wrong_login, 403);
-            }
-
-            // TODO: Android login different length/name
-            $this->name = 'Browser: '.filter_input(INPUT_SERVER, 'HTTP_USER_AGENT');
-            $this->user = $user;
-            $this->admin = true;
-            $this->valid = time() + 60*60*24;
-        }
-        $this->token = $this->make_token($this->name, $this->admin,
-            $this->user->get_id(), 60*60*24 );
+    public function __construct($token, $user, $admin, $valid, $name) {
+        $this->token = $token;
+        $this->user = $user;
+        $this->admin = $admin;
+        $this->valid = $valid;
+        $this->name = $name;
     }
 
     /**
@@ -135,7 +143,7 @@ class Session {
      * @param integer $length length of tokens valid time in seconds
      * @return string generated token
      */
-    private function make_token($device, $admin, $user, $length) {
+    private static function make_token($device, $admin, $user, $length) {
         $chars = '1234567890abcdef'; // characters used for token
         $token = '';
 
@@ -179,21 +187,35 @@ class Session {
     }
 
     /**
-     * @return bool
+     * logout with this session
+     * after that the session cannot be restored by self::get_by_token()
+     * @return boolean
+     * @throws InternalError on SQL or database error
      */
     public function destroy() {
-        $sql = 'UPDATE devices
+        $sql = 'UPDATE device
                 SET valid=NOW()
-                WHERE token = "' + $this->token() + '"';
+                WHERE token = "' . $this->token . '"';
         if(!DB::con()->query($sql)) {
-            throw new InternalError('Konnte Session nicht beenden.');
+            throw new InternalError("Konnte Session nicht beenden:\n".DB::con()->error);
         }
         $this->valid = time();
         return true;
     }
+    /**
+     * generates barcode for connecting wearable device
+     * @return integer
+     */
+    public function generate_barcode() {
+        $code = rand(0, 9999999999999);
+        session_id($code);
+        session_start();
+        $_SESSION['userid'] = $this->user->get_id();
+        return $code;
+    }
 
     /**
-     * @return \\User
+     * @return object User
      */
     public function get_user() {
         return $this->user;
@@ -207,13 +229,49 @@ class Session {
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function is_admin() {
         return $this->admin;
     }
 
-    public function get_all_sessions() {
+    /**
+     * generates a json from this session
+     * @return string JSON
+     */
+    public function to_json() {
+        return '{"authToken": "'.$this->token.'",'.
+               ' "name": "'.$this->name.'",'.
+               ' "email": "'.$this->user->get_email().'",'.
+               ' "until": '.$this->valid.'}';
+    }
 
+    /**
+     * gets all sessions by the user logged in this session
+     * @return array of object of Session
+     * @throws InternalError on SQL or database error
+     */
+    public function get_all_sessions() {
+        $sessions = array();
+        $sql = 'SELECT
+                    token,
+                    name,
+                    valid,
+                    admin_right
+                FROM
+                    device
+                WHERE
+                    user_id = '.$this->user->get_id().' AND
+                    valid > NOW()';
+        $result = DB::con()->query($sql);
+        if (!$result) {
+            throw new InternalError('Konnte Query nicht ausführen: '.DB::con()->error);
+        }
+        while ($row = $result->fetch_assoc()) {
+            $admin = $row['admin_right'] == 1 ? true : false;
+            $sessions[] = new Session($row['token'], $this->user, $admin,
+                                strtotime($row['valid']), $row['name']);
+        }
+        return $sessions;
     }
 }

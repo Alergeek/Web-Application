@@ -8,14 +8,18 @@ class SessionTest extends PHPUnit_Framework_TestCase {
     /**
      * @var Session
      */
-    protected $object;
+    protected $email_session;
+    protected $barcode_session;
+    protected $token_session;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new Session;
+        $this->email_session = new Session('marco.heumann@web.de', 'password');
+        $this->barcode_session = new Session(9124567228364);
+        $this->token_session = new Session('a6888afedc443b4adf70');
     }
 
     /**
@@ -31,21 +35,17 @@ class SessionTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testGenerate_barcode().
      */
     public function testGenerate_barcode() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $barcode = Session::generate_barcode();
+        
+        $this->assertTrue(is_numeric($barcode));
+        $this->assertEquals(13, strlen($barcode));
     }
 
     /**
      * @covers Session::is_token
-     * @todo   Implement testIs_token().
      */
     public function testIs_token() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue(Session::is_token('a6888afedc443b4adf70'));
     }
 
     /**
@@ -83,13 +83,12 @@ class SessionTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers Session::is_admin
-     * @todo   Implement testIs_admin().
+     * @todo   maybe also need to test an admin token
      */
     public function testIs_admin() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertTrue($this->email_session->is_admin());
+        $this->assertFalse($this->barcode_session->is_admin());
+        $this->assertFalse($this->token_session->is_admin());
     }
 
 }

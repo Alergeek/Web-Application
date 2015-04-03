@@ -57,14 +57,16 @@ class API {
             try {
                 $f_Func($a_Req);
             } catch(Exception $e) {
-                self::make_error($e->getCode(), 'Internal Server Error: '.$e->getMessage());
+                self::make_error($e->getCode(), $e->getMessage);
             }
             die();
         }
     }
 
-    public static function make_error($s_ResponseCode, $s_Message) {
+    private static function make_error($s_ResponseCode, $s_Message) {
         http_response_code($s_ResponseCode);
+        $s_Message = '{"status": '.$s_ResponseCode.', '.
+                     ' "error": "'.$s_Message.'"}';
         die($s_Message);
     }
 

@@ -56,8 +56,8 @@ class API {
             $a_Req['path'] = self::$s_Path;
             try {
                 $f_Func($a_Req);
-            } catch(InternalError $e) {
-                self::make_error(500, 'Internal Server Error: '.$e->getMessage());
+            } catch(Exception $e) {
+                self::make_error($e->getCode(), 'Internal Server Error: '.$e->getMessage());
             }
             die();
         }
@@ -149,7 +149,7 @@ class API {
      */
     private static function auth($s_SessId) {
         try {
-            return new Session($s_SessId);
+            return Session::get_by_token($s_SessId);
         } catch (Exception $e) {
             self::make_error($e->getCode(), $e->getMessage());
         }

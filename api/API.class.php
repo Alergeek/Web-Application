@@ -57,7 +57,7 @@ class API {
             try {
                 $f_Func($a_Req);
             } catch(Exception $e) {
-                self::make_error($e->getCode(), $e->getMessage);
+                self::make_error($e->getCode(), $e->getMessage());
             }
             die();
         }

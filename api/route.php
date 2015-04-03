@@ -1,5 +1,6 @@
 <?php
-require_once './prepare.php';
+error_reporting(E_ALL);
+require_once __DIR__ . '/prepare.php';
 
 API::init();
 API::define('AUTH', '[0-9a-f]{20}');

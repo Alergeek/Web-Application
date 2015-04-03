@@ -73,8 +73,13 @@ API::post('user/{AUTH}/', function($a_Data) {
 });
 API::put('user/', function($a_Data) {
     //TODO: Validations need to be done
+    if (!isset( $a_Data['email'],  $a_Data['password'])) {
+        return API::make_error(400, 'Missing POST parameters.');
+    }
+    
     $email = $a_Data['email'];
     $password = $a_Data['password'];
+
     User::create($email, $password);
     $session = new Session($email, $password);
     

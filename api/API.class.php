@@ -57,7 +57,7 @@ class API {
         }
     }
 
-    private static function make_error($s_ResponseCode, $s_Message) {
+    public static function make_error($s_ResponseCode, $s_Message) {
         http_response_code($s_ResponseCode);
         die($s_Message);
     }

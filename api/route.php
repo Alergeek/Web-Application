@@ -42,5 +42,31 @@ API::delete('session/{AUTH}/', function($a_Data) {
 
     $session->destroy();
 });
+
+
+
+//Product API
+API::get('product/{EAN}/', function($a_Data) {
+    // check whether input is token
+    $token = $a_Data['authToken'];
+    $product_ean = $a_Data['EAN'];
+
+    $product = Product::get_by_ean($product_ean);
+
+    if(!is_null($result)) {
+
+        $result['EAN'] = $product->get_ean();
+        $result['name'] = $product->get_name();
+        $result['ingredients'] = $product->get_ingredients();
+
+        echo json_encode($result);
+    }
+
+
+
+
+});
+
+
 API::finalize();
 ?>

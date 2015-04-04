@@ -1,3 +1,8 @@
 <?php
-spl_autoload_extensions('.class.php');
-spl_autoload_register();
+set_include_path(__DIR__);
+
+function my_autoloader($class) {
+    include $class . '.class.php';
+}
+
+spl_autoload_register('my_autoloader');

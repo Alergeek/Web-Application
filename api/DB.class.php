@@ -1,5 +1,5 @@
 <?php
-require_once './config.inc';
+require_once __DIR__ . '/config.inc';
 
 class DB {
     private static $_instance; //The single instance

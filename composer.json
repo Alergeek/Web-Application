@@ -1,0 +1,17 @@
+{
+    "name": "vendor/web-allergeeks",
+    "description": "Description of project Web-Allergeeks.",
+    "autoload": {
+        "classmap": ["api/"]
+    },
+    "authors": [
+        {
+            "name": "mheumann",
+            "email": "marco.heumann@web.de"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit":"4.*",
+        "phpunit/phpunit-skeleton-generator": "*"
+    }
+}

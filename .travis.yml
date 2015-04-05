@@ -1,16 +1,13 @@
 language: php
-php:
-  - 5.4
-  - 5.5
-  - 5.6
+php: 5.5
   
-script:
-  - phpunit test/APITest.php
+script: phpunit --configuration test/configuration.xml
   
 before_install:
+  - composer install
   - mysql -e "GRANT ALL PRIVILEGES ON allergeeks.* TO 'allergeeks'@'localhost' IDENTIFIED BY ''" -uroot
   - mysql -uroot < test/schema.sql
   
 branches:
   only:
-    - user-api
+    - register

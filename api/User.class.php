@@ -34,20 +34,22 @@ class User {
      */
     public static function create($email, $password) {
         $hash = sha1($password);
+        $lower_email = strtolower($email);
         $sql = 'INSERT INTO user (email, password)
                 VALUE(?, ?)';
         $stmt = DB::con()->prepare($sql);
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
-        $stmt->bind_param('ss', strtolower($email), $hash);
+        
+        $stmt->bind_param('ss', $lower_email, $hash);
 
         if (!$stmt->execute()) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
         }
         $id = $stmt->insert_id;
         $stmt->close();
-        return new self($id, $email, $hash);
+        return new self($id, $lower_email, $hash);
     }
 
     /**
@@ -80,6 +82,7 @@ class User {
      * @return \\User
      */
     public static function get_by_email($email) {
+        $lower_email = strtolower($email);
         $sql = 'SELECT id, password
                 FROM user
                 WHERE email = ?';
@@ -87,7 +90,7 @@ class User {
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
-        $stmt->bind_param('s', strtolower($email));
+        $stmt->bind_param('s', $lower_email);
 
         if (!$stmt->execute()) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
@@ -97,7 +100,7 @@ class User {
             throw new UserError('Konnte keinen User mit dieser Email finden.');
         }
         $stmt->close();
-        return new self($id, $email, $hash);
+        return new self($id, $lower_email, $hash);
     }
 
     public function __construct($id, $email, $password) {

@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS `allergeeks`.`user` (
   `email` VARCHAR(45) NOT NULL,
   `password` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 1;
 
 
 -- -----------------------------------------------------
@@ -102,7 +103,7 @@ DROP TABLE IF EXISTS `allergeeks`.`device` ;
 CREATE TABLE IF NOT EXISTS `allergeeks`.`device` (
   `token` CHAR(20) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `valid` DATE NOT NULL,
+  `valid` DATETIME NOT NULL,
   `admin_right` TINYINT NOT NULL DEFAULT 0,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`token`),

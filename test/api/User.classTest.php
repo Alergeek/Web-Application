@@ -9,13 +9,15 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * @var User
      */
     protected $test_user;
+    protected $test_user2;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->test_user = new User('1', 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8');
+        $this->test_user = new User(1, 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8');
+        $this->test_user2 = new User(3, 'marco-polo93@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2');
     }
 
     /**
@@ -23,7 +25,27 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
+        $sql = 'DELETE FROM user
+                WHERE id <> 1 AND id <> 2';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
         
+        $sql = 'ALTER TABLE user AUTO_INCREMENT=2';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->close();
     }
 
     /**
@@ -31,10 +53,9 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testCreate().
      */
     public function testCreate() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $new_user = User::create('marco-polo93@web.de', 'mypassword');
+        
+        $this->assertEquals($this->test_user2, $new_user);
     }
 
     /**

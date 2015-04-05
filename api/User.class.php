@@ -19,7 +19,7 @@ class User {
     /**
      * @var string
      */
-    private $password;
+    private $hash;
 
     /**
      * @var \\Ingredient[]
@@ -103,10 +103,10 @@ class User {
         return new self($id, $lower_email, $hash);
     }
 
-    public function __construct($id, $email, $password) {
+    public function __construct($id, $email, $hash) {
         $this->id = $id;
         $this->email = $email;
-        $this->password = $password;
+        $this->hash = $hash;
     }
 
     /**
@@ -128,7 +128,7 @@ class User {
      * @return boolean
      */
     public function check_password($password) {
-        return sha1($password) === $this->password;
+        return sha1($password) === $this->hash;
     }
 
     /**
@@ -165,13 +165,13 @@ class User {
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
-        $parampassword = sha1($password);
-        $stmt->bind_param('si', $parampassword, $this->id);
+        $hash = sha1($password);
+        $stmt->bind_param('si', $hash, $this->id);
         if (!$stmt->execute()) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
         }
         $stmt->close();
-        $this->password = $password;
+        $this->hash = $hash;
         return true;
     }
 

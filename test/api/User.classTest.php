@@ -100,6 +100,10 @@ class UserTest extends PHPUnit_Framework_TestCase {
     public function testSet_email() {
         $this->test_user->set_email('try@try.de');
         $this->assertEquals('try@try.de', $this->test_user->get_email());
+        
+        // revert changes to have a clean database again at the end
+        $this->test_user->set_email('marco.heumann@web.de');
+        $this->assertEquals('marco.heumann@web.de', $this->test_user->get_email());
     }
 
     /**

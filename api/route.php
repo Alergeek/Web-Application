@@ -49,7 +49,7 @@ API::post('user/{AUTH}/', function($a_Data) {
         }
     }
     elseif(isset($a_Data['newPassword'])){
-        if($session->get_user()->set_password($a_Data['password'])){
+        if($session->get_user()->set_password($a_Data['newPassword'])){
             echo true;
             return;
         }

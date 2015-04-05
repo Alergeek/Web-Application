@@ -140,7 +140,8 @@ class User {
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
-        $stmt->bind_param('si', strtolower($email), $this->id);
+        $paramemail = strtolower($email);
+        $stmt->bind_param('si', $paramemail, $this->id);
         if (!$stmt->execute()) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
         }
@@ -161,7 +162,8 @@ class User {
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
-        $stmt->bind_param('si', sha1($password), $this->id);
+        $parampassword = sha1($password);
+        $stmt->bind_param('si', $parampassword, $this->id);
         if (!$stmt->execute()) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
         }

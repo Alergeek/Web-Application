@@ -6,10 +6,24 @@ and open the template in the editor.
 -->
 
 <!-- see http://www.phpunit.de/wiki/Documentation -->
-<phpunit bootstrap="bootstrap.php"
+<phpunit bootstrap="test/bootstrap.php"
          colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          stopOnFailure="true">
+    <testsuites>
+        <testsuite name="Allergeeks Testsuite">
+            <directory>./test/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./test</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>

@@ -65,8 +65,12 @@ class Product  implements JsonSerializable {
             $stmt->free_result();
             $stmt->close();
         }
-        
-        return $result;
+
+        if(isset($result)) {
+            return $result;
+        } else {
+            throw new UserError("EAN not found in database!", 404);
+        }
     }
 
     /**

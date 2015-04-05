@@ -79,27 +79,18 @@ API::put('user/', function($a_Data) {
 
 
 //Product API
-API::get('product/{ean}', function($a_Data) {
+API::get('product/{ID}/{AUTH}/', function($a_Data) {
     //$token = $a_Data['authToken'];
-    $product_ean = $a_Data['ean'];
+    $product_ean = $a_Data['id'];
 
-    $product = Product::get_by_ean(1234);
+    $product = Product::get_by_ean($product_ean);
 
-    if(!is_null($product)) {
+    $result['ean'] = $product->get_ean();
+    $result['name'] = $product->get_name();
+    $result['ingredients'] = $product->get_ingredients();
+    $result['edible'] = $product->is_edible($a_Data['session']->get_user()->get_id());
 
-        $result['ean'] = $product->get_ean();
-        $result['name'] = $product->get_name();
-        $result['ingredients'] = $product->get_ingredients();
-        $result['edible'] = $product->is_edible(2);
-
-        echo json_encode($result);
-    }
-    else
-    {
-        echo "EAN not found in database!";
-    }
-
-    return "test";
+    echo json_encode($result);
 
 });
 

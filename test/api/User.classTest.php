@@ -16,8 +16,9 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->test_user = new User(1, 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8');
-        $this->test_user2 = new User(3, 'marco-polo93@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2');
+        $this->test_user = new User(1, 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'); /**pw = password*/
+        $this->test_user2 = new User(3, 'marco-polo93@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); /**pw = mypassword*/
+        $this->test_user_for_pw_test = new User(1, 'marco.heumann@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); /**pw = mypassword*/
     }
 
     /**
@@ -106,8 +107,8 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testSet_password().
      */
     public function testSet_password() {
-        $this->test_user->set_password('try');
-        $this->assertTrue($this->test_user_>check_password('try'));
+        $this->test_user_for_pw_test->set_password('password');
+        $this->assertEquals($this->test_user_for_pw_test, $this->test_user);
     }
 
     /**

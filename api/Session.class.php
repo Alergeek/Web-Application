@@ -108,7 +108,7 @@ class Session {
         // TODO: Android login different length/name
         $name = 'Browser: '.filter_input(INPUT_SERVER, 'HTTP_USER_AGENT');
         $valid = time() + self::TK_ADMN_LGT;
-        $token = self::make_token($name, $admin, $user->get_id(), self::TK_ADMN_LGT );
+        $token = self::make_token($name, true, $user->get_id(), self::TK_ADMN_LGT );
         return new Session($token, $user, true, $valid, $name);
     }
 

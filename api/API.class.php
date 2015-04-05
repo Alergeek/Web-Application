@@ -49,16 +49,24 @@ class API {
                 $a_Req[strtolower($s_Var)] = $a_Matches[$i_Position + 1];
             }
             // User anmelden
-            if (isset($s_Var['AUTH'])) {
+            if (isset($a_Params['AUTH'])) {
                 $a_Req['session'] = self::auth($a_Req['auth']);
             }
-            $f_Func($a_Req);
+            $a_Req['method'] = $_SERVER['REQUEST_METHOD'];
+            $a_Req['path'] = self::$s_Path;
+            try {
+                $f_Func($a_Req);
+            } catch(Exception $e) {
+                self::make_error($e->getCode(), $e->getMessage());
+            }
             die();
         }
     }
 
     private static function make_error($s_ResponseCode, $s_Message) {
         http_response_code($s_ResponseCode);
+        $s_Message = '{"status": '.$s_ResponseCode.', '.
+                     ' "error": "'.$s_Message.'"}';
         die($s_Message);
     }
 
@@ -122,10 +130,10 @@ class API {
      */
     public static function init() {
         if(!isset($_GET['p'])) {
-            self::make_error(404);
-        } else {
-            self::$s_Path = $_GET['p'];
+            return self::make_error(404);
         }
+        self::$s_Path = $_GET['p'];
+        header('Content-Type: application/json; charset=utf-8');
     }
     
     /**
@@ -143,9 +151,9 @@ class API {
      */
     private static function auth($s_SessId) {
         try {
-            return new Session($s_SessId);
+            return Session::get_by_token($s_SessId);
         } catch (Exception $e) {
-            self::make_error(403, 'Das übermittelte Token ist nicht gültig.');
+            self::make_error($e->getCode(), $e->getMessage());
         }
     }
 }

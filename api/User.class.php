@@ -56,7 +56,7 @@ class User {
         }
         $stmt->bind_result($email, $hash);
         if (!$stmt->fetch()) {
-            throw new UserError('Konnte keinen User mit dieser Email finden.');
+            throw new UserError('Konnte keinen User mit dieser ID finden.');
         }
         $stmt->close();
         return new self($id, $email, $hash);
@@ -97,16 +97,14 @@ class User {
      * @return int
      */
     public function get_id() {
-        // TODO implement here
-        return 0;
+        return $this->id;
     }
 
     /**
      * @return string
      */
     public function get_email() {
-        // TODO implement here
-        return "";
+        return $this->email;
     }
 
     /**

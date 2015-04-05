@@ -50,7 +50,6 @@ class UserTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @covers User::create
-     * @todo   Implement testCreate().
      */
     public function testCreate() {
         $new_user = User::create('marco-polo93@web.de', 'mypassword');

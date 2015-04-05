@@ -1,5 +1,9 @@
 <?php
-require_once __DIR__ . '/config.inc';
+if(preg_match('~*travis*~' ,filter_input(INPUT_SERVER, 'HTTP_HOST'))) {
+    require_once __DIR__ . '/config-travis.inc';
+} else {
+    require_once __DIR__ . '/config.inc';
+}
 
 class DB {
     private static $_instance; //The single instance

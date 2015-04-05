@@ -4,7 +4,7 @@
 /**
  * 
  */
-class Product {
+class Product  implements JsonSerializable {
 
 
     /**
@@ -35,7 +35,7 @@ class Product {
 
             $result = new Product($ean, $name);
 
-            $stmt->free_result();
+            //$stmt->free_result();
             $stmt->close();
         }
         return $result;
@@ -58,11 +58,14 @@ class Product {
             $stmt->store_result();
             $stmt->bind_result($res_ean, $res_name);
 
-            $result = new Product($res_ean, $res_name);
+            while($stmt->fetch()) {
+                $result = new Product($res_ean, $res_name);
+            }
 
             $stmt->free_result();
             $stmt->close();
         }
+        
         return $result;
     }
 
@@ -83,13 +86,12 @@ class Product {
 
 
             while ($stmt->fetch()) {
-
-                $result[] = new Product($res_ean, $res_name);
-
+                $result = new Product($res_ean, $res_name);
             }
             $stmt->free_result();
             $stmt->close();
         }
+        
         return $result;
     }
 
@@ -136,9 +138,10 @@ class Product {
 
             $this->name = $name;
 
-            $stmt->free_result();
+            //$stmt->free_result();
             $stmt->close();
         }
+        
         return $result;
     }
 
@@ -154,6 +157,8 @@ class Product {
                   ON i.id = phi.ingredient_id
                   WHERE phi.product_ean = ?';
 
+        $result = [];
+
         if ($stmt = $mysqli->prepare($query)) {
             $stmt->bind_param('s', $this->ean);
             $stmt->execute();
@@ -162,9 +167,7 @@ class Product {
 
 
             while ($stmt->fetch()) {
-
-                $result[] = new Ingredient($res_id, $res_name);
-
+                array_push($result, new Ingredient($res_id, $res_name));
             }
             $stmt->free_result();
             $stmt->close();
@@ -190,9 +193,10 @@ class Product {
                 throw new InternalError('Fehler: '.DB::con()->error);
             }
 
-            $stmt->free_result();
+            //$stmt->free_result();
             $stmt->close();
         }
+        
         return $result;
     }
 
@@ -214,10 +218,44 @@ class Product {
                 throw new InternalError('Fehler: '.DB::con()->error);
             }
 
+            //$stmt->free_result();
+            $stmt->close();
+        }
+        
+        return $result;
+    }
+
+    public function is_edible($user_id)
+    {
+        $mysqli = DB::con();
+
+        $query = "SELECT CASE count(*) WHEN 0 THEN 'true' ELSE 'false' END AS edible
+                  FROM product p JOIN product_has_ingredient phi ON p.ean = phi.product_ean
+                  JOIN blacklist b ON phi.ingredient_id = b.ingredient_id
+                  WHERE b.user_id = ?";
+
+        $edible = "";
+
+        if ($stmt = $mysqli->prepare($query)) {
+            $stmt->bind_param('i', $user_id);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($edible);
+
+            $stmt->fetch();
+
             $stmt->free_result();
             $stmt->close();
         }
-        return $result;
+        return $edible;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'ean' => $this->ean,
+            'name' => $this->name,
+            'ingredients' => $this->get_ingredients()
+        ];
     }
 
 }

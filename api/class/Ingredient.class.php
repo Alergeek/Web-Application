@@ -4,7 +4,7 @@
 /**
  * 
  */
-class Ingredient {
+class Ingredient implements JsonSerializable {
 
 
     /**
@@ -35,7 +35,9 @@ class Ingredient {
             $stmt->store_result();
             $stmt->bind_result($res_id, $res_name);
 
-            $result = new Ingredient($res_id, $res_name);
+            while ($stmt->fetch()) {
+                $result = new Ingredient($res_id, $res_name);
+            }
 
             $stmt->free_result();
             $stmt->close();
@@ -145,6 +147,13 @@ class Ingredient {
         }
         return $result;
 
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
     }
 
 }

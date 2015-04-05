@@ -79,24 +79,27 @@ API::put('user/', function($a_Data) {
 
 
 //Product API
-API::get('product/{EAN}/', function($a_Data) {
-    // check whether input is token
-    $token = $a_Data['authToken'];
-    $product_ean = $a_Data['EAN'];
+API::get('product/{ean}', function($a_Data) {
+    //$token = $a_Data['authToken'];
+    $product_ean = $a_Data['ean'];
 
-    $product = Product::get_by_ean($product_ean);
+    $product = Product::get_by_ean(1234);
 
-    if(!is_null($result)) {
+    if(!is_null($product)) {
 
-        $result['EAN'] = $product->get_ean();
+        $result['ean'] = $product->get_ean();
         $result['name'] = $product->get_name();
         $result['ingredients'] = $product->get_ingredients();
+        $result['edible'] = $product->is_edible(2);
 
         echo json_encode($result);
     }
+    else
+    {
+        echo "EAN not found in database!";
+    }
 
-
-
+    return "test";
 
 });
 

@@ -145,7 +145,7 @@ class User {
                   ON b.ingredient_id=i.id
                   WHERE b.user_id=?';
 
-        $stmt = $mysqli->prepare($query)
+        $stmt = $mysqli->prepare($query);
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
@@ -173,7 +173,7 @@ class User {
 
         $query = 'INSERT INTO blacklist (user_id,ingredient_id) VALUES ( ?, ?)';
 
-        $stmt = $mysqli->prepare($query)
+        $stmt = $mysqli->prepare($query);
 
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
@@ -198,7 +198,7 @@ class User {
 
         $query = 'DELETE FROM blacklist WHERE user_id = ? AND ingredient_id = ?'
 
-        $stmt = $mysqli->prepare($query)
+        $stmt = $mysqli->prepare($query);
 
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);

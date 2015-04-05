@@ -97,10 +97,8 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testSet_email().
      */
     public function testSet_email() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->test_user->set_email('try@try.de');
+        $this->assertEquals('try@try.de', $this->test_user->get_email());
     }
 
     /**
@@ -108,10 +106,8 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testSet_password().
      */
     public function testSet_password() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->test_user->set_password('try');
+        $this->assertTrue($this->test_user_>check_password('try'));
     }
 
     /**

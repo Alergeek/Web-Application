@@ -54,6 +54,8 @@ class Ingredient implements JsonSerializable {
 
         $query = 'SELECT id, name FROM ingredient WHERE name LIKE ?';
 
+        $result = [];
+
         if ($stmt = $mysqli->prepare($query)) {
             $search_name = '%'.$name.'%';  //bind_param needs reference
             $stmt->bind_param('s', $search_name);
@@ -64,7 +66,7 @@ class Ingredient implements JsonSerializable {
 
             while ($stmt->fetch()) {
 
-                $result[] = new Ingredient($res_id, $res_name);
+                array_push($result, new Ingredient($res_id, $res_name));
 
             }
             $stmt->free_result();

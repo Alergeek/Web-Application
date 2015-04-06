@@ -76,10 +76,12 @@ class Product  implements JsonSerializable {
     /**
      * @return \\Product[]
      */
-    public static function get_by_name() {
+    public static function get_by_name($name) {
         $mysqli = DB::con();
 
         $query = 'SELECT ean, name FROM product WHERE name LIKE ?';
+
+        $result = [];
 
         if ($stmt = $mysqli->prepare($query)) {
             $search_name = '%'.$name.'%';  //bind_param needs reference
@@ -90,7 +92,7 @@ class Product  implements JsonSerializable {
 
 
             while ($stmt->fetch()) {
-                $result = new Product($res_ean, $res_name);
+                array_push($result, new Product($res_ean, $res_name));
             }
             $stmt->free_result();
             $stmt->close();

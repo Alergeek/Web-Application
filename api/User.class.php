@@ -138,7 +138,7 @@ class User {
      */
     public function get_blacklist() {
         $mysqli = DB::con();
-
+        $result = array();
         $query = 'SELECT b.ingredient_id,i.name
                   FROM blacklist b
                   JOIN ingredient i
@@ -196,7 +196,7 @@ class User {
     public function rm_from_blacklist($item_id) {
         $mysqli = DB::con();
 
-        $query = 'DELETE FROM blacklist WHERE user_id = ? AND ingredient_id = ?'
+        $query = 'DELETE FROM blacklist WHERE user_id = ? AND ingredient_id = ?';
 
         $stmt = $mysqli->prepare($query);
 

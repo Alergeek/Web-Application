@@ -17,8 +17,6 @@ class Ingredient {
      */
     private $name;
 
-
-
     /**
      * @param int $id 
      * @return \\Ingredient
@@ -114,7 +112,7 @@ class Ingredient {
      */
     public function get_id() {
         // TODO implement here
-        return 0;
+        return $this->id;
     }
 
     /**
@@ -122,7 +120,7 @@ class Ingredient {
      */
     public function get_name() {
         // TODO implement here
-        return "";
+        return $this->name;
     }
 
     /**
@@ -131,7 +129,13 @@ class Ingredient {
      */
     public function set_name($name) {
         // TODO implement here
+        // Make SQL request to update database
+        $this->name = $name;
         return null;
+    }
+
+    public function to_json() {
+        return '{"id": '.$this->id.', "name": "'.$this->name.'"}';
     }
 
 }

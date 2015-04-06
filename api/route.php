@@ -31,5 +31,20 @@ API::delete('session/{AUTH}/', function($a_Data) {
     $session = $a_Data['session'];
     echo $session->destroy() ? 'true' : 'false';
 });
+API::get('blacklist/{AUTH}/', function($a_Data) {
+    $user = $a_Data['session']->get_user();
+    $ingredients = $user->get_blacklist();
+    $jsons = array();
+    foreach($ingredients AS $ingredient) {
+        $jsons[] = $ingredient->to_json();
+    }
+    echo "[ ".join(', ', $jsons)." ]";
+});
+API::put('blacklist/{ID}/{AUTH}/', function($a_Data) {
+    $user = $a_Data['session']->get_user();
+    Ingredient::get_by_id($a_Data['id']);
+    $user->add_to_blacklist($a_Data['id']);
+    echo "true";
+});
 API::finalize();
 ?>

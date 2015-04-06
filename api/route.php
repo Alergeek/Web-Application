@@ -46,5 +46,11 @@ API::put('blacklist/{ID}/{AUTH}/', function($a_Data) {
     $user->add_to_blacklist($a_Data['id']);
     echo "true";
 });
+API::delete('blacklist/{ID}/{AUTH}/', function($a_Data){
+    $user = $a_Data['session']->get_user();
+    Ingredient::get_by_id($a_Data['id']);
+    $user->rm_from_blacklist($a_Data['id']);
+    echo "true";
+});
 API::finalize();
 ?>

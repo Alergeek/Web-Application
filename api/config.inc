@@ -1,5 +1,5 @@
 <?php
-define('DATABASE', 'allergeeks');
-define('DB_USER', 'allergeeks');
-define('DB_PASSWORD', 'fuchsen');
+define('DB_DATABASE', 'allergeeks');
+define('DB_USER', 'allergeek');
+define('DB_PASSWORD', '');
 define('DB_HOST', 'localhost');

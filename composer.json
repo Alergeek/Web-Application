@@ -2,7 +2,7 @@
     "name": "vendor/web-allergeeks",
     "description": "Description of project Web-Allergeeks.",
     "autoload": {
-        "classmap": ["api/"]
+        "classmap": ["api/class"]
     },
     "authors": [
         {

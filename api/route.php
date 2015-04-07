@@ -93,5 +93,22 @@ API::delete('blacklist/{ID}/{AUTH}/', function($a_Data){
     $user->rm_from_blacklist($a_Data['id']);
     echo "true";
 });
+//Product API
+API::get('product/{ID}/{AUTH}/', function($a_Data) {
+    //$token = $a_Data['authToken'];
+    $product_ean = $a_Data['id'];
+
+    $product = Product::get_by_ean($product_ean);
+
+    $result['ean'] = $product->get_ean();
+    $result['name'] = $product->get_name();
+    $result['ingredients'] = $product->get_ingredients();
+    $result['edible'] = $product->is_edible($a_Data['session']->get_user()->get_id());
+
+    echo json_encode($result);
+
+});
+
+
 API::finalize();
 ?>

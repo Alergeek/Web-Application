@@ -17,15 +17,33 @@ class Ingredient {
      */
     private $name;
 
-
-
     /**
      * @param int $id 
      * @return \\Ingredient
      */
     public static function get_by_id($id) {
-        // TODO implement here
-        return null;
+        $mysqli = DB::con();
+        $sql = 'SELECT id, name
+                FROM ingredient
+                WHERE id = ?';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('i', strtolower($id));
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->bind_result($res_id, $res_name);
+        if (!$stmt->fetch()) {
+            throw new UserError('Konnte keinen Inhaltsstoff mit dieser ID finden.');
+        }
+
+        $result = new Ingredient($res_ingredient_id,$res_name);
+
+        $stmt->close();
+        return $result;
     }
 
     /**
@@ -33,8 +51,27 @@ class Ingredient {
      * @return \\Ingredient[]
      */
     public static function get_by_name($name) {
-        // TODO implement here
-        return null;
+        $mysqli = DB::con();
+        $sql = 'SELECT id, name
+                FROM ingredient
+                WHERE name = ?';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('s', $name);
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+        $stmt->bind_result($res_id, $res_name);
+
+        while($stmt->fetch){
+            $result[] = new Ingredient($res_ingredient_id,$res_name);           
+        }
+
+        $stmt->close();
+        return $result;
     }
 
     /**
@@ -43,7 +80,22 @@ class Ingredient {
      */
     public static function create($name) {
         // TODO implement here
-        return null;
+        $mysqli = DB::con();
+
+        $sql = 'INSERT INTO ingredient (id, name) VALUES (?, ?)';
+        $stmt = DB::con()->prepare($sql);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('s', $name);
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        }
+
+        $result = new Ingredient($mysqli->insert_id, $name);
+
+        $stmt->close();
+        return $result;
     }
 
     /**
@@ -51,7 +103,8 @@ class Ingredient {
      * @param string $name
      */
     public function __construct($id, $name) {
-        // TODO implement here
+        $this->id = $id;
+        $this->name = $name;
     }
 
     /**
@@ -59,7 +112,7 @@ class Ingredient {
      */
     public function get_id() {
         // TODO implement here
-        return 0;
+        return $this->id;
     }
 
     /**
@@ -67,7 +120,7 @@ class Ingredient {
      */
     public function get_name() {
         // TODO implement here
-        return "";
+        return $this->name;
     }
 
     /**
@@ -76,7 +129,13 @@ class Ingredient {
      */
     public function set_name($name) {
         // TODO implement here
+        // Make SQL request to update database
+        $this->name = $name;
         return null;
+    }
+
+    public function to_json() {
+        return '{"id": '.$this->id.', "name": "'.$this->name.'"}';
     }
 
 }

@@ -179,8 +179,31 @@ class User {
      * @return \\Ingredient
      */
     public function get_blacklist() {
-        // TODO implement here
-        return null;
+        $mysqli = DB::con();
+        $result = array();
+        $query = 'SELECT b.ingredient_id,i.name
+                  FROM blacklist b
+                  JOIN ingredient i
+                  ON b.ingredient_id=i.id
+                  WHERE b.user_id=?';
+
+        $stmt = $mysqli->prepare($query);
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('i', $this->id);
+
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        } 
+
+        $stmt->bind_result($res_ingredient_id,$res_name);
+        while ($stmt->fetch()) {
+            $result[] = new Ingredient($res_ingredient_id,$res_name);
+        }
+        $stmt->close();
+
+        return $result;
     }
 
     /**
@@ -188,8 +211,24 @@ class User {
      * @return bool
      */
     public function add_to_blacklist($item_id) {
-        // TODO implement here
-        return null;
+        $mysqli = DB::con();
+
+        $query = 'INSERT INTO blacklist (user_id,ingredient_id) VALUES ( ?, ?)';
+
+        $stmt = $mysqli->prepare($query);
+
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('ii', $this->id, $item_id);
+        
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        } 
+
+        $stmt->close();
+
+        return $result;
     }
 
     /**
@@ -197,8 +236,24 @@ class User {
      * @return bool
      */
     public function rm_from_blacklist($item_id) {
-        // TODO implement here
-        return null;
+        $mysqli = DB::con();
+
+        $query = 'DELETE FROM blacklist WHERE user_id = ? AND ingredient_id = ?';
+
+        $stmt = $mysqli->prepare($query);
+
+        if (!$stmt) {
+            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
+        }
+        $stmt->bind_param('ii', $this->id, $item_id);
+        
+        if (!$stmt->execute()) {
+            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
+        } 
+
+        $stmt->close();
+
+        return $result;
     }
 
 }

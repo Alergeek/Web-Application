@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Edible</title>
+	<link rel="stylesheet" href="css/main.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/main.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+	<div class="header">
+		<div class="email">timb13@web.de</div>
+		<div class="selection">
+			<button id="button_blacklist" disabled>Blacklist</button>
+			<button id="button_profile">Profil</button>
+		</div>
+		<div class="logout">
+			<button>Logout</button>
+		</div>
+	</div>
+	
+	<div class="title">
+		<h1>Edible</h1>
+		<p>eat the right things</p>
+	</div>
+	
+	<div class="content">
+		<!--begin of blacklist-section-->
+		<div class="blacklist">
+			<div class="filter">
+				<h3>Filter:</h3>
+				<form class="form_filter">
+					<ul class="list_filter">
+						<li><input type="checkbox">Kategory 1</input></li>
+						<li><input type="checkbox">Kategory 2</input></li>
+					</ul>
+				</form>		
+			</div>
+			<div class="search">
+				<div class="div_input">
+					<h3>Suchen: </h3>
+					<input type="text"></input>
+				</div>
+				<div class="div_result">
+					<form class="form_result">
+						<ul class="list_result">
+							<li><input type="checkbox" checked>N&uuml;ffe</input></li>
+							<li><input type="checkbox" checked>Hafeln&uuml;ffe</input></li>
+							<li><input type="checkbox" checked>Waln&uuml;ffe</input></li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--end of blacklist-section-->
+
+		<!--begin of profile-section-->
+		<div class="profile">
+			<div class="profile_conf">
+				<h3>Profildaten: </h3>
+				<form>
+					<table>
+						<tr>
+							<td>Email: </td>
+						</tr>
+						<tr>
+							<td><input type="text" value="timb13@web.de"></input></td>
+						</tr>
+						<tr>
+							<td>Password: </td>
+						</tr>
+						<tr>
+							<td><input type="password" value="blabla"></input></td>
+						</tr>
+					</table>
+					<br>
+					<button class="button_text">Speichern</button>
+				</form>
+			</div>
+			<div class="device_conf">
+				<h3>Ger&auml;te: </h3>
+				<button id="button_new_device">Neues Ger&auml;t</button>
+				<table class="table_devices">
+					<tr class="device">
+						<th>Vuzix 1</th>
+						<td class="button_delete"><button>X</button></td>
+					</tr>
+					<tr class="device">
+						<th>Vuzix 2</th>
+						<td class="button_delete"><button>X</button></td>
+					</tr>
+				</table>
+			</div>
+			<div class="div_new_device">
+				<hr>
+				<h3>Ger&auml;t hinzufügen: </h3>
+				<p>Bitte scannen Sie mit Ihrer Vuzix den folgenden Barcode ein, um das Gerät mit Ihrem Profil zu koppeln:</p>
+				<div class="div_barcode">
+					<img id="img_barcode" src="img/barcode.png"></img>
+				</div>
+				<div class="controls">
+					<button disabled id="button_finished" class="button_text">Fertig</button>
+					<button id="button_cancel" class="button_text">Abbrechen</button>
+				</div>
+			</div>
+		</div>
+		<!--end of profile-section-->
+		
+		<!--begin of impressum-section-->
+		<div class="impressum">
+			<h3>Impressum: </h3>
+		</div>
+		<!--end of impressum-section-->
+		
+		<!--begin of privacy-section-->
+		<div class="privacy">
+			<h3>Datenschutzrichtlinien: </h3>
+		</div>
+		<!--end of privacy-section-->
+	</div>
+	
+	<div class="footer">
+		<button id="button_privacy">Datenschutz</button>
+		<button id="button_impressum">Impressum</button>
+	</div>
+	
+</div>
+</body>
+</html> 

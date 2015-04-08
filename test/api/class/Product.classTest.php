@@ -121,12 +121,15 @@ class ProductTest extends PHPUnit_Framework_TestCase {
      * @covers Product::rm_ingredient
      */
     public function testRm_ingredient() {
+
+        $old_size = sizeof($this->object->get_ingredients());
+
         $testing_new = Ingredient::create("Testingredient");
         $this->object->add_ingredient($testing_new);
 
         $this->object->rm_ingredient($testing_new);
 
-        $this->assertEquals(0, sizeof($this->object->get_ingredients()));
+        $this->assertEquals($old_size, sizeof($this->object->get_ingredients()));
     }
 
 }

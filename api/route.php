@@ -95,7 +95,6 @@ API::delete('blacklist/{ID}/{AUTH}/', function($a_Data){
 });
 //Product API
 API::get('product/{ID}/{AUTH}/', function($a_Data) {
-    //$token = $a_Data['authToken'];
     $product_ean = $a_Data['id'];
 
     $product = Product::get_by_ean($product_ean);
@@ -106,6 +105,13 @@ API::get('product/{ID}/{AUTH}/', function($a_Data) {
     $result['edible'] = $product->is_edible($a_Data['session']->get_user()->get_id());
 
     echo json_encode($result);
+
+});
+API::get('ingredient/', function($a_Data) {
+
+    $ingredients = Ingredient::get_all();
+
+    echo json_encode($ingredients);
 
 });
 

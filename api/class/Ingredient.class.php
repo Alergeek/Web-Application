@@ -43,6 +43,33 @@ class Ingredient implements JsonSerializable {
         return $result;
     }
 
+
+    /**
+     * @return \\Ingredient[]
+     */
+    public static function get_all() {
+
+        $mysqli = DB::con();
+
+        $query = 'SELECT id, name FROM ingredient';
+
+        $result = [];
+
+        if ($stmt = $mysqli->prepare($query)) {
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($res_id, $res_name);
+
+            while ($stmt->fetch()) {
+                array_push($result, new Ingredient($res_id, $res_name));
+            }
+
+            $stmt->free_result();
+            $stmt->close();
+        }
+        return $result;
+    }
+
     /**
      * @param string $name 
      * @return \\Ingredient[]

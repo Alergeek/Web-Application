@@ -75,23 +75,22 @@ API::put('user/', function($a_Data) {
 API::get('blacklist/{AUTH}/', function($a_Data) {
     $user = $a_Data['session']->get_user();
     $ingredients = $user->get_blacklist();
-    $jsons = array();
-    foreach($ingredients AS $ingredient) {
-        $jsons[] = $ingredient->to_json();
-    }
-    echo "[ ".join(', ', $jsons)." ]";
+
+    echo json_encode($ingredients); //"[ ".join(', ', $jsons)." ]";
 });
 API::put('blacklist/{ID}/{AUTH}/', function($a_Data) {
     $user = $a_Data['session']->get_user();
     Ingredient::get_by_id($a_Data['id']);
-    $user->add_to_blacklist($a_Data['id']);
-    echo "true";
+    $result = $user->add_to_blacklist($a_Data['id']);
+
+    echo $result ? 'true' : 'false';
 });
 API::delete('blacklist/{ID}/{AUTH}/', function($a_Data){
     $user = $a_Data['session']->get_user();
     Ingredient::get_by_id($a_Data['id']);
-    $user->rm_from_blacklist($a_Data['id']);
-    echo "true";
+    $result = $user->rm_from_blacklist($a_Data['id']);
+
+    echo $result ? 'true' : 'false';
 });
 //Product API
 API::get('product/{ID}/{AUTH}/', function($a_Data) {

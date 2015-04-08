@@ -5,9 +5,9 @@ class API {
     
     /**
      * Definieren eines neuen Komponenten
-     * @param $s_Method Server Request Method
-     * @param $s_Comp der API Pfad des Componenten
-     * @param $f_Func die auszuführende Funktion
+     * @param $s_Method string Server Request Method
+     * @param $s_Comp string der API Pfad des Componenten
+     * @param $f_Func callable die auszuführende Funktion
      *          function(array of Strings)
      *          Im Array werden Variablen aus dem Pfad zur Verfügung gestellt
      */

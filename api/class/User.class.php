@@ -221,8 +221,8 @@ class User {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
         $stmt->bind_param('ii', $this->id, $item_id);
-        
-        if (!$stmt->execute()) {
+        $result = $stmt->execute();
+        if (!$result) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
         } 
 
@@ -246,8 +246,9 @@ class User {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
         $stmt->bind_param('ii', $this->id, $item_id);
-        
-        if (!$stmt->execute()) {
+
+        $result = $stmt->execute();
+        if (!$result) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
         } 
 

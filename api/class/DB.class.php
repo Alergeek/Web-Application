@@ -1,5 +1,5 @@
 <?php
-if(preg_match('~(.*)(travis)(.*)~' ,filter_input(INPUT_SERVER, 'HTTP_HOST'))) {
+if(preg_match('~(.*)(travis)(.*)~' , __DIR__)) {
     require_once __DIR__ . '/../config-sample.inc';
 } else {
     require_once __DIR__ . '/../config.inc';

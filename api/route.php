@@ -34,19 +34,19 @@ API::delete('session/{AUTH}/', function($a_Data) {
 });
 API::post('user/{AUTH}/', function($a_Data) {
     if (!isset($a_Data['password'])) {
-        API::make_error(400, 'Missing POST parameters.');
+        throw new UserError('Missing POST parameters.', 400);
     }
+
+    if(!isset($a_Data['email']) && !isset($a_Data['newPassword'])){
+        throw new UserError('Missing POST parameters.', 400);
+    }
+
     //Session is set anyway so we dont need to check it
     $session = $a_Data['session'];
     if(!$session->get_user()->check_password($a_Data['password'])){
         echo 'false';
         return;
     }
-
-    if(!isset($a_Data['email']) && !isset($a_Data['password'])){
-        API::make_error(400, 'Missing POST parameters.');
-    }
-
     if (isset($a_Data['email'])) {
         if($session->get_user()->set_email($a_Data['email'])){
             echo 'true';
@@ -60,8 +60,8 @@ API::post('user/{AUTH}/', function($a_Data) {
     return;
 });
 API::put('user/', function($a_Data) {
-    if (!isset( $a_Data['email'],  $a_Data['password'])) {
-        return API::make_error(400, 'Missing POST parameters.');
+    if (!isset( $a_Data['email'],  $a_Data['password'])) {        
+        throw new UserError('Missing POST parameters.', 400);
     }
     
     $email = $a_Data['email'];

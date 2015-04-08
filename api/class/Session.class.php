@@ -25,7 +25,7 @@ class Session {
      */
     public static function get_by_token($token) {
         if (!self::is_token($token)) {
-            throw new UserError(self::WRONG_TOKEN, 403);
+            throw new UserError(self::WRONG_TOKEN, 401);
         }
         $sql = 'SELECT
                     user_id,
@@ -54,7 +54,7 @@ class Session {
         }
         $stmt->bind_result($user_id, $name, $valid, $admin, $password, $email);
         if (!$stmt->fetch()) {
-            throw new UserError(self::WRONG_TOKEN, 403);
+            throw new UserError(self::WRONG_TOKEN, 401);
         }
         $stmt->close();
         $user = new User($user_id, $email, $password);
@@ -74,12 +74,12 @@ class Session {
      */
     public static function get_by_barcode($code) {
         if (!is_numeric($code)) {
-            throw new UserError(self::WRONG_CODE, 403);
+            throw new UserError(self::WRONG_CODE, 401);
         }
         session_id($code);
         session_start();
         if(!isset($_SESSION['userid'])) {
-            throw new UserError(self::WRONG_CODE, 403);
+            throw new UserError(self::WRONG_CODE, 401);
         }
         $name = 'Wearable Device Vuzix M100';
         $user = User::get_by_id($_SESSION['userid']);
@@ -99,10 +99,10 @@ class Session {
             $user = User::get_by_email($email);
         } catch(UserError $u) {
             // make error anonymous
-            throw new UserError(self::WRONG_LOGIN, 403);
+            throw new UserError(self::WRONG_LOGIN, 401);
         }
         if (!$user->check_password($password)) {
-            throw new UserError(self::WRONG_LOGIN, 403);
+            throw new UserError(self::WRONG_LOGIN, 401);
         }
 
         // TODO: Android login different length/name

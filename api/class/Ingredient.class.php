@@ -70,6 +70,36 @@ class Ingredient implements JsonSerializable {
         return $result;
     }
 
+    public function get_categories() {
+
+
+
+
+        $mysqli = DB::con();
+
+        $query = 'SELECT c.id, c.name
+                  FROM category c JOIN ingredient_has_category ihc ON c.id = ihc.category_id
+                  WHERE ihc.ingredient_id = ?';
+
+        $result = [];
+
+        if ($stmt = $mysqli->prepare($query)) {
+            $stmt->bind_param('i', $this->id);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($res_id, $res_name);
+
+            while ($stmt->fetch()) {
+                array_push($result, ['id' => $res_id, 'name' => $res_name]);
+            }
+
+            $stmt->free_result();
+            $stmt->close();
+        }
+        return $result;
+
+    }
+
     /**
      * @param string $name 
      * @return \\Ingredient[]
@@ -179,7 +209,8 @@ class Ingredient implements JsonSerializable {
     public function jsonSerialize() {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'name' => $this->name,
+            'categories' => $this->get_categories()
         ];
     }
 

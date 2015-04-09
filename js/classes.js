@@ -48,7 +48,24 @@ var User = (function() {
 	};
 
 	User.create = function( email, password ) {
-		throw "unimplemented method";
+		return new Promise( function( resolve, reject ) {
+			$.ajax({
+	            url: "api/v1/user/",
+	            method: "PUT",
+	            data: {
+	                email: email,
+	                password: password
+	            },
+	            statusCode: {
+	                403: function() {
+	                	reject({status: 403 });
+	                },
+	                200: function(data) {
+	                	resolve(data);
+	                }
+	            }
+	        });
+	    });
 	};
 
 	User.prototype.changeEmail = function( newEmail, password ) {

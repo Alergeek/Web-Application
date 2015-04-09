@@ -211,3 +211,15 @@ INSERT INTO `allergeeks`.`product_has_ingredient` (`product_ean`, `ingredient_id
 
 COMMIT;
 
+
+-- -----------------------------------------------------
+-- Data for table `allergeeks`.`device`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `allergeeks`;
+INSERT INTO `allergeeks`.`device` VALUES ('11111111111111111111', 'Vuzix M100', '2015-05-27 09:00:00', 0, 1),
+    ('aaaaaaaaaaaaaaaaaaaa', 'Browser', '2015-05-01 21:00:00', 1, 1),
+    ('1f1f1f1f1f1f1f1f1f1f', 'Android 5.0', '2016-01-01 03:00:00', 1, 1),
+    ('d2fd2fd2fd2fd2fd2fd2', 'Browser', '2015-04-03 08:00:00', 1, 2);
+
+COMMIT;

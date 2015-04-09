@@ -62,27 +62,31 @@
 			<div class="profile_conf">
 				<h3>Profildaten: </h3>
 				<form>
-					<table>
+					<table class="table_profile_conf">
 						<tr>
-							<td>Email: </td>
+							<td><label for="email">Email: </label></td>
+							<td><input type="text" id="email" value="timb13@web.de"></input></td>
 						</tr>
 						<tr>
-							<td><input type="text" value="timb13@web.de"></input></td>
+							<td><label for="new">New Password: <label></td>
+							<td><input type="password" id="new"></input></td>
+						<tr>
+							<td><label for="confirm">Confirm New Password: <label></td>
+							<td><input type="password" id="confirm"></input></td>
 						</tr>
 						<tr>
-							<td>Password: </td>
+							<td><label for="old">Old Password: <label></td>
+							<td><input type="password" id="old"></input></td>
 						</tr>
 						<tr>
-							<td><input type="password" value="blabla"></input></td>
+							<td colspan="2" style="text-align:center"><button id="save_profile" class="button_text">Speichern</button></td>
 						</tr>
 					</table>
-					<br>
-					<button class="button_text">Speichern</button>
 				</form>
 			</div>
+			<hr>
 			<div class="device_conf">
 				<h3>Ger&auml;te: </h3>
-				<button id="button_new_device">Neues Ger&auml;t</button>
 				<table class="table_devices">
 					<tr class="device">
 						<th>Vuzix 1</th>
@@ -93,6 +97,7 @@
 						<td class="button_delete"><button>X</button></td>
 					</tr>
 				</table>
+				<button id="button_new_device">Neues Ger&auml;t</button>
 			</div>
 			<div class="div_new_device">
 				<hr>

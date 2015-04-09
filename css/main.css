@@ -123,27 +123,39 @@
 }
 .profile>.profile_conf{
 	float:left;
-	width:25%;
+	width:100%;
 	min-width:170px;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+.profile>.profile_conf .table_profile_conf{
+	margin-left:auto;
+	margin-right:auto;
+	border-spacing:10px;
+}
+.profile>.profile_conf .input{
+	float:left;
+	display:inline;
+	padding:20px 20px 20px 20px;
 }
 .profile>.device_conf{
 	float:left;
-	width:75%;
+	width:100%;
 	box-sizing:border-box;
-	padding-left:20px;
 	padding-bottom:20px;
 	display:inline;
-	border-left:2px solid #000;
 }
 .profile>.device_conf>#button_new_device{
-	margin-bottom:20px;
+	display:block;
+	margin-top:20px;
 	margin-left:auto;
 	margin-right:auto;
+	width:120px;
 }
 .profile>.device_conf>.table_devices{
 	text-align:left;
 	background-color:#fff;
-	width:80%;
+	width:60%;
 	margin-left:auto;
 	margin-right:auto;
 	border-radius:3px;
@@ -204,11 +216,7 @@ button{
 }
 
 @media (max-width: 772px) { 
-	.profile>.device_conf{
-		border-left-width:0px;
-		padding-left:0px;
-		padding-top:20px;
-	}
+
 	.blacklist>.search{
 		border-left-width:0px;
 		padding-left:0px;

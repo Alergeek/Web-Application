@@ -55,4 +55,13 @@ $(document).ready(function(){
 	$('#button_cancel').click(function(){
 		$('.div_new_device').hide();
 	});
+	$('#save_profile').click(function(){
+		
+		var email   = $('input[id="email"]').val();
+		var new_pw  = $('input[id="new"]').val();
+		var confirm = $('input[id="confirm"]').val();
+		var old_pw  = $('input[id="old"]').val();
+		
+		
+	});
 });

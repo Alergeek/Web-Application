@@ -10,31 +10,22 @@
 </head>
 <body>
 <div id="start">
-    <div class="login">
-        Login
+    <div id="login" class="inputform">
         <form class="login">
-            <label for="email">Email:</label><br />
-            <input type="text" name="email" />
-            <br />
-            <label for="password">Passwort:</label><br />
-            <input type="password" name="password" />
-            <br />
+            <input type="text" name="email" placeholder="Email"/>
+            <input type="password" name="password" placeholder="Passwort"/>
             <div class="login_error"></div>
             <input type="submit" value="Login"/>
+            I don't have an account
         </form>
     </div>
-    <div class="register">
-        Register
-    <form class="register">
-        <label for="email">Email:</label><br />
-        <input type="text" name="email" />
-        <br />
-        <label for="password">Passwort:</label><br />
-        <input type="password" name="password" />
-        <br />
-        <div class="register_error"></div>
-        <input type="submit" value="Login"/>
-    </form>
+    <div id="register" class="inputform">
+        <form class="register">
+            <input type="text" name="email" placeholder="Email"/>
+            <input type="password" name="password" placeholder="Passwort"/>
+            <div class="register_error"></div>
+            <input type="submit" value="Registrieren"/>
+        </form>
     </div>
 </div>
 <div id="about">

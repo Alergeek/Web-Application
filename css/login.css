@@ -1,3 +1,9 @@
+body {
+	font-family: Quicksand;
+	margin: 0;
+	padding: 0;
+}
+
 div.login{
     background: #CCC;
     border: solid 1px black;
@@ -6,4 +12,40 @@ div.login{
 }
 div.login_error{
     color: red;
+}
+
+#start {
+
+}
+
+#about {
+	text-align: center;
+}
+
+footer {
+	width: 100%;
+	text-align: center;
+	color: #FFF;
+	background-color: #333;
+	padding: 20px 0;
+}
+
+footer h2 {
+	font-size: 20px;
+}
+
+footer .content {
+	font-size: 14px;
+}
+
+footer .content a {
+	margin: 10px;
+	color: #FFF;
+	text-decoration: none;
+}
+
+footer svg {
+	width: 50px;
+	height: 40px;
+	fill: #FFF;
 }

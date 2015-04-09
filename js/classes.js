@@ -69,11 +69,45 @@ var User = (function() {
 	};
 
 	User.prototype.changeEmail = function( newEmail, password ) {
-		throw "unimplemented method";
+		return new Promise( function( resolve, reject ) {
+			$.ajax({
+	            url: "api/v1/user/",
+	            method: "POST",
+	            data: {
+	                email: newEmail,
+	                password: password
+	            },
+	            statusCode: {
+	                403: function() {
+	                	reject({status: 403 });
+	                },
+	                200: function() {
+	                	resolve('geht');
+	                }
+	            }
+	        });
+	    });
 	};
 
 	User.prototype.changePassword = function( oldPassword, newPassword ) {
-		throw "unimplemented method";
+		return new Promise( function( resolve, reject ) {
+			$.ajax({
+	            url: "api/v1/user/",
+	            method: "POST",
+	            data: {
+	                password: oldPassword,
+	                newPassword: newPassword
+	            },
+	            statusCode: {
+	                403: function() {
+	                	reject({status: 403 });
+	                },
+	                200: function() {
+	                	resolve('geht');
+	                }
+	            }
+	        });
+	    });
 	};
 
 	return User;

@@ -2,3 +2,7 @@
     RewriteEngine On
     RewriteRule ^api/v1/(.+)$ api/route.php?p=$1 [L]
 </IfModule>
+<Files  ~ "\.inc$">
+  Order allow,deny
+  Deny from all
+</Files>

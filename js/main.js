@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    drawBlacklist();
+    loadCategories();
 	$('#button_blacklist').click(function(){
 		$('.div_new_devices').hide();
 		$('.content').children().hide();
@@ -6,7 +8,7 @@ $(document).ready(function(){
 		$('#button_blacklist').attr('disabled','disabled');
 		$('#button_profile').attr('disabled',null);
 		$('#button_impressum').attr('disabled',null);
-		$('#button_privacy').attr('disabled',null);
+		$('#button_privacy').attr('disabled',null)
 	});
 	$('#button_profile').click(function(){
 		$('.content').children().hide();

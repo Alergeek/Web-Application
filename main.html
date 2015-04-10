@@ -5,7 +5,10 @@
 	<title>Edible</title>
 	<link rel="stylesheet" href="css/main.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
 	<script src="js/main.js"></script>
+    <script src="js/classes.js"></script>
+    <script src="js/blacklist.js"></script>
 </head>
 
 <body>
@@ -42,14 +45,11 @@
 			<div class="search">
 				<div class="div_input">
 					<h3>Suchen: </h3>
-					<input type="text"></input>
+					<input type="text" class="search" onkeyup="search()"></input>
 				</div>
 				<div class="div_result">
 					<form class="form_result">
 						<ul class="list_result">
-							<li><input type="checkbox" checked>N&uuml;ffe</input></li>
-							<li><input type="checkbox" checked>Hafeln&uuml;ffe</input></li>
-							<li><input type="checkbox" checked>Waln&uuml;ffe</input></li>
 						</ul>
 					</form>
 				</div>

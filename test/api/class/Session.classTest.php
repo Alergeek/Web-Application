@@ -8,71 +8,49 @@ class SessionTest extends PHPUnit_Framework_TestCase {
     /**
      * @var Session
      */
-    protected $email_session;
-    protected $barcode_session;
-    protected $token_session;
-    
-    public static function setUpBeforeClass() {
-        @session_start();
-    }
+    protected $valid_browser_session;
+    protected $user1;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
+        $this->user1 = new User(1, 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'); //pw = password
         
-        $this->email_session = Session::get_by_login('marco.heumann@web.de', 'password');
-        $this->barcode_session = Session::get_by_barcode(7529844743929);
-        $this->token_session = Session::get_by_token('adf437590bca5a7d678d');
+        $this->valid_browser_session = new Session('aaaaaaaaaaaaaaaaaaaa', $this->user1, true, strtotime('2015-05-01 21:00:00'), 'Browser');
     }
 
     /**
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      */
-    protected function tearDown() {
-        
+    protected function tearDown() {        
+        $del_query = 'DELETE FROM device
+                WHERE token NOT IN ("aaaaaaaaaaaaaaaaaaaa", "d2fd2fd2fd2fd2fd2fd2", "1f1f1f1f1f1f1f1f1f1f", "11111111111111111111")';
+        DB::con()->query($del_query);
     }
 
     /**
      * @covers Session::get_by_token
-     * @todo   Implement testGet_by_token().
      */
     public function testGet_by_token() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Session::get_by_barcode
-     * @todo   Implement testGet_by_barcode().
-     */
-    public function testGet_by_barcode() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals($this->valid_browser_session, Session::get_by_token('aaaaaaaaaaaaaaaaaaaa'));
     }
 
     /**
      * @covers Session::get_by_login
-     * @todo   Implement testGet_by_login().
      */
     public function testGet_by_login() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $new_session = Session::get_by_login('marco.heumann@web.de', 'password');
+        $this->assertEquals($this->valid_browser_session->get_user(), $new_session->get_user());
     }
 
    /**
      * @covers Session::is_token
      */
     public function testIs_token() {
-        $this->assertTrue(Session::is_token('a6888afedc443b4adf70'));
+        $this->assertEquals(1, Session::is_token('a6888afedc443b4adf70'));
     }
 
     /**
@@ -80,74 +58,41 @@ class SessionTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testDestroy().
      */
     public function testDestroy() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Session::generate_barcode
-     */
-    public function testGenerate_barcode() {
-        $barcode = Session::generate_barcode();
-
-        $this->assertTrue(is_numeric($barcode));
-        $this->assertEquals(13, strlen($barcode));
-    }
-
-    /**
-     * @covers Session::get_user
-     * @todo   Implement testGet_user().
-     */
-    public function testGet_user() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers Session::get_token
-     * @todo   Implement testGet_token().
-     */
-    public function testGet_token() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $user2 = new User(2, 'test@example.com', 'b444ac06613fc8d63795be9ad0beaf55011936ac'); // pw = test1
+        $invalid_browser_session = new Session('d2fd2fd2fd2fd2fd2fd', $user2, false, time(), 'Browser');
+        
+        $this->assertTrue($invalid_browser_session->destroy());
     }
 
     /**
      * @covers Session::is_admin
-     * @todo   maybe also need to test an admin token
      */
     public function testIs_admin() {
-        $this->assertTrue($this->email_session->is_admin());
-        $this->assertFalse($this->barcode_session->is_admin());
-        $this->assertFalse($this->token_session->is_admin());
+        $smartphone_session = new Session('1f1f1f1f1f1f1f1f1f1f', $this->user1, true, strtotime('2016-01-01 03:00:00'), 'Android 5.0');
+        $vuzix_session = new Session('11111111111111111111', $this->user1, false, strtotime('2015-05-27 09:00:00'), 'Vuzix M100');
+        
+        $this->assertTrue($this->valid_browser_session->is_admin());
+        $this->assertTrue($smartphone_session->is_admin());
+        $this->assertFalse($vuzix_session->is_admin());
     }
 
     /**
      * @covers Session::to_json
-     * @todo   Implement testTo_json().
      */
     public function testTo_json() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $test_json = '{"authToken": "aaaaaaaaaaaaaaaaaaaa",'.
+               ' "name": "Browser",'.
+               ' "email": "marco.heumann@web.de",'.
+               ' "until": '.strtotime('2015-05-01 21:00:00').'}';
+        
+       $this->assertEquals($test_json, $this->valid_browser_session->to_json());
     }
 
     /**
      * @covers Session::get_all_sessions
-     * @todo   Implement testGet_all_sessions().
      */
     public function testGet_all_sessions() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertEquals(3, count($this->valid_browser_session->get_all_sessions()));
     }
 
 }

@@ -218,7 +218,8 @@ class Product  implements JsonSerializable {
         $query = 'DELETE FROM product_has_ingredient WHERE product_ean = ? AND ingredient_id = ?';
 
         if ($stmt = $mysqli->prepare($query)) {
-            $stmt->bind_param('si', $this->ean, $ingredient->get_id());
+            $ingredient_id = $ingredient->get_id();
+            $stmt->bind_param('si', $this->ean, $ingredient_id);
             $result = $stmt->execute();
 
             if (!$result) {

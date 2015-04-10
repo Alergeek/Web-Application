@@ -9,16 +9,13 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * @var User
      */
     protected $test_user;
-    protected $test_user2;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->test_user = new User(1, 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'); /**pw = password*/
-        $this->test_user2 = new User(3, 'marco-polo93@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); /**pw = mypassword*/
-        $this->test_user_for_pw_test = new User(1, 'marco.heumann@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); /**pw = mypassword*/
+        $this->test_user = new User(1, 'marco.heumann@web.de', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'); //pw = password
     }
 
     /**
@@ -26,36 +23,22 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
-        $sql = 'DELETE FROM user
+        $del_query = 'DELETE FROM user
                 WHERE id <> 1 AND id <> 2';
-        $stmt = DB::con()->prepare($sql);
-        if (!$stmt) {
-            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
-        }
-
-        if (!$stmt->execute()) {
-            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
-        }
+        DB::con()->query($del_query);
         
-        $sql = 'ALTER TABLE user AUTO_INCREMENT=2';
-        $stmt = DB::con()->prepare($sql);
-        if (!$stmt) {
-            throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
-        }
-
-        if (!$stmt->execute()) {
-            throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
-        }
-        $stmt->close();
+        $alter_query = 'ALTER TABLE user AUTO_INCREMENT=2';
+        DB::con()->query($alter_query);
     }
 
     /**
      * @covers User::create
      */
     public function testCreate() {
+        $test_user2 = new User(3, 'marco-polo93@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // pw = mypassword
         $new_user = User::create('marco-polo93@web.de', 'mypassword');
         
-        $this->assertEquals($this->test_user2, $new_user);
+        $this->assertEquals($test_user2, $new_user);
     }
 
     /**
@@ -111,8 +94,10 @@ class UserTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testSet_password().
      */
     public function testSet_password() {
-        $this->test_user_for_pw_test->set_password('password');
-        $this->assertEquals($this->test_user_for_pw_test, $this->test_user);
+        $test_user2 = new User(1, 'marco.heumann@web.de', '91dfd9ddb4198affc5c194cd8ce6d338fde470e2'); // pw = mypassword
+        
+        $test_user2->set_password('password');
+        $this->assertEquals($test_user2, $this->test_user);
     }
 
     /**

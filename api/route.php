@@ -113,6 +113,29 @@ API::get('ingredient/', function($a_Data) {
     echo json_encode($ingredients);
 
 });
+API::get('category/', function($a_Data) {
+
+    $mysqli = DB::con();
+
+    $query = 'SELECT id, name FROM category';
+
+    $result = [];
+
+    if ($stmt = $mysqli->prepare($query)) {
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($res_id, $res_name);
+
+        while ($stmt->fetch()) {
+            array_push($result, ['id' => $res_id, 'name' => $res_name]);
+        }
+
+        $stmt->free_result();
+        $stmt->close();
+    }
+    echo json_encode($result);
+
+});
 
 
 API::finalize();

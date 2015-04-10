@@ -8,8 +8,9 @@
  *
  *
  */
-
-$(document).ready(function(){
+$(document).ready(function() {
+    var $register = $('#register'),
+        $login = $('#login');
 
     $('form.login').submit(function(e){
         e.preventDefault();
@@ -52,4 +53,13 @@ $(document).ready(function(){
             }
         });
     });
+
+    /**
+     * Display register form and login form
+     */
+    $('.toggleregister').click(function() {
+        $register.toggle();
+        $login.toggle();
+    });
+
 });

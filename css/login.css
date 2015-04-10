@@ -46,6 +46,8 @@ body {
 	border: 2px solid;
 }
 .inputform input[type="submit"] {
+	background-color: #333;
+	color: #FFF;
 	width: auto;
 	padding-left: 20px;
 	padding-right: 20px;

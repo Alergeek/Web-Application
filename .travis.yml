@@ -1,5 +1,7 @@
 language: php
-php: 5.5
+php:
+ - 5.5
+ - 5.6
   
 script: phpunit --configuration phpunit.xml
 before_install:
@@ -9,3 +11,4 @@ before_install:
 branches:
   only:
     - master
+    - phpunit

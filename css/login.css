@@ -54,6 +54,10 @@ body {
 	margin: 5px auto;
 	border: none;
 }
+.inputform input[type="checkbox"] {
+	font-size: 12px;
+	
+}
 .toggleregister {
 	font-size: 12px;
 }

@@ -4,10 +4,11 @@
 
 var currentIngredients;
 var authToken = '62872019ec4cca2462fe';
+var currentUser = new User(2, 'test@example.com', authToken, []);
 
 function drawBlacklist()
 {
-    Ingredient.getBlacklist(authToken).then(function(blacklist) {
+    Ingredient.getBlacklist(currentUser.authToken).then(function(blacklist) {
         drawList(blacklist);
 
     });
@@ -50,7 +51,7 @@ function search()
     {
         drawBlacklist();
     } else {
-        Ingredient.search(authToken, search_string).then(function (result) {
+        Ingredient.search(currentUser.authToken, search_string).then(function (result) {
             drawList(result);
         });
     }

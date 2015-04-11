@@ -1,10 +1,10 @@
 var User = (function() {
 
-	function User( email, id, blacklist, devices ) {
+	function User( email, id, authToken, devices ) {
 		this.email = email;
 		this.id = id;
-		this.blacklist = blacklist;
 		this.devices = devices;
+        this.authToken = authToken;
 	}
 
 	User.login = function( email, password ) {
@@ -62,7 +62,7 @@ var Ingredient = (function() {
                 var _this = this;
                 return new Promise(function(resolve, reject) {
                     $.ajax({
-                        url: "api/v1/blacklist/" + _this.id + "/62872019ec4cca2462fe/",
+                        url: "api/v1/blacklist/" + _this.id + "/" + currentUser.authToken + "/",
                         method: "DELETE",
                         statusCode: {
                             401: function() {
@@ -80,7 +80,7 @@ var Ingredient = (function() {
                 var _this = this;
                 return new Promise(function(resolve, reject) {
                     $.ajax({
-                        url: "api/v1/blacklist/" + _this.id + "/62872019ec4cca2462fe/",
+                        url: "api/v1/blacklist/" + _this.id + "/" + currentUser.authToken + "/",
                         method: "PUT",
                         statusCode: {
                             401: function() {

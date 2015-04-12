@@ -134,11 +134,11 @@ AUTO_INCREMENT = 1;
 
 
 -- -----------------------------------------------------
--- Table `allergeeks`.`ingredient_has_categorie`
+-- Table `allergeeks`.`ingredient_has_category`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `allergeeks`.`ingredient_has_categorie` ;
+DROP TABLE IF EXISTS `allergeeks`.`ingredient_has_category` ;
 
-CREATE TABLE IF NOT EXISTS `allergeeks`.`ingredient_has_categorie` (
+CREATE TABLE IF NOT EXISTS `allergeeks`.`ingredient_has_category` (
   `ingredient_id` INT NOT NULL,
   `category_id` INT NOT NULL,
   PRIMARY KEY (`ingredient_id`, `category_id`),
@@ -239,11 +239,10 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `allergeeks`.`ingredient_has_categorie`
+-- Data for table `allergeeks`.`ingredient_has_category`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `allergeeks`;
-INSERT INTO `allergeeks`.`ingredient_has_categorie` (`ingredient_id`, `category_id`) VALUES (1, 1);
+INSERT INTO `allergeeks`.`ingredient_has_category` (`ingredient_id`, `category_id`) VALUES (1, 1);
 
 COMMIT;
-

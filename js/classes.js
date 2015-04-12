@@ -153,14 +153,14 @@ var Ingredient = (function () {
     Ingredient.search = function (auth, searchString) {
         return new Promise(function (resolve, reject) {
             Ingredient.getAll(auth).then(function (all) {
-                var searchStrings = searchString.split('|');
+                var searchStrings = searchString.split(',');
                 var result = [];
                 for (i = 0; i < all.length; ++i) {
                     var containsSearch = false;
                     for (k = 0; k < searchStrings.length; k++) {
-                        if (all[i].name.toLowerCase().indexOf(searchStrings[k].toLowerCase()) === -1) {
+                        if (all[i].name.toLowerCase().indexOf(searchStrings[k].toLowerCase().trim()) === -1) {
                             for (j = 0; j < all[i].categories.length; ++j) {
-                                if (all[i].categories[j].name.toLowerCase().indexOf(searchStrings[k].toLowerCase()) !== -1) {
+                                if (all[i].categories[j].name.toLowerCase().indexOf(searchStrings[k].toLowerCase().trim()) !== -1) {
                                     containsSearch = true;
                                 }
                             }

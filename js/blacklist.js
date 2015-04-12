@@ -39,7 +39,9 @@ function drawList(ingredients) {
                 searchInArray(currentIngredients, parseInt(event.target.id.replace('ing_', ''))).isBlacklisted = false;
             }
         });
+        newIngredient.hide();
         blDiv.append(newIngredient);
+        newIngredient.show('slow');
     }
 }
 
@@ -72,11 +74,11 @@ function loadCategories() {
                             if (searchInput.val() === "") {
                                 searchInput.val(catName);
                             } else {
-                                searchInput.val(searchInput.val() + '|' + catName);
+                                searchInput.val(searchInput.val() + ',' + catName);
                             }
                             searchInput.keyup();
                         } else {
-                            var newSearch = searchInput.val().replace(catName, '').replace('||', '|').replace(/^\|/, '').replace(/\|$/, '');
+                            var newSearch = searchInput.val().replace(catName, '').replace(',,', ',').replace(/^,/, '').replace(/,$/, '');
                             searchInput.val(newSearch);
                             searchInput.keyup();
                         }

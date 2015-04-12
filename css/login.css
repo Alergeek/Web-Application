@@ -11,7 +11,7 @@ body {
 #start {
 	width: 100%;
 	height: 100vh;
-	background-image: url(http://dhbw-infotag.de/app/webroot/img/caro-wearable-web.jpg);
+	background-image: url('../img/1B4B8719.jpg');
 	background-repeat: no-repeat;
 	background-size: 100%;
 }
@@ -93,7 +93,7 @@ div.register_error{
 .person {
 	margin: 30px;
 	width: 280px;
-	height: 400px;
+	height: 250px;
 	box-sizing: border-box;
 	display: inline-block;
 	vertical-align: top;

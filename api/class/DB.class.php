@@ -19,6 +19,8 @@ class DB {
             if (mysqli_connect_error()) {
                 trigger_error("Failed to connect to MySQL: " . mysql_connect_error(), E_USER_ERROR);
             }
+            
+            self::$_instance->set_charset("utf8");
         }
         return self::$_instance;
     }

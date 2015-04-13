@@ -207,7 +207,23 @@ class Session {
      * @return integer
      */
     public function generate_barcode() {
-        $code = rand(0, 9999999999999);
+        $code = 1;
+        $even = 1;
+        $odd = 0;
+        
+        for ($i = 1; $i < 12; $i++) {
+            $num = rand(0, 9);
+            if ($i % 2 == 0) {
+                $even += $num;
+            } else {
+                $odd += $num;
+            }
+            
+            $code = $code * 10 + $num;
+        }
+        $check_digit = (10 - ((3 * $odd + $even) % 10)) % 10;
+        $code = $code * 10 + $check_digit;
+        
         session_id($code);
         session_start();
         $_SESSION['userid'] = $this->user->get_id();

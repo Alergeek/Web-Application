@@ -37,4 +37,19 @@ $(document).ready(function(){
 
     });
 
+    $('form.register').submit(function(e){
+        e.preventDefault();
+
+        var email = $('input[name="email"]').val();
+        var password = $('input[name="password"]').val();
+
+        User.create( email, password ).then( function( result ) {
+            console.log(result);
+            window.location.replace("http://google.com");
+        }).catch( function( err ) {
+            if ( err.status >= 400 ) {
+                $('div.register_error').html("Register failed, please check credentials!");
+            }
+        });
+    });
 });

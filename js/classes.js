@@ -28,17 +28,107 @@ var User = (function () {
         });
     };
 
-    User.create = function (email, password) {
-        throw "unimplemented method";
+    User.login = function( email, password ) {
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/session/",
+                method: "POST",
+                data: {
+                    email: email,
+                    password: password
+                },
+                statusCode: {
+                    403: function() {
+                        reject({status: 403 });
+                    },
+                    200: function() {
+                        resolve('geht');
+                    }
+                }
+            });
+        });
     };
 
-    User.prototype.changeEmail = function (newEmail, password) {
-        throw "unimplemented method";
+    User.create = function( email, password ) {
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/user/",
+                method: "PUT",
+                data: {
+                    email: email,
+                    password: password
+                },
+                statusCode: {
+                    403: function() {
+                        reject({status: 403 });
+                    },
+                    200: function(data) {
+                        resolve(data);
+                    }
+                }
+            });
+        });
     };
 
-    User.prototype.changePassword = function (oldPassword, newPassword) {
-        throw "unimplemented method";
+    User.prototype.changeEmail = function( newEmail, password ) {
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/user/",
+                method: "POST",
+                data: {
+                    email: newEmail,
+                    password: password
+                },
+                statusCode: {
+                    403: function() {
+                        reject({status: 403 });
+                    },
+                    200: function() {
+                        resolve('geht');
+                    }
+                }
+            });
+        });
     };
+
+    User.prototype.changePassword = function( oldPassword, newPassword ) {
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/user/",
+                method: "POST",
+                data: {
+                    password: oldPassword,
+                    newPassword: newPassword
+                },
+                statusCode: {
+                    403: function() {
+                        reject({status: 403 });
+                    },
+                    200: function() {
+                        resolve('geht');
+                    }
+                }
+            });
+        });
+    };
+
+    User.prototype.getDevices = function(auth){
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/session/"+auth+"/",
+                method: "GET",
+                statusCode: {
+                    403: function(){
+                        reject({status: 403 });
+                    },
+                    200: function(data){
+                        resolve(data);
+                    }
+                }
+            });
+        });
+    };
+
 
     return User;
 })();

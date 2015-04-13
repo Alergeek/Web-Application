@@ -23,6 +23,12 @@ function searchInArray(array, id) {
 
 function drawList(ingredients) {
     var blDiv = $('div.blacklist div.search div.div_result ul.list_result');
+    var oldAmount;
+    if(currentIngredients) {
+        oldAmount = currentIngredients.length;
+    } else {
+        oldAmount = 0;
+    }
     currentIngredients = ingredients.slice();
     blDiv.empty();
     for (i = 0; i < currentIngredients.length; ++i) {
@@ -39,9 +45,13 @@ function drawList(ingredients) {
                 searchInArray(currentIngredients, parseInt(event.target.id.replace('ing_', ''))).isBlacklisted = false;
             }
         });
-        newIngredient.hide();
+        if(i >= oldAmount) {
+            newIngredient.hide();
+        }
         blDiv.append(newIngredient);
-        newIngredient.show('slow');
+        if(i >= oldAmount) {
+            newIngredient.show('fast');
+        }
     }
 }
 

@@ -5,6 +5,7 @@
 	<title>Edible</title>
 	<link rel="stylesheet" href="css/main.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/jquery-barcode.min.js"></script>
 	<script src="js/main.js"></script>
 </head>
 
@@ -61,21 +62,22 @@
 		<div class="profile">
 			<div class="profile_conf">
 				<h3>Profildaten: </h3>
+				<p>Füllen Sie die Felder aus, die Sie ändern möchten und drücken Sie auf speichern.</p>
 				<form>
 					<table class="table_profile_conf">
 						<tr>
-							<td><label for="email">Email: </label></td>
-							<td><input type="text" id="email" value="timb13@web.de"></input></td>
+							<td><label for="email">Neue Email: </label></td>
+							<td><input type="text" id="email"></input></td>
 						</tr>
 						<tr>
-							<td><label for="new">New Password: <label></td>
+							<td><label for="new">Neues Passwort: <label></td>
 							<td><input type="password" id="new"></input></td>
 						<tr>
-							<td><label for="confirm">Confirm New Password: <label></td>
+							<td><label for="confirm">Neues Passwort bestätigen: <label></td>
 							<td><input type="password" id="confirm"></input></td>
 						</tr>
 						<tr>
-							<td><label for="old">Old Password: <label></td>
+							<td><label for="old">Altes Passwort: <label></td>
 							<td><input type="password" id="old"></input></td>
 						</tr>
 						<tr>
@@ -86,25 +88,25 @@
 			</div>
 			<hr>
 			<div class="device_conf">
-				<h3>Ger&auml;te: </h3>
+				<h3>Geräte: </h3>
 				<table class="table_devices">
-					<tr class="device">
+				<!-- 	<tr class="device">
 						<th>Vuzix 1</th>
 						<td class="button_delete"><button>X</button></td>
 					</tr>
 					<tr class="device">
 						<th>Vuzix 2</th>
 						<td class="button_delete"><button>X</button></td>
-					</tr>
+					</tr> -->
 				</table>
-				<button id="button_new_device">Neues Ger&auml;t</button>
+				<button id="button_new_device">Neues Gerät</button>
 			</div>
 			<div class="div_new_device">
 				<hr>
-				<h3>Ger&auml;t hinzufügen: </h3>
+				<h3>Gerät hinzufügen: </h3>
 				<p>Bitte scannen Sie mit Ihrer Vuzix den folgenden Barcode ein, um das Gerät mit Ihrem Profil zu koppeln:</p>
-				<div class="div_barcode">
-					<img id="img_barcode" src="img/barcode.png"></img>
+				<div id="div_barcode">
+					<!-- <img id="img_barcode" src="img/barcode.png"></img> -->
 				</div>
 				<div class="controls">
 					<button disabled id="button_finished" class="button_text">Fertig</button>

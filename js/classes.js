@@ -109,6 +109,24 @@ var User = (function() {
 	        });
 	    });
 	};
+	
+	User.prototype.getDevices = function(auth){
+		return new Promise( function( resolve, reject ) {
+			$.ajax({
+				url: "api/v1/session/"+auth+"/",
+				method: "GET",
+				statusCode: {
+					403: function(){
+						reject({status: 403 });
+					},
+					200: function(data){
+						resolve(data);
+					}
+				}
+			});
+		});
+	};
+					
 
 	return User;
 })();

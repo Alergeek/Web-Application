@@ -1,3 +1,13 @@
+html{
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+body{
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
 .container{
 	font-family: Arial, sans-serif;
 	max-width:1000px;
@@ -5,14 +15,18 @@
 	width:100%;
 	margin-left:auto;
 	margin-right:auto;
+    margin-top: 12%;
 }
 
 .header{
-	float:left;
+	//float:left;
 	width:100%;
-	background-color:#222;
+    height: 2em;
+	background-color: rgba(3, 3, 3, 0.5); //#333;
+    //opacity: 0.5;
 	padding:5px 20px 5px 20px;
 	box-sizing:border-box;
+    z-index: 1000;
 }
 .header>.email{
 	float:left;
@@ -30,6 +44,7 @@
 .header>.selection>button{
 	width:25%;
 	min-width:67px;
+    background-color: #AAA;
 }
 .header>.logout{
 	float:left;
@@ -39,26 +54,40 @@
 .header>.logout>button{
 	width:50%;
 	min-width:67px;
+    background-color: #AAA;
 }
 
 .title{
-	float:left;
+	//float:left;
 	text-align:center;
 	width:100%;
-	background-color: #ccc;
+    height: 25%;
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: -1;
+    background-image: url("../img/vuzix_girl_header.png");
+    background-size: cover;
+    min-height: 140px;
+
 }
 
 .content{
-	float:left;
+	//float:left;
+//    min-width: 400px;
+//    max-width: 1000px;
 	width:100%;
 	min-height:300px;
-	background-color: #eee;
+	background-color: #FFF; //#eee;
+    margin: 0 auto;
 	box-sizing:border-box;
 	padding: 20px 20px 20px 20px;
 }
 
 .blacklist{
 	width:95%;
+    min-height: 300px;
+    box-sizing:border-box;
 	margin-left:auto;
 	margin-right:auto;
 }
@@ -70,7 +99,7 @@
 	float:left;
 	width:25%;
 	min-width:170px;
-	height:100%;
+	//height:100%;
 	box-sizing:border-box;
 }
 .blacklist>.filter .list_filter{
@@ -82,30 +111,31 @@
 }
 
 .blacklist>.search{
-	float:left;
+	//float:left;
 	width:75%;
+    min-height: 300px;
 	padding-left:20px;
 	box-sizing:border-box;
-	display:inline;
+	display: inline-block;
 	border-left:2px solid #000;
 }
 .blacklist>.search .list_result{
 	list-style:none;
 }
 .blacklist>.search>.div_input h3{
-	float:left;
+	//float:left;
 	width:20%;
 	display:inline;
 }
 .blacklist>.search>.div_input>input{
-	float:left;
+	//float:left;
 	width:79%;
 	margin-top:10px;
 	margin-bottom:10px;
 	display:inline;
 }
 .blacklist>.search>.div_result{
-	float:left;
+	//float:left;
 	width:100%;
 	background-color:#fff;
 	border-radius:3px;
@@ -183,7 +213,7 @@
 .footer{
 	float:left;
 	width:100%;
-	background-color:#222;
+	background-color:#333;
 	margin-bottom:0px;
 	color:black;
 	padding: 5px 0px 5px 0px;
@@ -194,9 +224,12 @@
 }
 
 button{
-	border-radius:2px;
-	box-sizing:border-box;
-	background-color:#fff;
+    background-color: #333;
+    color: #FFF;
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: none;
 }
 .button_text{
 	width:25%;
@@ -214,4 +247,41 @@ button{
 		padding-left:0px;
 		padding-top:20px;
 	}
+}
+
+footer {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    color: #FFF;
+    background-color: #333;
+    padding: 20px 10px 50px 10px;
+}
+footer h2 {
+    font-size: 22px;
+}
+footer .footer_content {
+    font-size: 15px;
+}
+footer .footer_content a {
+    margin: 10px;
+    color: #FFF;
+    text-decoration: none;
+}
+footer svg {
+    width: 60px;
+    height: 50px;
+    fill: #FFF;
+}
+
+@font-face {
+    font-family: 'quicksandregular';
+    src: url('../font/quicksand-regular-webfont.eot');
+    src: url('../font/quicksand-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/quicksand-regular-webfont.woff2') format('woff2'),
+    url('../font/quicksand-regular-webfont.woff') format('woff'),
+    url('../font/quicksand-regular-webfont.ttf') format('truetype'),
+    url('../font/quicksand-regular-webfont.svg#quicksandregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }

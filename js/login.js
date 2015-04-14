@@ -41,10 +41,38 @@ $(document).ready(function() {
     $('form.register').submit(function(e){
         e.preventDefault();
 
-        var email = $('input[name="email"]').val();
-        var password = $('input[name="password"]').val();
 
-        User.create( email, password ).then( function( result ) {
+        var $email = $('input[name="email"]');
+        var $password = $('input[name="password"]');
+        var $password2 = $('input[name="password2"]'); 
+        var $checkAgb = $('input[name="agb"]');
+
+        if ($email.val() === '') {
+            $('div.register_error').html("Bitte trage deine Email-Adresse ein!");
+            $email.css('border-color', '#F00');
+            return;
+        }
+
+        if (!$password.val() || $password.val() === '') {
+            $('div.register_error').html("Bitte trage dein Passwort ein!");
+            $password.css('border-color', '#F00');
+            $password2.css('border-color', '#F00');
+            return;
+        }
+
+        if ($password.val() !== $password2.val()) {
+            $('div.register_error').html("Die Passwörter stimmen nicht überein.");
+            $password.css('border-color', '#F00');
+            $password2.css('border-color', '#F00');
+            return;
+        }
+
+        if (!$checkAgb.is(':checked')) {
+            $('div.register_error').html("Bitte lies und akzeptiere die AGB.");
+            return;
+        }
+
+        User.create( $email.val(), $password.val() ).then( function( result ) {
             console.log(result);
             window.location.replace("http://google.com");
         }).catch( function( err ) {

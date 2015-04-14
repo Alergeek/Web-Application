@@ -1,9 +1,15 @@
 $(document).ready(function(){
     drawBlacklist();
     loadCategories();
+
+    $("#button_blacklist").css("background-color", "#333");
+
 	$('#button_blacklist').click(function(e){
 	
 		e.preventDefault();
+
+        $(e.target).css("background-color", "#333");
+        $("#button_profile").css("background-color", "#AAA");
 
 		$('.div_new_devices').hide();
 		$('.content').children().hide();
@@ -17,6 +23,9 @@ $(document).ready(function(){
 	$('#button_profile').click(function(e){
 	
 		e.preventDefault();
+
+        $(e.target).css("background-color", "#333");
+        $("#button_blacklist").css("background-color", "#AAA");
 		
 		var device;
 		var devices = [	{token:"blabla", until:"blabla", name:"Vuzix1", email:"bla@bla.bla"},

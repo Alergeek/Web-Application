@@ -1,30 +1,33 @@
-html{
+html,body{
     padding: 0;
     margin: 0;
     border: 0;
+    height: 100%;
 }
-body{
-    padding: 0;
-    margin: 0;
-    border: 0;
+html{
+    overflow-y: scroll;
 }
 .container{
 	font-family: Arial, sans-serif;
 	max-width:1000px;
 	min-width:400px;
+    min-height: 100%;
 	width:100%;
 	margin-left:auto;
 	margin-right:auto;
     margin-top: 12%;
+    margin-bottom: -300px;
+}
+.container:after{
+    content: "";
+    display: block;
 }
 
 .header{
-	//float:left;
 	width:100%;
     height: 2em;
-	background-color: rgba(3, 3, 3, 0.5); //#333;
-    //opacity: 0.5;
-	padding:5px 20px 5px 20px;
+	background-color: rgba(3, 3, 3, 0.5);
+	padding: 0;
 	box-sizing:border-box;
     z-index: 1000;
 }
@@ -33,32 +36,48 @@ body{
 	font-size:0.8em;
 	color:white;
 	width:25%;
+    height: 100%;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    padding-left: 1em;
+    box-sizing:border-box;
 }
 .header>.selection{
 	float:left;
 	width:50%;
+    height: 100%;
 	text-align:center;
 	margin-right:auto;
 	margin-left:auto;
 }
 .header>.selection>button{
-	width:25%;
-	min-width:67px;
+	width:15%;
+    height: 100%;
+    color: #FFF;
     background-color: #AAA;
 }
 .header>.logout{
 	float:left;
 	width:25%;
 	text-align:right;
+    height: 100%;
 }
 .header>.logout>button{
-	width:50%;
-	min-width:67px;
+	width:25%;
+    height: 100%;
     background-color: #AAA;
+}
+span.edible{
+    font-size: 1.6em;
+    float: left;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    display: block;
+    box-sizing: border-box;
 }
 
 .title{
-	//float:left;
 	text-align:center;
 	width:100%;
     height: 25%;
@@ -73,12 +92,9 @@ body{
 }
 
 .content{
-	//float:left;
-//    min-width: 400px;
-//    max-width: 1000px;
 	width:100%;
-	min-height:300px;
-	background-color: #FFF; //#eee;
+	min-height: 100%;
+	background-color: #FFF;
     margin: 0 auto;
 	box-sizing:border-box;
 	padding: 20px 20px 20px 20px;
@@ -99,7 +115,6 @@ body{
 	float:left;
 	width:25%;
 	min-width:170px;
-	//height:100%;
 	box-sizing:border-box;
 }
 .blacklist>.filter .list_filter{
@@ -111,7 +126,6 @@ body{
 }
 
 .blacklist>.search{
-	//float:left;
 	width:75%;
     min-height: 300px;
 	padding-left:20px;
@@ -123,19 +137,16 @@ body{
 	list-style:none;
 }
 .blacklist>.search>.div_input h3{
-	//float:left;
 	width:20%;
 	display:inline;
 }
 .blacklist>.search>.div_input>input{
-	//float:left;
 	width:79%;
 	margin-top:10px;
 	margin-bottom:10px;
 	display:inline;
 }
 .blacklist>.search>.div_result{
-	//float:left;
 	width:100%;
 	background-color:#fff;
 	border-radius:3px;
@@ -169,7 +180,6 @@ body{
 	padding:20px 20px 20px 20px;
 }
 .profile>.device_conf{
-	float:left;
 	width:100%;
 	box-sizing:border-box;
 	padding-bottom:20px;
@@ -221,20 +231,6 @@ body{
 .privacy{
 	display:none;
 }
-
-.footer{
-	float:left;
-	width:100%;
-	background-color:#333;
-	margin-bottom:0px;
-	color:black;
-	padding: 5px 0px 5px 0px;
-}
-.footer button{
-	float:right;
-	margin-right:5px;
-}
-
 button{
     background-color: #333;
     color: #FFF;
@@ -256,7 +252,9 @@ button{
 		padding-top:20px;
 	}
 }
-
+footer, .container:after{
+    height: 300px;
+}
 footer {
     width: 100%;
     box-sizing: border-box;

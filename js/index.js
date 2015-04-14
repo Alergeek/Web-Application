@@ -31,14 +31,5 @@ var loadFrontPage = function() {
 };
 
 $(document).ready(function(){
-    $.ajax({
-        url: "/front-page.html",
-        method: "GET",
-        statusCode: {
-            200: function (data) {
-                $('div#page-content').html(data);
-                loadFrontPage();
-            }
-        }
-    });
+    loadFrontPage();
 });

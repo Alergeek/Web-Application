@@ -8,14 +8,16 @@ class UserErrorTest extends PHPUnit_Framework_TestCase {
     /**
      * @var UserError
      */
-    protected $object;
+    protected $error1;
+    protected $error2;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = new UserError;
+        $this->error1 = new UserError("Testnachricht mit 400");
+        $this->error2 = new UserError("Testnachricht mit 301", 301);
     }
 
     /**
@@ -31,10 +33,11 @@ class UserErrorTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testGet_json().
      */
     public function testGet_json() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $test_error1 = '{"message": "Testnachricht mit 400", "code": "400"}';
+        $test_error2 = '{"message": "Testnachricht mit 301", "code": "301"}';
+        
+        $this->assertEquals($test_error1, $this->error1->get_json());
+        $this->assertEquals($test_error2, $this->error2->get_json());
     }
 
 }

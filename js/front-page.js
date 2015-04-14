@@ -39,23 +39,38 @@ var loadFrontPageJS = function() {
     $('form.register').submit(function(e){
         e.preventDefault();
 
-        var email = $('form.register > input[name="email"]').val();
-        var password = $('form.register > input[name="password"]').val();
-        var password2 = $('form.register > input[name="password2"]').val();
+        var email = $('form.register > input[name="email"]');
+        var password = $('form.register > input[name="password"]');
+        var password2 = $('form.register > input[name="password2"]');
+        var checkAgb = $('form.register > input[name="agb"]');
 
         var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
-        if(!emailRegex.test(email)) {
+        if(!emailRegex.test(email.val())) {
             $('div.register_error').html("Ungültige Email-Adresse!");
             return;
         }
 
-        if(password !== password2) {
-            $('div.register_error').html("Passwörter stimmen nicht überein!");
+        if (!password.val() || password.val() === '') {
+            $('div.register_error').html("Bitte trage dein Passwort ein!");
+            password.css('border-color', '#F00');
+            password2.css('border-color', '#F00');
             return;
         }
 
-        User.create( email, password ).then( function( result ) {
+        if (password.val() !== password2.val()) {
+            $('div.register_error').html("Die Passwörter stimmen nicht überein.");
+            password.css('border-color', '#F00');
+            password2.css('border-color', '#F00');
+            return;
+        }
+
+        if (!checkAgb.is(':checked')) {
+            $('div.register_error').html("Bitte lies und akzeptiere die AGB.");
+            return;
+        }
+
+        User.create( email.val(), password.val() ).then( function( result ) {
             currentUser = new User(result.email, result.authToken, []);
             loadUserPage();
         }).catch( function( err ) {

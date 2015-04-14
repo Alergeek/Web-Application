@@ -24,35 +24,43 @@ var loadFrontPageJS = function() {
         var password = $('input[name="password"]').val();
 
         User.login( email, password ).then( function( result ) {
-            console.log(result);
+
             currentUser = new User(result.email, result.authToken, []);
 
             loadUserPage();
 
         }).catch( function( err ) {
             if ( err.status >= 400 ) {
-                $('div.login_error').html("Login failed, please check credentials!");
+                $('div.login_error').html("Login fehlgeschlagen, bitte Zugangsdaten prüfen!");
             }
         });
-
-        //var shaObj = new jsSHA(password, "TEXT");
-        //var pw_hash = shaObj.getHash("SHA-1", "HEX");
-
-
     });
 
     $('form.register').submit(function(e){
         e.preventDefault();
 
-        var email = $('input[name="email"]').val();
-        var password = $('input[name="password"]').val();
+        var email = $('form.register > input[name="email"]').val();
+        var password = $('form.register > input[name="password"]').val();
+        var password2 = $('form.register > input[name="password2"]').val();
+
+        var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+
+        if(!emailRegex.test(email)) {
+            $('div.register_error').html("Ungültige Email-Adresse!");
+            return;
+        }
+
+        if(password !== password2) {
+            $('div.register_error').html("Passwörter stimmen nicht überein!");
+            return;
+        }
 
         User.create( email, password ).then( function( result ) {
-            console.log(result);
-            window.location.replace("http://google.com");
+            currentUser = new User(result.email, result.authToken, []);
+            loadUserPage();
         }).catch( function( err ) {
             if ( err.status >= 400 ) {
-                $('div.register_error').html("Register failed, please check credentials!");
+                $('div.register_error').html("Fehler bei der Registrierung!");
             }
         });
     });

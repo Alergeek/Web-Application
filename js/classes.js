@@ -1,31 +1,9 @@
 var User = (function () {
 
-    function User(email, authToken, devices) {
+    function User(email, authToken) {
         this.email = email;
-        this.devices = devices;
         this.authToken = authToken;
     }
-
-    /*User.login = function (email, password) {
-        return new Promise(function (resolve, reject) {
-            $.ajax({
-                url: "api/v1/session/",
-                method: "POST",
-                data: {
-                    email: email,
-                    password: password
-                },
-                statusCode: {
-                    403: function () {
-                        reject({status: 403});
-                    },
-                    200: function () {
-                        resolve('geht');
-                    }
-                }
-            });
-        });
-    };*/
 
     User.login = function( email, password ) {
         return new Promise( function( resolve, reject ) {
@@ -55,8 +33,8 @@ var User = (function () {
                 url: "api/v1/session/" + _this.authToken + "/",
                 method: "DELETE",
                 statusCode: {
-                    403: function() {
-                        reject({status: 403 });
+                    401: function() {
+                        reject({status: 401 });
                     },
                     200: function(data) {
                         resolve(data);
@@ -76,8 +54,8 @@ var User = (function () {
                     password: password
                 },
                 statusCode: {
-                    403: function() {
-                        reject({status: 403 });
+                    401: function() {
+                        reject({status: 401 });
                     },
                     200: function(data) {
                         resolve(data);

@@ -6,7 +6,7 @@ var currentUser;
 
 var loadUserPage = function() {
     $.ajax({
-        url: "/user-page.html",
+        url: "../user-page.html",
         method: "GET",
         statusCode: {
             200: function (data) {
@@ -19,7 +19,7 @@ var loadUserPage = function() {
 
 var loadFrontPage = function() {
     $.ajax({
-        url: "/front-page.html",
+        url: "../front-page.html",
         method: "GET",
         statusCode: {
             200: function (data) {

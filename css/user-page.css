@@ -3,12 +3,13 @@ html,body{
     margin: 0;
     border: 0;
     height: 100%;
+    font-family: quicksandregular;
 }
 html{
     overflow-y: scroll;
 }
 .container{
-	font-family: Arial, sans-serif;
+	//font-family: Arial, sans-serif;
 	max-width:1000px;
 	min-width:400px;
     min-height: 100%;
@@ -16,9 +17,12 @@ html{
 	margin-left:auto;
 	margin-right:auto;
     margin-top: 12%;
-    margin-bottom: -300px;
 }
-.container:after{
+#page-content {
+    margin-bottom: -300px;
+    min-height: 100%;
+}
+#page-content:after{
     content: "";
     display: block;
 }
@@ -252,7 +256,7 @@ button{
 		padding-top:20px;
 	}
 }
-footer, .container:after{
+footer, #page-content:after{
     height: 300px;
 }
 footer {

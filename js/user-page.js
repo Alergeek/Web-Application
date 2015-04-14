@@ -1,4 +1,4 @@
-$(document).ready(function(){
+var loadUserPageJS = function(){
     drawBlacklist();
     loadCategories();
 
@@ -50,6 +50,12 @@ $(document).ready(function(){
 		$('#button_impressum').attr('disabled',null);
 		$('#button_privacy').attr('disabled',null);
 	});
+
+    $('#button_logout').click(function(e) {
+        currentUser.logout().then(function(result) {
+            loadFrontPage();
+        });
+    });
 	
 	$('#button_privacy').click(function(e){
 	
@@ -164,4 +170,4 @@ $(document).ready(function(){
 			}
 		}
 	});
-});
+};

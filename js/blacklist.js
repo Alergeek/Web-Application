@@ -3,8 +3,6 @@
  */
 
 var currentIngredients;
-var authToken = '62872019ec4cca2462fe';
-var currentUser = new User(2, 'test@example.com', authToken, []);
 
 function drawBlacklist() {
     Ingredient.getBlacklist(currentUser.authToken).then(function (blacklist) {

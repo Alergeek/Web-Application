@@ -1,13 +1,12 @@
 var User = (function () {
 
-    function User(email, id, authToken, devices) {
+    function User(email, authToken, devices) {
         this.email = email;
-        this.id = id;
         this.devices = devices;
         this.authToken = authToken;
     }
 
-    User.login = function (email, password) {
+    /*User.login = function (email, password) {
         return new Promise(function (resolve, reject) {
             $.ajax({
                 url: "api/v1/session/",
@@ -26,7 +25,7 @@ var User = (function () {
                 }
             });
         });
-    };
+    };*/
 
     User.login = function( email, password ) {
         return new Promise( function( resolve, reject ) {
@@ -38,11 +37,29 @@ var User = (function () {
                     password: password
                 },
                 statusCode: {
+                    401: function() {
+                        reject({status: 401 });
+                    },
+                    200: function(data) {
+                        resolve(data);
+                    }
+                }
+            });
+        });
+    };
+
+    User.prototype.logout = function( email, password ) {
+        var _this = this;
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/session/" + _this.authToken + "/",
+                method: "DELETE",
+                statusCode: {
                     403: function() {
                         reject({status: 403 });
                     },
-                    200: function() {
-                        resolve('geht');
+                    200: function(data) {
+                        resolve(data);
                     }
                 }
             });

@@ -8,7 +8,7 @@
  *
  *
  */
-$(document).ready(function() {
+var loadFrontPageJS = function() {
     var $register = $('#register'),
         $login = $('#login');
 
@@ -17,7 +17,7 @@ $(document).ready(function() {
 
         /**
          * \brief Login on Form submit.
-         * Calls POST api/session with email and cleartext password. 404 => login failed, 200 => login successfull.
+         * Calls POST api/session with email and cleartext password. 401 => login failed, 200 => login successfull.
          */
 
         var email = $('input[name="email"]').val();
@@ -25,7 +25,10 @@ $(document).ready(function() {
 
         User.login( email, password ).then( function( result ) {
             console.log(result);
-            window.location.replace("http://google.com");
+            currentUser = new User(result.email, result.authToken, []);
+
+            loadUserPage();
+
         }).catch( function( err ) {
             if ( err.status >= 400 ) {
                 $('div.login_error').html("Login failed, please check credentials!");
@@ -62,4 +65,4 @@ $(document).ready(function() {
         $login.toggle();
     });
 
-});
+};

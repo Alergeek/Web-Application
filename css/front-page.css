@@ -114,7 +114,7 @@ div.register_error{
 
 
 
-
+/*
 footer {
 	width: 100%;
 	box-sizing: border-box;
@@ -139,7 +139,7 @@ footer svg {
 	height: 50px;
 	fill: #FFF;
 }
-
+*/
 @font-face {
     font-family: 'quicksandregular';
     src: url('../font/quicksand-regular-webfont.eot');

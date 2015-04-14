@@ -4,8 +4,10 @@
 	<meta charset="UTF-8">
 	<title>Edible</title>
 	<link rel="stylesheet" href="css/main.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/jquery-2.1.3.min.js"></script>
 	<script src="js/jquery-barcode.min.js"></script>
+	<script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
+	<script src="js/classes.js"></script>
 	<script src="js/main.js"></script>
 </head>
 
@@ -13,7 +15,7 @@
 <div class="container">
 
 	<div class="header">
-		<div class="email">timb13@web.de</div>
+		<div id="email"></div>
 		<div class="selection">
 			<button id="button_blacklist" disabled>Blacklist</button>
 			<button id="button_profile">Profil</button>
@@ -60,11 +62,12 @@
 
 		<!--begin of profile-section-->
 		<div class="profile">
+			<div id="profile_alerts"></div>
 			<div class="profile_conf">
 				<h3>Profildaten: </h3>
 				<p>Füllen Sie die Felder aus, die Sie ändern möchten und drücken Sie auf speichern.</p>
 				<form>
-					<table class="table_profile_conf">
+					<table id="table_profile_conf">
 						<tr>
 							<td><label for="email">Neue Email: </label></td>
 							<td><input type="text" id="email"></input></td>
@@ -86,28 +89,17 @@
 					</table>
 				</form>
 			</div>
-			<hr>
+			<hr/>
 			<div class="device_conf">
 				<h3>Geräte: </h3>
-				<table class="table_devices">
-				<!-- 	<tr class="device">
-						<th>Vuzix 1</th>
-						<td class="button_delete"><button>X</button></td>
-					</tr>
-					<tr class="device">
-						<th>Vuzix 2</th>
-						<td class="button_delete"><button>X</button></td>
-					</tr> -->
-				</table>
+				<div id="div_device_table"></div>
 				<button id="button_new_device">Neues Gerät</button>
 			</div>
 			<div class="div_new_device">
-				<hr>
+				<hr/>
 				<h3>Gerät hinzufügen: </h3>
 				<p>Bitte scannen Sie mit Ihrer Vuzix den folgenden Barcode ein, um das Gerät mit Ihrem Profil zu koppeln:</p>
-				<div id="div_barcode">
-					<!-- <img id="img_barcode" src="img/barcode.png"></img> -->
-				</div>
+				<div id="div_barcode"></div>
 				<div class="controls">
 					<button disabled id="button_finished" class="button_text">Fertig</button>
 					<button id="button_cancel" class="button_text">Abbrechen</button>

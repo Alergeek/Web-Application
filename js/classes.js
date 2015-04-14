@@ -1,21 +1,4 @@
-// this goes out to all the IE users out there...
-if (!Promise) {
-	function Promise( defferfn ) {
-		this._thenfn = function() {};
-		this._catchfn = function() {};
-		defferfn( this._thenfn, this._catchfn );
-	}
 
-	Promise.prototype.then = function( thenfn ) {
-		this._thenfn = thenfn;
-		return this;
-	};
-
-	Promise.prototype.catch = function( catchfn ) {
-		this._catchfn = catchfn;
-		return this;
-	};
-};
 
 var User = (function() {
 
@@ -68,10 +51,10 @@ var User = (function() {
 	    });
 	};
 
-	User.prototype.changeEmail = function( newEmail, password ) {
+	User.prototype.changeEmail = function( auth, newEmail, password ) {
 		return new Promise( function( resolve, reject ) {
 			$.ajax({
-	            url: "api/v1/user/",
+	            url: "api/v1/user/"+auth+"/",
 	            method: "POST",
 	            data: {
 	                email: newEmail,
@@ -81,18 +64,18 @@ var User = (function() {
 	                403: function() {
 	                	reject({status: 403 });
 	                },
-	                200: function() {
-	                	resolve('geht');
+	                200: function(data) {
+	                	resolve(data);
 	                }
 	            }
 	        });
 	    });
 	};
 
-	User.prototype.changePassword = function( oldPassword, newPassword ) {
+	User.prototype.changePassword = function( auth, oldPassword, newPassword ) {
 		return new Promise( function( resolve, reject ) {
 			$.ajax({
-	            url: "api/v1/user/",
+	            url: "api/v1/user/"+auth+"/",
 	            method: "POST",
 	            data: {
 	                password: oldPassword,
@@ -102,8 +85,8 @@ var User = (function() {
 	                403: function() {
 	                	reject({status: 403 });
 	                },
-	                200: function() {
-	                	resolve('geht');
+	                200: function(data) {
+	                	resolve(data);
 	                }
 	            }
 	        });
@@ -126,7 +109,41 @@ var User = (function() {
 			});
 		});
 	};
-					
+	
+	User.prototype.deleteDevice = function(auth){
+		return new Promise( function( resolve, reject ) {
+			$.ajax({
+				url: "api/v1/session/"+auth+"/",
+				method: "DELETE",
+				statusCode: {
+					403: function(){
+						reject({status: 403 });
+					},
+					200: function(data){
+						resolve(data);
+					}
+				}
+			});
+		});
+	};
+	
+	User.prototype.getBarcode = function(auth){
+		return new Promise( function( resolve, reject ) {
+			$.ajax({
+				url: "api/v1/session/"+auth+"/",
+				method: "PUT",
+				statusCode: {
+					403: function(){
+						reject({status:403});
+					},
+					200: function(data){
+						var barcode = data.barcode;
+						resolve(barcode);
+					}
+				}
+			});
+		});
+	};
 
 	return User;
 })();

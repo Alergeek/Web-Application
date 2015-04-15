@@ -83,7 +83,7 @@ class Session {
         }
         $name = 'Wearable Device Vuzix M100';
         $user = User::get_by_id($_SESSION['userid']);
-        $token = self::make_token($name, false, $user, self::TK_WEAR_LGT);
+        $token = self::make_token($name, false, $user->get_id(), self::TK_WEAR_LGT);
         return new Session($token, $user, false, time() + self::TK_WEAR_LGT, $name);
     }
 

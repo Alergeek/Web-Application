@@ -6,7 +6,7 @@ var loadUserPageJS = function () {
 
     $("#button_blacklist").css("background-color", "#333");
 
-    $('span.edible').text($('span.edible').text() + currentUser.email);
+    drawLeftHeader();
 
     $('#button_blacklist').click(function (e) {
 
@@ -237,7 +237,9 @@ var loadUserPageJS = function () {
                 currentUser.changeEmail(email, old_pw).then(function (result) {
                     console.log(result);
                     if (result == true) {
+                        currentUser.email = email;
                         displayAlert('Daten wurden erfolgreich geändert!', 'success');
+                        drawLeftHeader();
                     } else {
                         displayAlert('Das angegebene Passwort ist falsch!', 'error');
                     }
@@ -292,4 +294,8 @@ function displayAlert(text, style) {
         e.preventDefault();
         $(this).hide();
     });
+}
+
+function drawLeftHeader () {
+    $('span.edible').text("Edible | " + currentUser.email);
 }

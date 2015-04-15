@@ -39,43 +39,52 @@ var loadFrontPageJS = function() {
     $('form.register').submit(function(e){
         e.preventDefault();
 
-        var email = $('form.register > input[name="email"]');
-        var password = $('form.register > input[name="password"]');
-        var password2 = $('form.register > input[name="password2"]');
-        var checkAgb = $('form.register > input[name="agb"]');
+        var $inputs = $('form.register > input');
+        var $email = $('form.register > input[name="email"]');
+        var $password = $('form.register > input[name="password"]');
+        var $password2 = $('form.register > input[name="password2"]');
+        var $checkAgb = $('form.register > input[name="agb"]');
+        var $regError = $('div.register_error');
 
-        var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        // var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+        var emailRegex = /.+@.+/;
 
-        if(!emailRegex.test(email.val())) {
-            $('div.register_error').html("Ungültige Email-Adresse!");
+        if(!emailRegex.test($email.val())) {
+            $regError.html("Ungültige Email-Adresse!");
+            $inputs.removeClass('error');
+            $email.addClass('error');
             return;
         }
 
-        if (!password.val() || password.val() === '') {
-            $('div.register_error').html("Bitte trage dein Passwort ein!");
-            password.css('border-color', '#F00');
-            password2.css('border-color', '#F00');
+        if (!$password.val() || $password.val() === '') {
+            $regError.html("Bitte trage dein Passwort ein!");
+            $inputs.removeClass('error');
+            $password.addClass('error');
+            $password2.addClass('error');
             return;
         }
 
-        if (password.val() !== password2.val()) {
-            $('div.register_error').html("Die Passwörter stimmen nicht überein.");
-            password.css('border-color', '#F00');
-            password2.css('border-color', '#F00');
+        if ($password.val() !== $password2.val()) {
+            $regError.html("Die Passwörter stimmen nicht überein.");
+            $inputs.removeClass('error');
+            $password.addClass('error');
+            $password2.addClass('error');
             return;
         }
 
-        if (!checkAgb.is(':checked')) {
-            $('div.register_error').html("Bitte lies und akzeptiere die AGB.");
+        if (!$checkAgb.is(':checked')) {
+            $regError.html("Bitte lies und akzeptiere die AGB.");
+            $inputs.removeClass('error');
+            $checkAgb.addClass('error');
             return;
         }
 
-        User.create( email.val(), password.val() ).then( function( result ) {
+        User.create( $email.val(), $password.val() ).then( function( result ) {
             currentUser = new User(result.email, result.authToken, []);
             loadUserPage();
         }).catch( function( err ) {
             if ( err.status >= 400 ) {
-                $('div.register_error').html("Fehler bei der Registrierung!");
+                regError.html("Fehler bei der Registrierung!");
             }
         });
     });
@@ -87,5 +96,4 @@ var loadFrontPageJS = function() {
         $register.toggle();
         $login.toggle();
     });
-
 };

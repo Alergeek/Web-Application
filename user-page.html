@@ -1,91 +1,99 @@
 <div id="user-area">
-	<div class="header">
-		<div class="email"><span class="edible">Edible | timb13@web.de</span></div>
-		<div class="selection">
-			<button id="button_blacklist" disabled>Blacklist</button>
-			<button id="button_profile">Profil</button>
-		</div>
-		<div class="logout">
-			<button id="button_logout">Logout</button>
-		</div>
-	</div>
+    <div class="header">
+        <div class="email"><span class="edible">Edible | </span></div>
+        <div class="selection">
+            <button id="button_blacklist" disabled>Blacklist</button>
+            <button id="button_profile">Profil</button>
+        </div>
+        <div class="logout">
+            <button id="button_logout">Logout</button>
+        </div>
+    </div>
     <div class="title"></div>
     <div class="container">
 
-	<div class="content">
-		<!--begin of blacklist-section-->
-		<div class="blacklist">
-			<div class="filter">
-				<h3>Filter:</h3>
-				<form class="form_filter">
-					<ul class="list_filter">
-					</ul>
-				</form>		
-			</div>
-			<div class="search">
-				<div class="div_input">
-					<h3>Suchen: </h3>
-					<input type="text" class="search" onkeyup="search()" placeholder="Geben Sie eine Zutat oder Kategorie ein..."></input>
-				</div>
-				<div class="div_result">
-					<form class="form_result">
-						<ul class="list_result">
-						</ul>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!--end of blacklist-section-->
+        <div class="content">
+            <!--begin of blacklist-section-->
+            <div class="blacklist">
+                <div class="filter">
+                    <h3>Filter:</h3>
 
-		<!--begin of profile-section-->
-		<div class="profile">
-			<div class="profile_conf">
-				<h3>Profildaten: </h3>
-				<p>Füllen Sie die Felder aus, die Sie ändern möchten und drücken Sie auf speichern.</p>
-				<form>
-					<table class="table_profile_conf">
-						<tr>
-							<td><label for="email">Neue Email: </label></td>
-							<td><input type="text" id="email"></input></td>
-						</tr>
-						<tr>
-							<td><label for="new">Neues Passwort: <label></td>
-							<td><input type="password" id="new"></input></td>
-						<tr>
-							<td><label for="confirm">Neues Passwort bestätigen: <label></td>
-							<td><input type="password" id="confirm"></input></td>
-						</tr>
-						<tr>
-							<td><label for="old">Altes Passwort: <label></td>
-							<td><input type="password" id="old"></input></td>
-						</tr>
-						<tr>
-							<td colspan="2" style="text-align:center"><button id="save_profile" class="button_text">Speichern</button></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<hr>
-			<div class="device_conf">
-				<h3>Geräte: </h3>
-				<table class="table_devices">
-				</table>
-				<button id="button_new_device">Neues Gerät</button>
-			</div>
-			<div class="div_new_device">
-				<hr>
-				<h3>Gerät hinzufügen: </h3>
-				<p>Bitte scannen Sie mit Ihrer Vuzix den folgenden Barcode ein, um das Gerät mit Ihrem Profil zu koppeln:</p>
-				<div id="div_barcode">
-				</div>
-				<div class="controls">
-					<button disabled id="button_finished" class="button_text">Fertig</button>
-					<button id="button_cancel" class="button_text">Abbrechen</button>
-				</div>
-			</div>
-		</div>
-		<!--end of profile-section-->
-	</div>
+                    <form class="form_filter">
+                        <ul class="list_filter">
+                        </ul>
+                    </form>
+                </div>
+                <div class="search">
+                    <div class="div_input">
+                        <h3>Suchen: </h3>
+                        <input type="text" class="search" onkeyup="search()"
+                               placeholder="Geben Sie eine Zutat oder Kategorie ein..."></input>
+                    </div>
+                    <div class="div_result">
+                        <form class="form_result">
+                            <ul class="list_result">
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--end of blacklist-section-->
 
-</div>
+            <!--begin of profile-section-->
+            <div class="profile">
+                <div id="profile_alerts"></div>
+                <div class="profile_conf">
+                    <h3>Profildaten: </h3>
+
+                    <p>Füllen Sie die Felder aus, die Sie ändern möchten und drücken Sie auf speichern.</p>
+
+                    <form>
+                        <table id="table_profile_conf">
+                            <tr>
+                                <td><label for="email">Neue Email: </label></td>
+                                <td><input type="text" id="email"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label for="new">Neues Passwort: <label></td>
+                                <td><input type="password" id="new"></input></td>
+                            <tr>
+                                <td><label for="confirm">Neues Passwort bestätigen: <label></td>
+                                <td><input type="password" id="confirm"></input></td>
+                            </tr>
+                            <tr>
+                                <td><label for="old">Altes Passwort: <label></td>
+                                <td><input type="password" id="old"></input></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:center">
+                                    <button id="save_profile" class="button_text">Speichern</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <hr/>
+                <div class="device_conf">
+                    <h3>Geräte: </h3>
+
+                    <div id="div_device_table"></div>
+                    <button id="button_new_device">Neues Gerät</button>
+                </div>
+                <div class="div_new_device">
+                    <hr/>
+                    <h3>Gerät hinzufügen: </h3>
+
+                    <p>Bitte scannen Sie mit Ihrer Vuzix den folgenden Barcode ein, um das Gerät mit Ihrem Profil zu
+                        koppeln:</p>
+
+                    <div id="div_barcode"></div>
+                    <div class="controls">
+                        <button disabled id="button_finished" class="button_text">Fertig</button>
+                        <button id="button_cancel" class="button_text">Abbrechen</button>
+                    </div>
+                </div>
+            </div>
+            <!--end of profile-section-->
+        </div>
+    </div>
 </div>

@@ -7,14 +7,14 @@ class ProductTest extends PHPUnit_Framework_TestCase {
     /**
      * @var Product
      */
-    protected $object;
+    protected $product;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = Product::create(1234567890123, "Testproduct");
+        $this->product = new Product(1234567890123, 'Testproduct');
     }
 
     /**
@@ -22,19 +22,19 @@ class ProductTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
-        
+        $del_query = 'DELETE FROM product
+                WHERE ean <> 1234567890123 AND ean <> 1234567890125';
+        DB::con()->query($del_query);
     }
 
     /**
      * @covers Product::create
      */
     public function testCreate() {
-        $testprod_new = Product::create(1234567890124, "TestCreateProd");
+        $testprod = new Product(1234567890124, 'TestCreateProd');
+        $new_product = Product::create(1234567890124, "TestCreateProd");
 
-        $testprod = Product::get_by_ean($testprod_new->get_ean());
-
-        $this->assertEquals($testprod_new->get_name(), $testprod->get_name());
-        $this->assertEquals($testprod_new->get_ean(), $testprod->get_ean());
+        $this->assertEquals($new_product, $testprod);
     }
 
     /**
@@ -43,47 +43,29 @@ class ProductTest extends PHPUnit_Framework_TestCase {
     public function testGet_by_ean() {
         $testprod = Product::get_by_ean(1234567890123);
 
-        $this->assertEquals('Testproduct', $testprod->get_name());
-        $this->assertEquals(1234567890123, $testprod->get_ean());
+        $this->assertEquals($this->product, $testprod);
     }
 
     /**
      * @covers Product::get_by_name
      */
     public function testGet_by_name() {
-        $testprod = Product::get_by_name("Testproduct")[0];
+        $testprod = Product::get_by_name("Test");
 
-        $this->assertEquals('Testproduct', $testprod->get_name());
-        $this->assertEquals(1234567890123, $testprod->get_ean());
-    }
-
-    /**
-     * @covers Product::get_ean
-     */
-    public function testGet_ean() {
-        $this->assertEquals(1234567890123, $this->object->get_ean());
-
-    }
-
-    /**
-     * @covers Product::get_name
-     */
-    public function testGet_name() {
-        $this->assertEquals('Testproduct', $this->object->get_name());
+        $this->assertEquals($this->product, $testprod[0]);
+        $this->assertEquals(2, count($testprod));
     }
 
     /**
      * @covers Product::set_name
      */
     public function testSet_name() {
-        $this->object->set_name("NewTest");
-
-        $testprod = Product::get_by_ean($this->object->get_ean());
-
-        $this->assertEquals('NewTest', $testprod->get_name());
+        $this->product->set_name('NewTest');
+        $this->assertEquals('NewTest', $this->product->get_name());
 
         //revert changes
-        $this->object->set_name("Testproduct");
+        $this->product->set_name('Testproduct');
+        $this->assertEquals('Testproduct', $this->product->get_name());
 
     }
 
@@ -91,45 +73,28 @@ class ProductTest extends PHPUnit_Framework_TestCase {
      * @covers Product::get_ingredients
      */
     public function testGet_ingredients() {
-        $testing_new = Ingredient::create("Testingredient");
-        $this->object->add_ingredient($testing_new);
+        $testing = new Ingredient(1, 'Testingredient');
+        $testings = $this->product->get_ingredients();
 
-        $testing = $this->object->get_ingredients()[0];
-
-        $this->assertEquals("Testingredient", $testing->get_name());
-
-        //revert changes
-        $this->object->rm_ingredient($testing_new);
+        $this->assertEquals($testing, $testings[0]);
     }
 
     /**
      * @covers Product::add_ingredient
      */
     public function testAdd_ingredient() {
-        $testing_new = Ingredient::create("Testingredient");
-        $this->object->add_ingredient($testing_new);
-
-        $testing = $this->object->get_ingredients()[0];
-
-        $this->assertEquals("Testingredient", $testing->get_name());
-
-        //revert changes
-        $this->object->rm_ingredient($testing_new);
+        $testing = new Ingredient(2, 'Nueffe');
+        $this->assertTrue($this->product->add_ingredient($testing));
     }
 
     /**
      * @covers Product::rm_ingredient
+     * @depends testAdd_ingredient
+     * Reverts the changes of testAdd_ingredient()
      */
     public function testRm_ingredient() {
-
-        $old_size = sizeof($this->object->get_ingredients());
-
-        $testing_new = Ingredient::create("Testingredient");
-        $this->object->add_ingredient($testing_new);
-
-        $this->object->rm_ingredient($testing_new);
-
-        $this->assertEquals($old_size, sizeof($this->object->get_ingredients()));
+        $testing = new Ingredient(2, 'Nueffe');
+        $this->assertTrue($this->product->rm_ingredient($testing));
     }
 
 }

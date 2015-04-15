@@ -64,7 +64,8 @@ class User {
         if (!$stmt) {
             throw new InternalError('Konnte Query nicht vorbereiten: '.DB::con()->error);
         }
-        $stmt->bind_param('i', strtolower($id));
+        $lower_id = strtolower($id);
+        $stmt->bind_param('i', $lower_id);
 
         if (!$stmt->execute()) {
             throw new InternalError('Konnte Query nicht ausführen: '.$stmt->error);
@@ -74,7 +75,7 @@ class User {
             throw new UserError('Konnte keinen User mit dieser ID finden.');
         }
         $stmt->close();
-        return new self($id, $email, $hash);
+        return new self($lower_id, $email, $hash);
     }
 
     /**

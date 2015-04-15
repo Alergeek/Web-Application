@@ -66,20 +66,21 @@ var User = (function () {
     };
 
     User.prototype.changeEmail = function( newEmail, password ) {
+        var _this = this;
         return new Promise( function( resolve, reject ) {
             $.ajax({
-                url: "api/v1/user/",
+                url: "api/v1/user/" + _this.authToken + "/",
                 method: "POST",
                 data: {
                     email: newEmail,
                     password: password
                 },
                 statusCode: {
-                    403: function() {
-                        reject({status: 403 });
+                    401: function() {
+                        reject({status: 401 });
                     },
-                    200: function() {
-                        resolve('geht');
+                    200: function(data) {
+                        resolve(data);
                     }
                 }
             });
@@ -87,37 +88,75 @@ var User = (function () {
     };
 
     User.prototype.changePassword = function( oldPassword, newPassword ) {
+        var _this = this;
         return new Promise( function( resolve, reject ) {
             $.ajax({
-                url: "api/v1/user/",
+                url: "api/v1/user/" + _this.authToken + "/",
                 method: "POST",
                 data: {
                     password: oldPassword,
                     newPassword: newPassword
                 },
                 statusCode: {
-                    403: function() {
-                        reject({status: 403 });
+                    401: function() {
+                        reject({status: 401 });
                     },
-                    200: function() {
-                        resolve('geht');
+                    200: function(data) {
+                        resolve(data);
                     }
                 }
             });
         });
     };
 
-    User.prototype.getDevices = function(auth){
+    User.prototype.getDevices = function(){
+        var _this = this;
         return new Promise( function( resolve, reject ) {
             $.ajax({
-                url: "api/v1/session/"+auth+"/",
+                url: "api/v1/session/" + _this.authToken + "/",
                 method: "GET",
                 statusCode: {
-                    403: function(){
-                        reject({status: 403 });
+                    401: function(){
+                        reject({status: 401 });
                     },
                     200: function(data){
                         resolve(data);
+                    }
+                }
+            });
+        });
+    };
+
+    User.deleteDevice = function(auth){
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/session/" + auth + "/",
+                method: "DELETE",
+                statusCode: {
+                    401: function(){
+                        reject({status: 401 });
+                    },
+                    200: function(data){
+                        resolve(data);
+                    }
+                }
+            });
+        });
+    };
+
+    User.prototype.getBarcode = function(){
+        var _this = this;
+        return new Promise( function( resolve, reject ) {
+            $.ajax({
+                url: "api/v1/session/" + _this.authToken + "/",
+                method: "PUT",
+                statusCode: {
+                    401: function(){
+                        reject({status:401});
+                    },
+                    200: function(data){
+                        var barcode = data.barcode;
+                        resolve(barcode);
                     }
                 }
             });

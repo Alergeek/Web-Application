@@ -7,14 +7,14 @@ class IngredientTest extends PHPUnit_Framework_TestCase {
     /**
      * @var Ingredient
      */
-    protected $object;
+    protected $ingredient;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->object = Ingredient::create("Testingredient");
+        $this->ingredient = new Ingredient(1, 'Testingredient');
     }
 
     /**
@@ -22,70 +22,54 @@ class IngredientTest extends PHPUnit_Framework_TestCase {
      * This method is called after a test is executed.
      */
     protected function tearDown() {
+        $del_query = 'DELETE FROM ingredient
+                WHERE id <> 1 AND id <> 2';
+        DB::con()->query($del_query);
         
+        $alter_query = 'ALTER TABLE ingredient AUTO_INCREMENT=2';
+        DB::con()->query($alter_query);
     }
 
     /**
      * @covers Ingredient::get_by_id
      */
     public function testGet_by_id() {
-        $testing = Ingredient::get_by_id($this->object->get_id());
+        $testing = Ingredient::get_by_id(1);
 
-        $this->assertEquals($this->object->get_name(), $testing->get_name());
-        $this->assertEquals($this->object->get_id(), $testing->get_id());
+        $this->assertEquals($this->ingredient, $testing);
     }
 
     /**
      * @covers Ingredient::get_by_name
+     * Expecting only one ingredient in returned array
      */
     public function testGet_by_name() {
-        $testing = Ingredient::get_by_name("Testingredient")[0];
+        $testing = Ingredient::get_by_name("Testingredient");
 
-        $this->assertEquals('Testingredient', $testing->get_name());
+        $this->assertEquals($this->ingredient, $testing[0]);
+        $this->assertEquals(1, count($testing));
     }
 
     /**
      * @covers Ingredient::create
      */
     public function testCreate() {
-        $testing_new = Ingredient::create("TestCreateIng");
+        $testing = new Ingredient(3, "TestCreateIng");
+        $new_ingredient = Ingredient::create("TestCreateIng");
 
-        $testing = Ingredient::get_by_id($testing_new->get_id());
-
-        $this->assertEquals($testing_new->get_name(), $testing->get_name());
-        $this->assertEquals($testing_new->get_id(), $testing->get_id());
-    }
-
-    /**
-     * @covers Ingredient::get_id
-     * @todo   Implement testGet_id().
-     */
-    public function testGet_id() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
-    }
-
-    /**
-     * @covers Ingredient::get_name
-     * @todo   Implement testGet_name().
-     */
-    public function testGet_name() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        $this->assertEquals($testing, $new_ingredient);
     }
 
     /**
      * @covers Ingredient::set_name
      */
     public function testSet_name() {
-        $this->object->set_name("NewTest");
-
-        $testing = Ingredient::get_by_id($this->object->get_id());
-
-        $this->assertEquals('NewTest', $testing->get_name());
+        $this->ingredient->set_name('NewTest');
+        $this->assertEquals('NewTest', $this->ingredient->get_name());
 
         //revert changes
-        $this->object->set_name("Testingredient");
+        $this->ingredient->set_name('Testingredient');
+        $this->assertEquals('Testingredient', $this->ingredient->get_name());
     }
 
 }

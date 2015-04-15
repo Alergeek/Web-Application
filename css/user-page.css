@@ -173,7 +173,7 @@ span.edible{
 	padding-top:20px;
 	padding-bottom:20px;
 }
-.profile>.profile_conf .table_profile_conf{
+.profile>.profile_conf #table_profile_conf{
 	margin-left:auto;
 	margin-right:auto;
 	border-spacing:10px;
@@ -196,7 +196,7 @@ span.edible{
 	margin-right:auto;
 	width:120px;
 }
-.profile>.device_conf>.table_devices{
+.profile>.device_conf #table_devices{
 	text-align:left;
 	background-color:#fff;
 	width:60%;
@@ -204,7 +204,7 @@ span.edible{
 	margin-right:auto;
 	border-radius:3px;
 }
-.profile>.device_conf>.table_devices td{
+.profile>.device_conf #table_devices td{
 	text-align:right;
 }
 .profile>.div_new_device{
@@ -246,6 +246,28 @@ button{
 .button_text{
 	width:25%;
 	min-width:80px;
+}
+
+.alert_success{
+	background:rgba(0,255,0,0.3);
+	border:2px solid green;
+	border-radius:2px;
+	color:green;
+	text-align:center;
+}
+.alert_warning{
+	background:rgba(255,255,0,0.3);
+	border:2px solid orange;
+	border-radius:2px;
+	color:orange;
+	text-align:center;
+}
+.alert_error{
+	background:rgba(255,0,0,0.3);
+	border:2px solid red;
+	border-radius:2px;
+	color:red;
+	text-align:center;
 }
 
 @media (max-width: 772px) { 

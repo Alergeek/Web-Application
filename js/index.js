@@ -35,12 +35,12 @@ $(document).ready(function() {
     if( window.localStorage ) {
         if( token = window.localStorage.getItem('authToken') ) {
             $.get('api/v1/user/' + token + '/')
-            .on('data', function( data ) {
+            .done(function( data ) {
                 currentUser = new User(data.email, token, []);
-            }).on('error', function() {
+                loadUserPage();
+            }).fail(function() {
                 loadFrontPage();
-            });            
-            return;
+            });
         } else {
             loadFrontPage();
         }

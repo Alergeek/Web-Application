@@ -27,7 +27,7 @@ var loadFrontPageJS = function() {
 
             currentUser = new User(result.email, result.authToken, []);
             if ( window.localStorage ) {
-                window.localStorage.setItem('authToken', result,authToken);
+                window.localStorage.setItem('authToken', result.authToken);
             }
             loadUserPage();
 
@@ -84,7 +84,7 @@ var loadFrontPageJS = function() {
         User.create( $email.val(), $password.val() ).then( function( result ) {
             currentUser = new User(result.email, result.authToken, []);
             if ( window.localStorage ) {
-                window.localStorage.setItem('authToken', result,authToken);
+                window.localStorage.setItem('authToken', result.authToken);
             }
 
             loadUserPage();

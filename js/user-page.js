@@ -12,6 +12,8 @@ var loadUserPageJS = function () {
 
         e.preventDefault();
 
+        $('#button_help').show();
+
         $(e.target).css("background-color", "#333");
         $("#button_profile").css("background-color", "#AAA");
 
@@ -30,6 +32,7 @@ var loadUserPageJS = function () {
 
         $(e.target).css("background-color", "#333");
         $("#button_blacklist").css("background-color", "#AAA");
+        $('#button_help').hide();
 
         $('#profile_alerts').hide();
         $('#div_device_table').empty();
@@ -77,34 +80,14 @@ var loadUserPageJS = function () {
         $('#button_privacy').attr('disabled', null);
     });
 
+    $('#button_help').click(function(e) {
+        $('div.help').toggle('slow');
+    });
+
     $('#button_logout').click(function (e) {
         currentUser.logout().then(function (result) {
             loadFrontPage();
         });
-    });
-
-    $('#button_privacy').click(function (e) {
-
-        e.preventDefault();
-
-        $('.content').children().hide();
-        $('.privacy').show();
-        $('#button_privacy').attr('disabled', 'disabled');
-        $('#button_impressum').attr('disabled', null);
-        $('#button_blacklist').attr('disabled', null);
-        $('#button_profile').attr('disabled', null);
-    });
-
-    $('#button_impressum').click(function (e) {
-
-        e.preventDefault();
-
-        $('.content').children().hide();
-        $('.impressum').show();
-        $('#button_impressum').attr('disabled', 'disabled');
-        $('#button_privacy').attr('disabled', null);
-        $('#button_blacklist').attr('disabled', null);
-        $('#button_profile').attr('disabled', null);
     });
 
     $('#button_filter').click(function (e) {

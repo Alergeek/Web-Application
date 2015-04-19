@@ -234,6 +234,10 @@ var loadUserPageJS = function () {
             return;
         } else {
             if (email != "") {
+				if (email.indexOf("@") == -1){
+					displayAlert('Bitte geben Sie eine korrekte Email-Adresse an!','warning');
+					return;
+				}
                 currentUser.changeEmail(email, old_pw).then(function (result) {
                     console.log(result);
                     if (result == true) {

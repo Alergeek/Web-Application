@@ -79,6 +79,9 @@ var loadUserPageJS = function () {
 
     $('#button_logout').click(function (e) {
         currentUser.logout().then(function (result) {
+            if ( window.localStorage ) {
+                window.localStorage.clear();
+            }
             loadFrontPage();
         });
     });

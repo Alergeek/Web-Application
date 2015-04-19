@@ -30,6 +30,21 @@ var loadFrontPage = function() {
     });
 };
 
-$(document).ready(function(){
-    loadFrontPage();
+$(document).ready(function() {
+    var token;
+    if( window.localStorage ) {
+        if( token = window.localStorage.getItem('authToken') ) {
+            $.get('api/v1/user/' + token + '/')
+            .done(function( data ) {
+                currentUser = new User(data.email, token, []);
+                loadUserPage();
+            }).fail(function() {
+                loadFrontPage();
+            });
+        } else {
+            loadFrontPage();
+        }
+    } else {
+        loadFrontPage();
+    }
 });

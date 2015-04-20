@@ -52,15 +52,12 @@ API::post('user/{AUTH}/', function($a_Data) {
         return;
     }
     if (isset($a_Data['email'])) {
-        if($session->get_user()->set_email($a_Data['email'])){
-            echo 'true';
-        }
+        $session->get_user()->set_email($a_Data['email'])
     }
     if(isset($a_Data['newPassword'])){
-        if($session->get_user()->set_password($a_Data['newPassword'])){
-            echo 'true';
-        }
+        $session->get_user()->set_password($a_Data['newPassword'])
     }
+    echo 'true';
     return;
 });
 API::put('user/', function($a_Data) {

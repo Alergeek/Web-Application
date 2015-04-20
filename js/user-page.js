@@ -70,7 +70,7 @@ var loadUserPageJS = function () {
             .catch(function (err) {
                 console.log(err);
                 if (err.status >= 400) {
-                    displayAlert('Fehler beim laden der Geräte!', 'error');
+                    displayAlert('Fehler beim Laden der Geräte!', 'error');
                 }
             });
 
@@ -87,6 +87,11 @@ var loadUserPageJS = function () {
     $('#button_logout').click(function (e) {
         currentUser.logout().then(function (result) {
             loadFrontPage();
+        })
+        .catch(function (err) {
+                console.log(err);
+                displayAlert('Fehler beim Logout!', 'error');
+            }
         });
     });
 
@@ -107,7 +112,7 @@ var loadUserPageJS = function () {
         }).catch(function (err) {
             console.log(err);
             if (err.status >= 400) {
-                displayAlert('Fehler beim laden der Verbindung!', 'error');
+                displayAlert('Fehler beim Laden der Verbindung!', 'error');
                 return;
             }
         });
@@ -157,14 +162,14 @@ var loadUserPageJS = function () {
                                     .catch(function (err) {
                                         console.log(err);
                                         if (err.status >= 400) {
-                                            displayAlert('Fehler beim laden der Geräte!', 'error');
+                                            displayAlert('Fehler beim Laden der Geräte!', 'error');
                                         }
                                     });
                             }
                         }).catch(function (err) {
                             console.log(err);
                             if (err.status >= 400) {
-                                displayAlert('Fehler beim laden der Verbindung!', 'error');
+                                displayAlert('Fehler beim Laden der Verbindung!', 'error');
                             }
                         });
                     }, 3000);
@@ -174,7 +179,7 @@ var loadUserPageJS = function () {
                 }).catch(function (err) {
                     console.log(err);
                     if (err.status >= 400) {
-                        displayAlert('Fehler beim laden der Verbindung!', 'error');
+                        displayAlert('Fehler beim Laden der Verbindung!', 'error');
                     }
                 });
         } else {

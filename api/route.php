@@ -32,6 +32,10 @@ API::delete('session/{AUTH}/', function($a_Data) {
     $session = $a_Data['session'];
     echo $session->destroy() ? 'true' : 'false';
 });
+API::get('user/{AUTH}/', function($a_Data) {
+    $user = $a_Data['session']->get_user();
+    echo '{"email": "'.$user->get_email().'"}';
+});
 API::post('user/{AUTH}/', function($a_Data) {
     if (!isset($a_Data['password'])) {
         throw new UserError('Missing POST parameters.', 400);

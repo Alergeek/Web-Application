@@ -80,6 +80,7 @@ var User = (function () {
                         reject({status: 401 });
                     },
                     200: function(data) {
+                        _this.email = data.email;
                         resolve(data);
                     }
                 }

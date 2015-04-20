@@ -123,13 +123,13 @@ INSERT INTO `ingredient` VALUES (1,'Testingredient',NULL),(2,'Nueffe','May conta
 UNLOCK TABLES;
 
 --
--- Table structure for table `ingredient_has_categorie`
+-- Table structure for table `ingredient_has_category`
 --
 
-DROP TABLE IF EXISTS `ingredient_has_categorie`;
+DROP TABLE IF EXISTS `ingredient_has_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ingredient_has_categorie` (
+CREATE TABLE `ingredient_has_category` (
   `ingredient_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`ingredient_id`,`category_id`),
@@ -141,13 +141,13 @@ CREATE TABLE `ingredient_has_categorie` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ingredient_has_categorie`
+-- Dumping data for table `ingredient_has_category`
 --
 
-LOCK TABLES `ingredient_has_categorie` WRITE;
-/*!40000 ALTER TABLE `ingredient_has_categorie` DISABLE KEYS */;
-INSERT INTO `ingredient_has_categorie` VALUES (1,1),(3,1),(5,1),(6,1),(8,1),(9,1),(31,2),(35,2);
-/*!40000 ALTER TABLE `ingredient_has_categorie` ENABLE KEYS */;
+LOCK TABLES `ingredient_has_category` WRITE;
+/*!40000 ALTER TABLE `ingredient_has_category` DISABLE KEYS */;
+INSERT INTO `ingredient_has_category` VALUES (1,1),(3,1),(5,1),(6,1),(8,1),(9,1),(31,2),(35,2);
+/*!40000 ALTER TABLE `ingredient_has_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

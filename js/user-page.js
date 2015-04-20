@@ -92,7 +92,7 @@ var loadUserPageJS = function () {
                 console.log(err);
                 displayAlert('Fehler beim Logout!', 'error');
             }
-        });
+        );
     });
 
     $('#button_filter').click(function (e) {

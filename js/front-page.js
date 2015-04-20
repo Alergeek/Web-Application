@@ -30,9 +30,13 @@ var loadFrontPageJS = function() {
             loadUserPage();
 
         }).catch( function( err ) {
-            if ( err.status >= 400 ) {
+            console.log(err.status);
+            if ( err.status == 401 ) {
                 $('div.login_error').html("Login fehlgeschlagen, bitte Zugangsdaten prüfen!");
+            } else {
+                $('div.login_error').html("Allgemeiner Fehler beim Login, bitte versuchen Sie es später erneut!");
             }
+            console.log(err);
         });
     });
 
@@ -83,9 +87,7 @@ var loadFrontPageJS = function() {
             currentUser = new User(result.email, result.authToken, []);
             loadUserPage();
         }).catch( function( err ) {
-            if ( err.status >= 400 ) {
-                regError.html("Fehler bei der Registrierung!");
-            }
+            regError.html("Fehler bei der Registrierung!");
         });
     });
 

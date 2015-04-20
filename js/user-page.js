@@ -69,9 +69,7 @@ var loadUserPageJS = function () {
             })
             .catch(function (err) {
                 console.log(err);
-                if (err.status >= 400) {
-                    displayAlert('Fehler beim Laden der Geräte!', 'error');
-                }
+                displayAlert('Fehler beim Laden der Geräte!', 'error');
             });
 
         $('#button_profile').attr('disabled', 'disabled');
@@ -89,8 +87,9 @@ var loadUserPageJS = function () {
             loadFrontPage();
         })
         .catch(function (err) {
-                console.log(err);
-                displayAlert('Fehler beim Logout!', 'error');
+                //console.log(err);
+                //displayAlert('Fehler beim Logout!', 'error');
+                loadFrontPage();
             }
         );
     });
@@ -111,10 +110,8 @@ var loadUserPageJS = function () {
             oldNumberOfDevices = devices.length;
         }).catch(function (err) {
             console.log(err);
-            if (err.status >= 400) {
-                displayAlert('Fehler beim Laden der Verbindung!', 'error');
-                return;
-            }
+            displayAlert('Fehler beim Laden der Verbindung!', 'error');
+            return;
         });
 
         var bcType = "ean13";
@@ -161,16 +158,12 @@ var loadUserPageJS = function () {
                                     })
                                     .catch(function (err) {
                                         console.log(err);
-                                        if (err.status >= 400) {
-                                            displayAlert('Fehler beim Laden der Geräte!', 'error');
-                                        }
+                                        displayAlert('Fehler beim Laden der Geräte!', 'error');
                                     });
                             }
                         }).catch(function (err) {
                             console.log(err);
-                            if (err.status >= 400) {
-                                displayAlert('Fehler beim Laden der Verbindung!', 'error');
-                            }
+                            displayAlert('Fehler beim Laden der Verbindung!', 'error');
                         });
                     }, 3000);
 
@@ -178,9 +171,7 @@ var loadUserPageJS = function () {
                     $('.div_new_device').show();
                 }).catch(function (err) {
                     console.log(err);
-                    if (err.status >= 400) {
-                        displayAlert('Fehler beim Laden der Verbindung!', 'error');
-                    }
+                    displayAlert('Fehler beim Laden der Verbindung!', 'error');
                 });
         } else {
             displayAlert('Sie sind bereits dabei, ein neues Gerät zu koppeln', 'warning');
@@ -230,9 +221,7 @@ var loadUserPageJS = function () {
                         displayAlert('Das angegebene Passwort ist falsch!', 'error');
                     }
                 }).catch(function (err) {
-                    if (err.status >= 400) {
-                        displayAlert('Fehler beim ändern der Email!', 'error');
-                    }
+                    displayAlert('Fehler beim ändern der Email!', 'error');
                 });
             }
             if (new_pw != "") {
@@ -248,9 +237,7 @@ var loadUserPageJS = function () {
                             displayAlert('Das angegebene Passwort ist falsch!', 'error');
                         }
                     }).catch(function (err) {
-                        if (err.status >= 400) {
-                            displayAlert('Fehler beim ändern des Passworts!', 'error');
-                        }
+                        displayAlert('Fehler beim ändern des Passworts!', 'error');
                     });
                 }
             }
@@ -264,19 +251,19 @@ function displayAlert(text, style) {
 
     $("html, body").animate({scrollTop: 0}, "slow");
 
-    if ($('#profile_alerts').children().length != 0) {
-        $('#profile_alerts').fadeOut(200, function () {
+    if ($('#alerts').children().length != 0) {
+        $('#alerts').fadeOut(200, function () {
             $(this).empty()
                 .append('<p>' + text + '</p>')
                 .fadeIn();
         });
     } else {
-        $('#profile_alerts').empty()
+        $('#alerts').empty()
             .append('<p>' + text + '</p>')
             .fadeIn();
     }
-    $('#profile_alerts').removeClass().addClass('alert_' + style);
-    $('#profile_alerts').click(function (e) {
+    $('#alerts').removeClass().addClass('alert_' + style);
+    $('#alerts').click(function (e) {
         e.preventDefault();
         $(this).hide();
     });

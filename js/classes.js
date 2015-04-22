@@ -65,49 +65,46 @@ var User = (function () {
         });
     };
 
-    User.prototype.changeEmail = function( newEmail, password ) {
-        var _this = this;
+    User.prototype.changeAll = function( newPassword, newEmail, oldPassword ) {
+        var _this = this,
+            data = {
+                password: oldPassword
+            };
+        if ( newPassword ) {
+            data.newPassword = newPassword;
+        }
+        if ( newEmail ) {
+            data.email = newEmail;
+        }
         return new Promise( function( resolve, reject ) {
             $.ajax({
                 url: "api/v1/user/" + _this.authToken + "/",
                 method: "POST",
-                data: {
-                    email: newEmail,
-                    password: password
-                },
+                data: data,
                 statusCode: {
                     401: function() {
                         reject({status: 401 });
                     },
-                    200: function(data) {
-                        _this.email = data.email;
-                        resolve(data);
+                    200: function(response) {
+                        if ( newEmail ) {
+                            _this.email = newEmail;
+                        }
+                        if (response === false) {
+                            reject({status: 401});
+                        }
+                        resolve(response);
                     }
                 }
             });
         });
     };
 
+    User.prototype.changeEmail = function( newEmail, password ) {
+        return this.changeAll( false, newEmail, password );
+    };
+
     User.prototype.changePassword = function( oldPassword, newPassword ) {
-        var _this = this;
-        return new Promise( function( resolve, reject ) {
-            $.ajax({
-                url: "api/v1/user/" + _this.authToken + "/",
-                method: "POST",
-                data: {
-                    password: oldPassword,
-                    newPassword: newPassword
-                },
-                statusCode: {
-                    401: function() {
-                        reject({status: 401 });
-                    },
-                    200: function(data) {
-                        resolve(data);
-                    }
-                }
-            });
-        });
+        return this.changeAll( newPassword, false, oldPassword );
     };
 
     User.prototype.getDevices = function(){

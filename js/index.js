@@ -3,6 +3,7 @@
  */
 
 var currentUser;
+var urlUserPage = "";
 
 var loadUserPage = function() {
     $.ajax({
@@ -25,6 +26,8 @@ var loadFrontPage = function() {
             200: function (data) {
                 $('div#page-content').html(data);
                 loadFrontPageJS();
+                document.title = "Edible - Startseite";
+                window.history.pushState("index", "Edible - Startseite", '/');
             }
         }
     });
@@ -37,6 +40,12 @@ $(document).ready(function() {
             $.get('api/v1/user/' + token + '/')
             .done(function( data ) {
                 currentUser = new User(data.email, token, []);
+                    if(document.URL.endsWith("/profile") || document.URL.endsWith("/profile/")) {
+                        urlUserPage = "profile";
+                    }
+                    if(document.URL.endsWith("/blacklist") || document.URL.endsWith("/blacklist/")) {
+                        urlUserPage = "blacklist";
+                    }
                 loadUserPage();
             }).fail(function() {
                 loadFrontPage();
@@ -47,4 +56,16 @@ $(document).ready(function() {
     } else {
         loadFrontPage();
     }
+
+    window.onpopstate = function(event) {
+        if(event.state == "profile")
+        {
+            showProfile();
+        }
+        if(event.state == "blacklist")
+        {
+            showBlacklist();
+        }
+    };
+
 });

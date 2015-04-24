@@ -1,6 +1,8 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule ^api/v1/(.+)$ api/route.php?p=$1 [L]
+    RewriteRule ^/?profile/?$ / [L]
+    RewriteRule ^/?blacklist/?$ / [L]
 </IfModule>
 <Files  ~ "\.inc$">
   Order allow,deny

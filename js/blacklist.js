@@ -8,7 +8,11 @@ function drawBlacklist() {
     Ingredient.getBlacklist(currentUser.authToken).then(function (blacklist) {
         drawList(blacklist);
 
-    });
+    })
+        .catch(function (err) {
+            console.log(err);
+            displayAlert('Fehler beim Laden der Blacklist!', 'error');
+        });
 }
 
 function searchInArray(array, id) {
@@ -60,7 +64,11 @@ function search() {
     } else {
         Ingredient.search(currentUser.authToken, searchString).then(function (result) {
             drawList(result);
-        });
+        })
+            .catch(function (err) {
+                console.log(err);
+                displayAlert('Fehler beim Laden der Zutaten!', 'error');
+            });
     }
 }
 
@@ -112,6 +120,10 @@ function loadCategories() {
                     }
                 });
                 catDiv.prepend(showAll);
+            },
+            error: function(err) {
+                console.log(err);
+                displayAlert('Fehler beim Laden der Kategorien!', 'error');
             }
         }
     });

@@ -12,6 +12,8 @@ var loadUserPageJS = function () {
 
         e.preventDefault();
 
+        $('#button_help').show();
+
         $(e.target).css("background-color", "#333");
         $("#button_profile").css("background-color", "#AAA");
 
@@ -30,6 +32,7 @@ var loadUserPageJS = function () {
 
         $(e.target).css("background-color", "#333");
         $("#button_blacklist").css("background-color", "#AAA");
+        $('#button_help').hide();
 
         $('#profile_alerts').hide();
         $('#div_device_table').empty();
@@ -66,9 +69,7 @@ var loadUserPageJS = function () {
             })
             .catch(function (err) {
                 console.log(err);
-                if (err.status >= 400) {
-                    displayAlert('Fehler beim laden der Geräte!', 'error');
-                }
+                displayAlert('Fehler beim Laden der Geräte!', 'error');
             });
 
         $('#button_profile').attr('disabled', 'disabled');
@@ -77,37 +78,23 @@ var loadUserPageJS = function () {
         $('#button_privacy').attr('disabled', null);
     });
 
+    $('#button_help').click(function(e) {
+        $('div.help').toggle('slow');
+    });
+
     $('#button_logout').click(function (e) {
         currentUser.logout().then(function (result) {
             if ( window.localStorage ) {
                 window.localStorage.clear();
             }
             loadFrontPage();
-        });
-    });
-
-    $('#button_privacy').click(function (e) {
-
-        e.preventDefault();
-
-        $('.content').children().hide();
-        $('.privacy').show();
-        $('#button_privacy').attr('disabled', 'disabled');
-        $('#button_impressum').attr('disabled', null);
-        $('#button_blacklist').attr('disabled', null);
-        $('#button_profile').attr('disabled', null);
-    });
-
-    $('#button_impressum').click(function (e) {
-
-        e.preventDefault();
-
-        $('.content').children().hide();
-        $('.impressum').show();
-        $('#button_impressum').attr('disabled', 'disabled');
-        $('#button_privacy').attr('disabled', null);
-        $('#button_blacklist').attr('disabled', null);
-        $('#button_profile').attr('disabled', null);
+        })
+        .catch(function (err) {
+                //console.log(err);
+                //displayAlert('Fehler beim Logout!', 'error');
+                loadFrontPage();
+            }
+        );
     });
 
     $('#button_filter').click(function (e) {
@@ -126,10 +113,8 @@ var loadUserPageJS = function () {
             oldNumberOfDevices = devices.length;
         }).catch(function (err) {
             console.log(err);
-            if (err.status >= 400) {
-                displayAlert('Fehler beim laden der Verbindung!', 'error');
-                return;
-            }
+            displayAlert('Fehler beim Laden der Verbindung!', 'error');
+            return;
         });
 
         var bcType = "ean13";
@@ -176,16 +161,12 @@ var loadUserPageJS = function () {
                                     })
                                     .catch(function (err) {
                                         console.log(err);
-                                        if (err.status >= 400) {
-                                            displayAlert('Fehler beim laden der Geräte!', 'error');
-                                        }
+                                        displayAlert('Fehler beim Laden der Geräte!', 'error');
                                     });
                             }
                         }).catch(function (err) {
                             console.log(err);
-                            if (err.status >= 400) {
-                                displayAlert('Fehler beim laden der Verbindung!', 'error');
-                            }
+                            displayAlert('Fehler beim Laden der Verbindung!', 'error');
                         });
                     }, 3000);
 
@@ -193,9 +174,7 @@ var loadUserPageJS = function () {
                     $('.div_new_device').show();
                 }).catch(function (err) {
                     console.log(err);
-                    if (err.status >= 400) {
-                        displayAlert('Fehler beim laden der Verbindung!', 'error');
-                    }
+                    displayAlert('Fehler beim Laden der Verbindung!', 'error');
                 });
         } else {
             displayAlert('Sie sind bereits dabei, ein neues Gerät zu koppeln', 'warning');
@@ -251,9 +230,7 @@ var loadUserPageJS = function () {
                         displayAlert('Das angegebene Passwort ist falsch!', 'error');
                     }
                 }).catch(function (err) {
-                    if (err.status >= 400) {
-                        displayAlert('Fehler beim ändern der Email!', 'error');
-                    }
+                    displayAlert('Fehler beim ändern der Email!', 'error');
                 });
             }
             if (new_pw != "") {
@@ -269,9 +246,7 @@ var loadUserPageJS = function () {
                             displayAlert('Das angegebene Passwort ist falsch!', 'error');
                         }
                     }).catch(function (err) {
-                        if (err.status >= 400) {
-                            displayAlert('Fehler beim ändern des Passworts!', 'error');
-                        }
+                        displayAlert('Fehler beim ändern des Passworts!', 'error');
                     });
                 }
             }
@@ -285,19 +260,20 @@ function displayAlert(text, style) {
 
     $("html, body").animate({scrollTop: 0}, "slow");
 
-    if ($('#profile_alerts').children().length != 0) {
-        $('#profile_alerts').fadeOut(200, function () {
+    if ($('div.alerts:visible').children().length != 0) {
+        $('div.alerts:visible').fadeOut("fast", function () {
+            console.log("fadeout");
             $(this).empty()
                 .append('<p>' + text + '</p>')
                 .fadeIn();
         });
     } else {
-        $('#profile_alerts').empty()
+        $('div.alerts:visible').empty()
             .append('<p>' + text + '</p>')
             .fadeIn();
     }
-    $('#profile_alerts').removeClass().addClass('alert_' + style);
-    $('#profile_alerts').click(function (e) {
+    $('div.alerts:visible').removeClass('alert_error alert_warning alert_success').addClass('alert_' + style);
+    $('div.alerts:visible').click(function (e) {
         e.preventDefault();
         $(this).hide();
     });

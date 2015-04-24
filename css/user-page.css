@@ -251,6 +251,10 @@ button{
     padding-right: 0px;
     border: none;
 }
+button.button_delete{
+    padding-left: 1em;
+    padding-right: 1em;
+}
 .button_text{
     width:25%;
     min-width:80px;

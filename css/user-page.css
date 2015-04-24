@@ -202,6 +202,7 @@ ul.list_filter input[type="checkbox"] {
     margin-left:auto;
     margin-right:auto;
     width:120px;
+    padding: 0px;
 }
 .profile>.device_conf #table_devices{
     text-align:left;
@@ -246,8 +247,8 @@ button{
     background-color: #333;
     color: #FFF;
     width: auto;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
     border: none;
 }
 .button_text{

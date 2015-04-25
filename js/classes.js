@@ -96,10 +96,6 @@ var User = (function () {
 
     User.prototype.changePassword = function( oldPassword, newPassword ) {
         return this.changeAll( newPassword, false, oldPassword );
-            }).done(function(data, textStatus, jqXHR){
-                resolve(data);
-            }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
     };
 
     User.prototype.getDevices = function(){

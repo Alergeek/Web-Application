@@ -27,7 +27,7 @@ var loadFrontPage = function() {
                 $('div#page-content').html(data);
                 loadFrontPageJS();
                 document.title = "Edible - Startseite";
-                window.history.pushState("index", "Edible - Startseite", '/');
+                window.history.pushState("index", "Edible - Startseite", '.');
             }
         }
     });

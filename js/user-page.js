@@ -238,7 +238,7 @@ function drawLeftHeader () {
 var showProfile = function(e) {
     document.title = "Edible - Profil";
     if(window.history.state != "profile") {
-        window.history.pushState("profile", "Edible - Profil", '/profile');
+        window.history.pushState("profile", "Edible - Profil", 'profile');
     }
 
     $('#button_profile').css("background-color", "#333");
@@ -290,9 +290,10 @@ var showProfile = function(e) {
 var showBlacklist = function() {
     document.title = "Edible - Blacklist";
     if(window.history.state != "blacklist") {
-        window.history.pushState("blacklist", "Edible - Blacklist", '/blacklist');
+        window.history.pushState("blacklist", "Edible - Blacklist", 'blacklist');
     }
 
+    $('#button_help').show();
     $('#button_help').show();
 
     $('#button_blacklist').css("background-color", "#333");

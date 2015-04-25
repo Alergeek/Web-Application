@@ -35,7 +35,7 @@ html{
 }
 .header>.email{
     float:left;
-    font-size:0.8em;
+    font-size:1.2em;
     color:white;
     width:25%;
     height: 100%;
@@ -45,8 +45,8 @@ html{
     box-sizing:border-box;
 }
 .header>.selection{
-    float:left;
-    width:50%;
+    float: right;
+    width: 50%;
     height: 100%;
     text-align:center;
     margin-right:auto;
@@ -60,7 +60,7 @@ html{
     background-color: #AAA;
 }
 .header>.logout{
-    float:left;
+    float:right;
     width:25%;
     text-align:right;
     height: 100%;
@@ -86,14 +86,17 @@ html{
     background-image: url('../img/appbar.question.png');
 }
 span.edible{
-    font-size: 1.6em;
     float: left;
     height: 100%;
     width: 100%;
-    overflow: visible;
+    max-width: 60px;
+    overflow: hidden;
     white-space: nowrap;
-    display: block;
     box-sizing: border-box;
+}
+.email span.dots {
+    float:left;
+    display:none;
 }
 
 .title{
@@ -349,6 +352,15 @@ footer svg {
         height: 200px;
     }
     
+    .email span.dots {
+        display: inline-block;
+    }
+    
+    .email span.edible {
+        max-width: none;
+        width: 90%;
+    }
+    
     .header>.logout>button{
         width: 60px;
     }
@@ -359,6 +371,18 @@ footer svg {
     
     .header>.logout>button .text{
         display: inline-block;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .email span.dots {
+        display: none;
+    }
+    
+    .email span.edible {
+        max-width: none;
+        width: 100%;
+        overflow: visible;
     }
 }
 

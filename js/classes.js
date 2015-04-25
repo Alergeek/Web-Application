@@ -57,15 +57,30 @@ var User = (function () {
         });
     };
 
-    User.prototype.changeEmail = function( newEmail, password ) {
-        var _this = this;
+    User.prototype.changeAll = function( newPassword, newEmail, oldPassword ) {
+        var _this = this,
+            data = {
+                password: oldPassword
+            };
+        if ( newPassword ) {
+            data.newPassword = newPassword;
+        }
+        if ( newEmail ) {
+            data.email = newEmail;
+        }
         return new Promise( function( resolve, reject ) {
             $.ajax({
                 url: "api/v1/user/" + _this.authToken + "/",
                 method: "POST",
-                data: {
-                    email: newEmail,
-                    password: password
+                data: data,
+                    200: function(response) {
+                        if ( newEmail ) {
+                            _this.email = newEmail;
+                        }
+                        if (response === false) {
+                            reject({status: 401});
+                        }
+                        resolve(response);
                 }
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
@@ -75,22 +90,16 @@ var User = (function () {
         });
     };
 
+    User.prototype.changeEmail = function( newEmail, password ) {
+        return this.changeAll( false, newEmail, password );
+    };
+
     User.prototype.changePassword = function( oldPassword, newPassword ) {
-        var _this = this;
-        return new Promise( function( resolve, reject ) {
-            $.ajax({
-                url: "api/v1/user/" + _this.authToken + "/",
-                method: "POST",
-                data: {
-                    password: oldPassword,
-                    newPassword: newPassword
-                }
+        return this.changeAll( newPassword, false, oldPassword );
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
                 reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
-            });
-        });
     };
 
     User.prototype.getDevices = function(){

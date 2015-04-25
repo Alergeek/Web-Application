@@ -144,13 +144,31 @@ var loadUserPageJS = function () {
     });
 
     $('#save_profile').click(function (e) {
+        function handleErr( type ) {
+            return function( err ) {
+                var errmsg;
+                switch(err.status) {
+                    case 401:
+                        errmsg = 'Fehler beim ändern der ' + type + '!';
+                        break;
+                    default:
+                        errmsg = 'Das aktuelle Passwort ist nicht korrekt.';
+                }
+                displayAlert(errmsg, 'error');
+            };
+        }
+
+        function handleSuccess( result ) {
+            displayAlert('Daten wurden erfolgreich geändert!', 'success');
+            drawLeftHeader();
+        }
 
         e.preventDefault();
 
-        var email = $('input[id="email"]').val();
-        var new_pw = $('input[id="new"]').val();
-        var confirm = $('input[id="confirm"]').val();
-        var old_pw = $('input[id="old"]').val();
+        var email = $('#email').val();
+        var new_pw = $('#new').val();
+        var confirm = $('#confirm').val();
+        var old_pw = $('#old').val();
 
         if (email == "" && new_pw == "" && confirm == "") {
             displayAlert('Sie müssen erst Daten eingeben, um diese abspeichern zu können!', 'warning');
@@ -158,41 +176,22 @@ var loadUserPageJS = function () {
         } else if (old_pw == '') {
             displayAlert('Bitte geben Sie ihr altes Passwort an!', 'warning');
             return;
-        } else {
-            if (email != "") {
+        } else if (new_pw != confirm) {
 				if (email.indexOf("@") == -1){
 					displayAlert('Bitte geben Sie eine korrekte Email-Adresse an!','warning');
 					return;
 				}
-                currentUser.changeEmail(email, old_pw).then(function (result) {
-                    console.log(result);
-                    if (result == true) {
-                        currentUser.email = email;
-                        displayAlert('Daten wurden erfolgreich geändert!', 'success');
-                        drawLeftHeader();
-                    } else {
-                        displayAlert('Das angegebene Passwort ist falsch!', 'error');
-                    }
-                }).catch(function (err) {
-                    displayAlert('Fehler beim ändern der Email!', 'error');
-                });
-            }
-            if (new_pw != "") {
-                if (new_pw != confirm) {
-                    displayAlert('Das neue Passwort und dessen Bestätigung müssen übereinstimmen!', 'warning');
-                    return;
-                } else {
-                    currentUser.changePassword(old_pw, new_pw).then(function (result) {
-                        console.log(result);
-                        if (result == true) {
-                            displayAlert('Daten wurden erfolgreich geändert!', 'success');
-                        } else {
-                            displayAlert('Das angegebene Passwort ist falsch!', 'error');
-                        }
-                    }).catch(function (err) {
-                        displayAlert('Fehler beim ändern des Passworts!', 'error');
-                    });
-                }
+            displayAlert('Das neue Passwort und dessen Bestätigung müssen übereinstimmen!', 'warning');
+        } else {
+            if(email != "" && new_pw != "") {
+                currentUser.changeAll( new_pw, email, old_pw)
+                    .then(handleSuccess).catch(handleErr('Email und Passwort'));
+            } else if (email != "") {
+                currentUser.changeEmail(email, old_pw)
+                    .then(handleSuccess).catch(handleErr('Email'));
+            } else if (new_pw != "") {
+                currentUser.changePassword(old_pw, new_pw)
+                    .then(handleSuccess).catch(handleErr('Passwort'));
             }
         }
         $('#table_profile_conf input').val("");

@@ -52,7 +52,16 @@ API::post('user/{AUTH}/', function($a_Data) {
         return;
     }
     if (isset($a_Data['email'])) {
-        $session->get_user()->set_email($a_Data['email']);
+        $emailfound = true;
+        try {
+            User::getByEmail($a_Data['email']);
+        } catch (UserError $e) {
+            $session->get_user()->set_email($a_Data['email']);
+            $emailfound = false;
+        }
+        if ( $emailfound ) {
+            throw new UserError('Diese Email ist bereits vergeben!', 400);
+        }
     }
     if(isset($a_Data['newPassword'])){
         $session->get_user()->set_password($a_Data['newPassword']);

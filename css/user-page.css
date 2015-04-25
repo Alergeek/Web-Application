@@ -66,10 +66,24 @@ html{
     height: 100%;
 }
 .header>.logout>button{
-    width:60px;
+    width: 30px;
     padding: 0px;
     height: 100%;
     background-color: #AAA;
+}
+.header>.logout>button .text{ display: none; }
+.header>.logout>button .icon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background: repeat scroll center center / contain transparent;
+    margin: -15px 0 0 -15px;
+}
+.header>.logout>#button_logout .icon{
+    background-image: url('../img/appbar.door.leave.png');
+}
+.header>.logout>#button_help .icon{
+    background-image: url('../img/appbar.question.png');
 }
 span.edible{
     font-size: 1.6em;
@@ -333,6 +347,18 @@ footer svg {
     
     .title {
         height: 200px;
+    }
+    
+    .header>.logout>button{
+        width: 60px;
+    }
+    
+    .header>.logout>button .icon{
+        display: none;
+    }
+    
+    .header>.logout>button .text{
+        display: inline-block;
     }
 }
 

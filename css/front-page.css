@@ -11,7 +11,8 @@ body {
 #start {
     width: 100%;
     height: 40vh;
-    background: url('../img/1B4B8719.jpg') no-repeat fixed center top / 100% #FFF;
+    min-height: 250px;
+    background: url('../img/1B4B8719.jpg') no-repeat fixed center top / 115% #FFF;
 }
 .inputform {
     background: #FFF;

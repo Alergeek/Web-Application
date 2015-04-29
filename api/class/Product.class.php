@@ -240,12 +240,13 @@ class Product  implements JsonSerializable {
         $query = "SELECT CASE count(*) WHEN 0 THEN 'true' ELSE 'false' END AS edible
                   FROM product p JOIN product_has_ingredient phi ON p.ean = phi.product_ean
                   JOIN blacklist b ON phi.ingredient_id = b.ingredient_id
-                  WHERE b.user_id = ?";
+                  WHERE b.user_id = ?
+                  AND phi.product_ean = ?";
 
         $edible = "";
 
         if ($stmt = $mysqli->prepare($query)) {
-            $stmt->bind_param('i', $user_id);
+            $stmt->bind_param('ii', $user_id, $this->ean);
             $stmt->execute();
             $stmt->store_result();
             $stmt->bind_result($edible);

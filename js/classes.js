@@ -21,7 +21,7 @@ var User = (function () {
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject(JSON.parse('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}'));
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -35,7 +35,7 @@ var User = (function () {
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -52,7 +52,7 @@ var User = (function () {
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -85,7 +85,7 @@ var User = (function () {
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -107,7 +107,7 @@ var User = (function () {
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -120,7 +120,7 @@ var User = (function () {
             }).done(function(data, textStatus, jqXHR){
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -135,7 +135,7 @@ var User = (function () {
                 var barcode = data.barcode;
                 resolve(barcode);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -169,7 +169,7 @@ var Ingredient = (function () {
                         _this._blacklisted = false;
                         resolve(true);
                     }).fail(function(jqXHR, textStatus, errorThrown){
-                        reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                        reject(JSON.parse(jqXHR.responseText));
                     });
                 });
             } else if (!this._blacklisted && val) {
@@ -182,7 +182,7 @@ var Ingredient = (function () {
                         _this._blacklisted = true;
                         resolve(true);
                     }).fail(function(jqXHR, textStatus, errorThrown){
-                        reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                        reject(JSON.parse(jqXHR.responseText));
                     });
                 });
             } else {
@@ -206,7 +206,7 @@ var Ingredient = (function () {
                 }
                 resolve(result);
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };
@@ -233,7 +233,7 @@ var Ingredient = (function () {
                     resolve(result);
                 });
             }).fail(function(jqXHR, textStatus, errorThrown){
-                reject('{"status":"' + jqXHR.status + '", "error":"' + errorThrown + '"}');
+                reject(JSON.parse(jqXHR.responseText));
             });
         });
     };

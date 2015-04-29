@@ -148,11 +148,14 @@ var loadUserPageJS = function () {
             return function( err ) {
                 var errmsg;
                 switch(err.status) {
+                    case 400:
+                        errmsg = err.error;
+                        break;
                     case 401:
-                        errmsg = 'Fehler beim ändern der ' + type + '!';
+                        errmsg = 'Das aktuelle Passwort ist nicht korrekt.';
                         break;
                     default:
-                        errmsg = 'Das aktuelle Passwort ist nicht korrekt.';
+                        errmsg = 'Fehler beim ändern der ' + type + '!';
                 }
                 displayAlert(errmsg, 'error');
             };

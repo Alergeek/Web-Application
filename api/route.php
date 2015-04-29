@@ -48,13 +48,12 @@ API::post('user/{AUTH}/', function($a_Data) {
     //Session is set anyway so we dont need to check it
     $session = $a_Data['session'];
     if(!$session->get_user()->check_password($a_Data['password'])){
-        echo 'false';
-        return;
+        throw new UserError('Wrong password', 401);
     }
     if (isset($a_Data['email'])) {
         $emailfound = true;
         try {
-            User::getByEmail($a_Data['email']);
+            User::get_by_email($a_Data['email']);
         } catch (UserError $e) {
             $session->get_user()->set_email($a_Data['email']);
             $emailfound = false;

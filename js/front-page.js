@@ -93,7 +93,7 @@ var loadFrontPageJS = function() {
 
             loadUserPage();
         }).catch( function( err ) {
-            regError.html("Fehler bei der Registrierung!");
+            $regError.html("Fehler bei der Registrierung!");
         });
     });
 

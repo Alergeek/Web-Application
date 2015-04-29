@@ -72,17 +72,11 @@ var User = (function () {
             $.ajax({
                 url: "api/v1/user/" + _this.authToken + "/",
                 method: "POST",
-                data: data,
-                    200: function(response) {
-                        if ( newEmail ) {
-                            _this.email = newEmail;
-                        }
-                        if (response === false) {
-                            reject({status: 401});
-                        }
-                        resolve(response);
-                }
+                data: data
             }).done(function(data, textStatus, jqXHR){
+                if ( newEmail ) {
+                    _this.email = newEmail;
+                }
                 resolve(data);
             }).fail(function(jqXHR, textStatus, errorThrown){
                 reject(JSON.parse(jqXHR.responseText));
